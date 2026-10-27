@@ -37,7 +37,7 @@ jobs:
         env:
           QUARTO_PROFILE: webslide
         with: 
-          path: slides_srcs/day1
+          path: slide_srcs/day1
           to: revealjs
 
       - name: Render workshop GitHub Pages website 
@@ -49,7 +49,7 @@ jobs:
       - name: Copy day1 slides assets to workshop_website # be aware of the directory structure quarto generates
         run: |
           mkdir -p workshop_website/_site/docs/slides
-          cp -r slides_srcs/day1/* workshop_website/_site/docs/slides/day1
+          cp -r slide_srcs/day1/* workshop_website/_site/docs/slides/day1
       
       # NOTE: If Publishing to GitHub Pages, set the permissions correctly (see top of this yaml)
       - name: Publish to GitHub Pages
