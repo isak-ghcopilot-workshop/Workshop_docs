@@ -48,9 +48,8 @@ jobs:
 
       - name: Copy day1 slides assets to workshop_website # be aware of the directory structure quarto generates
         run: |
-          mkdir -p workshop_website/_site/docs/slides/day1
-          ls slide_srcs/day1/docs/*
-          cp -r slide_srcs/day1/docs/* workshop_website/_site/docs/slides/day1
+          mkdir -p workshop_website/_site/docs/day1
+          cp -r slide_srcs/day1/docs/* workshop_website/_site/docs/day1
       
       # NOTE: If Publishing to GitHub Pages, set the permissions correctly (see top of this yaml)
       - name: Publish to GitHub Pages
