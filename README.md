@@ -11,3 +11,6 @@
 * VS Code 的 C# Dev Kit
 * GitHub Copilot CLI
 * Postman (Optional)
+
+
+[由此開始](https://isak-ghcopilot-workshop.github.io/Workshop_docs/)

@@ -1,6 +1,6 @@
 ---
-
 title: "GitHub Copilot Workshop Day1"
+author: "Isak Pao"
 format:
     revealjs:
         width: 1300
@@ -27,7 +27,6 @@ format:
                 </style>
 from: markdown+emoji
 code-annotations: below
-
 ---
 
 # Agenda
