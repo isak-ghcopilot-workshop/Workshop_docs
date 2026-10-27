@@ -1,12 +1,5 @@
 [
   {
-    "objectID": "about.html",
-    "href": "about.html",
-    "title": "About",
-    "section": "",
-    "text": "About this site"
-  },
-  {
     "objectID": "index.html",
     "href": "index.html",
     "title": "GitHub Copilot Workshop",
@@ -33,5 +26,12 @@
     "title": "GitHub Copilot Workshop",
     "section": "相關資源",
     "text": "相關資源\n\nGitHub Copilot 官方網站\nVisual Studio Code 官方網站\n.NET 官方網站\nC# Dev Kit 擴充套件"
+  },
+  {
+    "objectID": "about.html",
+    "href": "about.html",
+    "title": "About",
+    "section": "",
+    "text": "About this site"
   }
 ]
