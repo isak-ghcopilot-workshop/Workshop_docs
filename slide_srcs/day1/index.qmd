@@ -40,7 +40,120 @@ code-annotations: below
 
 ## GitHub Copilot Agent Mode
 
-GitHub Copilot Agent Mode 是一種新的互動模式，允許使用者透過代理人（Agent）來自動化各種開發任務。這些代理人可以根據使用者的指示執行複雜的工作流程，並與其他工具和服務整合，提升開發效率。
+GitHub Copilot Agent Mode 是一種新的互動模式，允許使用者透所謂『代理（Agent』來自動化各種開發任務。這些代理可以根據使用者的指示執行複雜的工作流程，並與其他工具和服務整合，提升開發效率。
+
+除此之外，GitHub Copilot Agent Mode 由於底層跟 VSCode 編輯器本身抽離，因此可以在跨越不同session的情況下持續運作，保持代理的狀態和上下文，進一步提升開發效率。
+
+![[https://code.visualstudio.com/blogs/2026/08/26/agent-host-architecture](https://code.visualstudio.com/blogs/2026/08/26/agent-host-architecture){target="_blank"}](./pics/agent-host-arch.svg)
+
+圖中展示了 GitHub Copilot Agent Mode 的主機架構，說明代理如何在不同的 session 中保持狀態，並與 VSCode 編輯器分離運作。
+
+## GitHub Copilot 發展歷程
+
+&nbsp;  
+2021  
+Code Completion
+
+⬇️
+
+2023  
+Chat
+
+⬇️
+
+2024  
+Edit
+
+⬇️
+
+2025+  
+Agent
+
+## VSCode Agent Window {.scrollable}
+
+專門設計用來與代理互動的新UI介面，透過這視窗發送指令給代理，並查看代理的回應和執行狀態，使用者在此能輕鬆管理和控制代理的行為。
+
+![[官方說明](https://code.visualstudio.com/docs/agents/run/agents-window#_agents-window-interface-overview){target="_blank"}](./pics/agents-window-ui-annotated.png){.lightbox}
+
+(1) Sessions list：顯示所有與代理的對話紀錄，使用者可以選擇不同的對話階段來查看或繼續互動。  
+(2) Customizations panel：用來給代理設定自訂化選項，例如 Custome Agent, Agent Skill, MCP Server 等，使用者可以根據需求調整代理的行為和功能。  
+(3) Chat area：用來與代理進行對話的區域，使用者可以在這裡輸入指令或問題，代理會在此區域回應，並顯示執行的結果和狀態。  
+(4) Changes panel：顯示代理對專案所做的變更，使用者可以在此查看代理的修改內容，並決定是否接受或拒絕這些變更。
+(5) Files panel：顯示專案中的檔案結構，使用者可以在此瀏覽、打開或管理專案檔案。
+
+## VSCode Chat View {.scrollable}
+
+原本 GitHub Copilot Chat 專屬互動介面，在引入 Agent Mode 後，變為 _半獨立_ 的通用聊天介面，使用者可以在此與代理進行互動，並查看代理的回應和執行狀態。
+
+![[官方說明](https://code.visualstudio.com/docs/agents/run/chat-view#_interface-overview){target="_blank"}](./pics/chat-view-expanded.png){.lightbox}
+
+(1) Sessions list：顯示所有與代理的對話紀錄，使用者可以選擇不同的對話階段來查看或繼續互動。
+(2) Chat conversations：顯示與代理的單對話階段歷史內容，顯示執行的結果和狀態；使用者可在此區域允許指令執行、回答代理提出的問題，或是建立新的對話分支。
+(3) Chat input：使用者用來輸入Prompt或切換不同 Agent/Harness/LLM 的區域。
+
+:::{.callout-tip}
+在 VSCode 的介面拉伸左右以及下方的面板尺寸之後，如果要恢復原始比例，在該面板對中間編輯區域的邊緣框上用滑鼠雙擊即可恢復。
+:::
+
+##  {.scrollable}
+
+
+| 模式  | 能力  |
+|--------|--------|
+| Chat   | 單純問答 |
+| Edit   | 修改檔案 |
+| Agent  | 自動/半自動執行任務 |
+
+: Chat, Edit, Agent 的差異 {.center}
+
+&nbsp;
+
+> ***Chat 是顧問，Agent 是工程師***
+
+&nbsp;
+
+:::{.callout-note}
+目前 VSCode Chat View 將 GitHub Copilot Chat 的 Ask/Plan 功能藏在 [**Local** Harness](https://code.visualstudio.com/docs/agents/run/agent-harnesses#_local){target="_blank"} 模式中才選得到：
+
+![](./pics/vscode-chat-view-ask_mode.png)
+:::
+
+## 容易混淆的 LLM 與 Harness 名稱{.scrollable}
+
+Agent 使用的 Harness 和 LLM 是不一樣的東西，Harness 是用來管理代理的執行環境和資源，而 LLM 則是提供語言理解和生成能力的模型。使用者在設定代理時，可分別選擇合適的 Harness 和 LLM，以確保代理能正確執行任務。
+
+![](./pics/Agent_LLM_Harness_difference.png){.lightbox}
+
+目前 VSCode 除了 GitHub Copilot 提供的 Local Harness 外，還支援其他類型的 Harness，例如 Remote Harness，可將工作配發到 GitHub.com 的 Cloud Agent 環境中執行。
+
+並且也開始支援 ***Claude Code***, ***Codex*** 等第三方 Harness extension，使用者能夠在 VSCode 中使用更多不同的代理執行環境。
+
+[官方比較表](https://code.visualstudio.com/docs/agents/run/agent-harnesses#_compare-agent-harnesses){target="_blank"}
+
+:::{.callout-note}
+目前 VSCode 支援的第三方 Harness 與 LLM 名稱會讓使用者混淆，在與團隊成員溝通時需注意。
+:::
+
+## Agent Loop
+
+&nbsp;
+
+Understand  
+    ↓  
+Plan  
+    ↓  
+Implement  
+    ↓  
+Build  
+    ↓  
+Validate      
+    ↓   
+Fix(done)  
+
+&nbsp;
+
+通常在 Implement & Build 階段，代理產出的結果會無法立即達到最終目標，需要經過 Validate 與 Fix 階段的檢查與修正，然後回去重新修改 Implement 的內容再繼續，才能確保最終成果符合預期。
+
 
 #  Custom Instruction 實戰
 
