@@ -1,0 +1,73 @@
+---
+title: "GitHub Copilot Workshop"
+---
+
+GitHub Copilot Workshop 投影片以及相關資源。
+
+## 環境需求
+
+* 可用 GitHub Copilot 方案或組織授權帳號
+* Visual Studio Code 最新穩定版
+* Git
+* Node.js LTS
+* uv
+* .NET 10 SDK
+* VS Code 的 C# Dev Kit
+* GitHub Copilot CLI
+* Postman (Optional)
+
+## 課程內容
+
+* Day1
+   
+    主題| 時數(min)
+    -----|-----:
+    GitHub Copilot 最新能力介紹|30
+    Custom Instruction 實戰|45
+    Agent Mode 深度解析|50
+    Agent Skill 介紹與實作|50
+    Agentic SDLC Workflow|30
+   
+* Day2
+   
+    主題| 時數(min)
+    -----|-----:
+    Agent Extensibility Overview| 15
+    Agent Hooks|35
+    MCP介紹|45
+    Build MCP Server with .NET 10|40
+    Custom Agent + Skills + MCP|30
+    Build Custom Agent Plugin|55
+   
+* Day3
+   
+    主題| 時數(min)
+    -----|-----:
+    GHCopilot 自訂功能回顧與 Agentic E2E Testing 概念|30
+    GHCopilot + Playwright MCP 與 Browser Agent 測試|40
+    Playwright CLI 與 GHCopilot 整合|30
+    使用 GHCopilot 產生 Playwright E2E Tests case|30
+    E2E Test Debug、Diagnose、Fix 與 Retest|30
+    Agent Skills + MCP + CLI 的 Agentic Testing Workflow|30
+    Hands-on: Blazor WebAssembly E2E Testing Challenge & QA|30
+   
+* Day4
+   
+    主題| 時數(min)
+    -----|-----:
+    Agentic Coding Recap|15
+    GitHub Copilot CLI Fundamentals|35
+    CLI Agentic Coding Techniques|40
+    Agent Skill Engineering: Good Skill vs Bad Skill|50
+    Context & Token Engineering|30
+    Agentic Coding Challenge & QA|40
+   
+
+## 相關資源
+
+* [GitHub Copilot 官方網站](https://github.com/features/copilot)
+* [Visual Studio Code 官方網站](https://code.visualstudio.com/)
+* [.NET 官方網站](https://dotnet.microsoft.com/)
+* [C# Dev Kit 擴充套件](https://marketplace.visualstudio.com/items?itemName=ms-dotnettools.csdevkit)
+
+---

@@ -1,0 +1,17 @@
+project:
+  output-dir: docs/slides/day1
+  render:
+  - index.qmd
+
+profile:
+  default: webslide
+
+format:
+  html:
+    mermaid:
+      theme: forest
+  revealjs:
+    mermaid:
+      theme: forest
+
+
