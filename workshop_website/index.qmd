@@ -28,7 +28,7 @@ GitHub Copilot Workshop 投影片以及相關資源。
     Agent Skill 介紹與實作|50
     Agentic SDLC Workflow|30
    
-   [投影片](./docs/slides/web/day1/#/title-slide){target="_blank"}
+   [線上投影片](./docs/day1/slides/web/#/title-slide){target="_blank"}
 
 * Day2
    
