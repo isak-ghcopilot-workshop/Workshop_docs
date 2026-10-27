@@ -1,0 +1,37 @@
+[
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "GitHub Copilot Workshop",
+    "section": "",
+    "text": "GitHub Copilot Workshop 投影片以及相關資源。"
+  },
+  {
+    "objectID": "index.html#環境需求",
+    "href": "index.html#環境需求",
+    "title": "GitHub Copilot Workshop",
+    "section": "環境需求",
+    "text": "環境需求\n\n可用 GitHub Copilot 方案或組織授權帳號\nVisual Studio Code 最新穩定版\nGit\nNode.js LTS\nuv\n.NET 10 SDK\nVS Code 的 C# Dev Kit\nGitHub Copilot CLI\nPostman (Optional)"
+  },
+  {
+    "objectID": "index.html#課程內容",
+    "href": "index.html#課程內容",
+    "title": "GitHub Copilot Workshop",
+    "section": "課程內容",
+    "text": "課程內容\n\nDay1\n\n\n\n主題\n時數(min)\n\n\n\n\nGitHub Copilot 最新能力介紹\n30\n\n\nCustom Instruction 實戰\n45\n\n\nAgent Mode 深度解析\n50\n\n\nAgent Skill 介紹與實作\n50\n\n\nAgentic SDLC Workflow\n30\n\n\n\n投影片\nDay2\n\n\n\n主題\n時數(min)\n\n\n\n\nAgent Extensibility Overview\n15\n\n\nAgent Hooks\n35\n\n\nMCP介紹\n45\n\n\nBuild MCP Server with .NET 10\n40\n\n\nCustom Agent + Skills + MCP\n30\n\n\nBuild Custom Agent Plugin\n55\n\n\n\nDay3\n\n\n\n主題\n時數(min)\n\n\n\n\nGHCopilot 自訂功能回顧與 Agentic E2E Testing 概念\n30\n\n\nGHCopilot + Playwright MCP 與 Browser Agent 測試\n40\n\n\nPlaywright CLI 與 GHCopilot 整合\n30\n\n\n使用 GHCopilot 產生 Playwright E2E Tests case\n30\n\n\nE2E Test Debug、Diagnose、Fix 與 Retest\n30\n\n\nAgent Skills + MCP + CLI 的 Agentic Testing Workflow\n30\n\n\nHands-on: Blazor WebAssembly E2E Testing Challenge & QA\n30\n\n\n\nDay4\n\n\n\n主題\n時數(min)\n\n\n\n\nAgentic Coding Recap\n15\n\n\nGitHub Copilot CLI Fundamentals\n35\n\n\nCLI Agentic Coding Techniques\n40\n\n\nAgent Skill Engineering: Good Skill vs Bad Skill\n50\n\n\nContext & Token Engineering\n30\n\n\nAgentic Coding Challenge & QA\n40"
+  },
+  {
+    "objectID": "index.html#相關資源",
+    "href": "index.html#相關資源",
+    "title": "GitHub Copilot Workshop",
+    "section": "相關資源",
+    "text": "相關資源\n\nGitHub Copilot 官方網站\nVisual Studio Code 官方網站\n.NET 官方網站\nC# Dev Kit 擴充套件"
+  },
+  {
+    "objectID": "about.html",
+    "href": "about.html",
+    "title": "About",
+    "section": "",
+    "text": "About this site"
+  }
+]
