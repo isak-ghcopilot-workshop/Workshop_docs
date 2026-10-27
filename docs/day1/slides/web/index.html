@@ -6,7 +6,10 @@
 <script src="index_files/libs/quarto-html/tippy.umd.min.js"></script>
 <link href="index_files/libs/quarto-html/tippy.css" rel="stylesheet">
 <link href="index_files/libs/quarto-html/light-border.css" rel="stylesheet">
-<link href="index_files/libs/quarto-html/quarto-syntax-highlighting-bf27225e3a48a9273f3daa8f8e829971.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
+<link href="index_files/libs/quarto-html/quarto-syntax-highlighting-bf27225e3a48a9273f3daa8f8e829971.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="index_files/libs/quarto-contrib/glightbox/glightbox.min.js"></script>
+<link href="index_files/libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
+<link href="index_files/libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet"><meta charset="utf-8">
   <meta name="generator" content="quarto-1.10.19">
 
   <title>GitHub Copilot Workshop Day1</title>
@@ -169,7 +172,156 @@
 </section>
 <section id="github-copilot-agent-mode" class="slide level2">
 <h2>GitHub Copilot Agent Mode</h2>
-<p>GitHub Copilot Agent Mode 是一種新的互動模式，允許使用者透過代理人（Agent）來自動化各種開發任務。這些代理人可以根據使用者的指示執行複雜的工作流程，並與其他工具和服務整合，提升開發效率。</p>
+<p>GitHub Copilot Agent Mode 是一種新的互動模式，允許使用者透所謂『代理（Agent』來自動化各種開發任務。這些代理可以根據使用者的指示執行複雜的工作流程，並與其他工具和服務整合，提升開發效率。</p>
+<p>除此之外，GitHub Copilot Agent Mode 由於底層跟 VSCode 編輯器本身抽離，因此可以在跨越不同session的情況下持續運作，保持代理的狀態和上下文，進一步提升開發效率。</p>
+
+<img data-src="./pics/agent-host-arch.svg" class="r-stretch quarto-figure-center"><p class="caption"><a href="https://code.visualstudio.com/blogs/2026/08/26/agent-host-architecture" target="_blank">https://code.visualstudio.com/blogs/2026/08/26/agent-host-architecture</a></p><p>圖中展示了 GitHub Copilot Agent Mode 的主機架構，說明代理如何在不同的 session 中保持狀態，並與 VSCode 編輯器分離運作。</p>
+</section>
+<section id="github-copilot-發展歷程" class="slide level2">
+<h2>GitHub Copilot 發展歷程</h2>
+<p>&nbsp;<br>
+2021<br>
+Code Completion</p>
+<p>⬇️</p>
+<p>2023<br>
+Chat</p>
+<p>⬇️</p>
+<p>2024<br>
+Edit</p>
+<p>⬇️</p>
+<p>2025+<br>
+Agent</p>
+</section>
+<section id="vscode-agent-window" class="slide level2 scrollable">
+<h2>VSCode Agent Window</h2>
+<p>專門設計用來與代理互動的新UI介面，透過這視窗發送指令給代理，並查看代理的回應和執行狀態，使用者在此能輕鬆管理和控制代理的行為。</p>
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><a href="./pics/agents-window-ui-annotated.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1" title="官方說明"><img data-src="./pics/agents-window-ui-annotated.png" alt="官方說明"></a></p>
+<figcaption><a href="https://code.visualstudio.com/docs/agents/run/agents-window#_agents-window-interface-overview" target="_blank">官方說明</a></figcaption>
+</figure>
+</div>
+<ol type="1">
+<li>Sessions list：顯示所有與代理的對話紀錄，使用者可以選擇不同的對話階段來查看或繼續互動。<br>
+</li>
+<li>Customizations panel：用來給代理設定自訂化選項，例如 Custome Agent, Agent Skill, MCP Server 等，使用者可以根據需求調整代理的行為和功能。<br>
+</li>
+<li>Chat area：用來與代理進行對話的區域，使用者可以在這裡輸入指令或問題，代理會在此區域回應，並顯示執行的結果和狀態。<br>
+</li>
+<li>Changes panel：顯示代理對專案所做的變更，使用者可以在此查看代理的修改內容，並決定是否接受或拒絕這些變更。</li>
+<li>Files panel：顯示專案中的檔案結構，使用者可以在此瀏覽、打開或管理專案檔案。</li>
+</ol>
+</section>
+<section id="vscode-chat-view" class="slide level2 scrollable">
+<h2>VSCode Chat View</h2>
+<p>原本 GitHub Copilot Chat 專屬互動介面，在引入 Agent Mode 後，變為 <em>半獨立</em> 的通用聊天介面，使用者可以在此與代理進行互動，並查看代理的回應和執行狀態。</p>
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><a href="./pics/chat-view-expanded.png" class="lightbox" data-gallery="quarto-lightbox-gallery-2" title="官方說明"><img data-src="./pics/chat-view-expanded.png" alt="官方說明"></a></p>
+<figcaption><a href="https://code.visualstudio.com/docs/agents/run/chat-view#_interface-overview" target="_blank">官方說明</a></figcaption>
+</figure>
+</div>
+<ol type="1">
+<li>Sessions list：顯示所有與代理的對話紀錄，使用者可以選擇不同的對話階段來查看或繼續互動。</li>
+<li>Chat conversations：顯示與代理的單對話階段歷史內容，顯示執行的結果和狀態；使用者可在此區域允許指令執行、回答代理提出的問題，或是建立新的對話分支。</li>
+<li>Chat input：使用者用來輸入Prompt或切換不同 Agent/Harness/LLM 的區域。</li>
+</ol>
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Tip</strong></p>
+</div>
+<div class="callout-content">
+<p>在 VSCode 的介面拉伸左右以及下方的面板尺寸之後，如果要恢復原始比例，在該面板對中間編輯區域的邊緣框上用滑鼠雙擊即可恢復。</p>
+</div>
+</div>
+</div>
+</section>
+<section id="section" class="slide level2 scrollable">
+<h2></h2>
+<table class="center caption-top">
+<caption>Chat, Edit, Agent 的差異</caption>
+<thead>
+<tr class="header">
+<th>模式</th>
+<th>能力</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Chat</td>
+<td>單純問答</td>
+</tr>
+<tr class="even">
+<td>Edit</td>
+<td>修改檔案</td>
+</tr>
+<tr class="odd">
+<td>Agent</td>
+<td>自動/半自動執行任務</td>
+</tr>
+</tbody>
+</table>
+<p>&nbsp;</p>
+<blockquote>
+<p><strong><em>Chat 是顧問，Agent 是工程師</em></strong></p>
+</blockquote>
+<p>&nbsp;</p>
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Note</strong></p>
+</div>
+<div class="callout-content">
+<p>目前 VSCode Chat View 將 GitHub Copilot Chat 的 Ask/Plan 功能藏在 <a href="https://code.visualstudio.com/docs/agents/run/agent-harnesses#_local" target="_blank"><strong>Local</strong> Harness</a> 模式中才選得到：</p>
+<p><img data-src="./pics/vscode-chat-view-ask_mode.png"></p>
+</div>
+</div>
+</div>
+</section>
+<section id="容易混淆的-llm-與-harness-名稱" class="slide level2 scrollable">
+<h2>容易混淆的 LLM 與 Harness 名稱</h2>
+<p>Agent 使用的 Harness 和 LLM 是不一樣的東西，Harness 是用來管理代理的執行環境和資源，而 LLM 則是提供語言理解和生成能力的模型。使用者在設定代理時，可分別選擇合適的 Harness 和 LLM，以確保代理能正確執行任務。</p>
+<p><a href="./pics/Agent_LLM_Harness_difference.png" class="lightbox" data-gallery="quarto-lightbox-gallery-3"><img data-src="./pics/Agent_LLM_Harness_difference.png"></a></p>
+<p>目前 VSCode 除了 GitHub Copilot 提供的 Local Harness 外，還支援其他類型的 Harness，例如 Remote Harness，可將工作配發到 GitHub.com 的 Cloud Agent 環境中執行。</p>
+<p>並且也開始支援 <strong><em>Claude Code</em></strong>, <strong><em>Codex</em></strong> 等第三方 Harness extension，使用者能夠在 VSCode 中使用更多不同的代理執行環境。</p>
+<p><a href="https://code.visualstudio.com/docs/agents/run/agent-harnesses#_compare-agent-harnesses" target="_blank">官方比較表</a></p>
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Note</strong></p>
+</div>
+<div class="callout-content">
+<p>目前 VSCode 支援的第三方 Harness 與 LLM 名稱會讓使用者混淆，在與團隊成員溝通時需注意。</p>
+</div>
+</div>
+</div>
+</section>
+<section id="agent-loop" class="slide level2">
+<h2>Agent Loop</h2>
+<p>&nbsp;</p>
+<p>Understand<br>
+↓<br>
+Plan<br>
+↓<br>
+Implement<br>
+↓<br>
+Build<br>
+↓<br>
+Validate<br>
+↓<br>
+Fix(done)</p>
+<p>&nbsp;</p>
+<p>通常在 Implement &amp; Build 階段，代理產出的結果會無法立即達到最終目標，需要經過 Validate 與 Fix 階段的檢查與修正，然後回去重新修改 Implement 的內容再繼續，才能確保最終成果符合預期。</p>
 </section></section>
 <section id="custom-instruction-實戰" class="title-slide slide level1 center">
 <h1>Custom Instruction 實戰</h1>
@@ -686,6 +838,38 @@
         }
       });
       </script>
+    <script>var lightboxQuarto = GLightbox({"closeEffect":"zoom","descPosition":"bottom","loop":false,"openEffect":"zoom","selector":".lightbox"});
+    (function() {
+      let previousOnload = window.onload;
+      window.onload = () => {
+        if (previousOnload) {
+          previousOnload();
+        }
+        lightboxQuarto.on('slide_before_load', (data) => {
+          const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+          const href = trigger.getAttribute('href');
+          if (href !== null) {
+            const imgEl = window.document.querySelector(`a[href="${href}"] img`);
+            if (imgEl !== null) {
+              const srcAttr = imgEl.getAttribute("src");
+              if (srcAttr && srcAttr.startsWith("data:")) {
+                slideConfig.href = srcAttr;
+              }
+            }
+          } 
+        });
+      
+        lightboxQuarto.on('slide_after_load', (data) => {
+          const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(slideNode);
+          }
+        });
+      
+      };
+      
+    })();
+              </script>
     
 
 </body></html>
