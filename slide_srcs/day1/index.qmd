@@ -1,6 +1,5 @@
 ---
 title: "GitHub Copilot Workshop Day1"
-author: "Isak Pao"
 format:
     revealjs:
         width: 1300
@@ -31,13 +30,17 @@ code-annotations: below
 
 # Agenda
 
-* GitHub Copilot 最新能力介紹|30
-* Custom Instruction 實戰|45
-* Agent Mode 深度解析|50
-* Agent Skill 介紹與實作|50
-* Agentic SDLC Workflow|30
+* GitHub Copilot 最新能力介紹
+* Custom Instruction 實戰
+* Agent Mode 深度解析
+* Agent Skill 介紹與實作
+* Agentic SDLC Workflow
 
 # GitHub Copilot 最新能力介紹
+
+## GitHub Copilot Agent Mode
+
+GitHub Copilot Agent Mode 是一種新的互動模式，允許使用者透過代理人（Agent）來自動化各種開發任務。這些代理人可以根據使用者的指示執行複雜的工作流程，並與其他工具和服務整合，提升開發效率。
 
 #  Custom Instruction 實戰
 
