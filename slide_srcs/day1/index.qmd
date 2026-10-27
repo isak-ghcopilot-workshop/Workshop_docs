@@ -154,8 +154,80 @@ Fix(done)
 
 通常在 Implement & Build 階段，代理產出的結果會無法立即達到最終目標，需要經過 Validate 與 Fix 階段的檢查與修正，然後回去重新修改 Implement 的內容再繼續，才能確保最終成果符合預期。
 
+## Lab1: Compare Ask mode vs Agent mode
+
+&nbsp;
+
+[Lab1 GitHub 及詳細步驟](https://github.com/isak-ghcopilot-workshop/SmartTaskWorkshop/blob/main/README_ask_vs_agent.md){target="_blank"}
+
+Ask mode 就類似傳統的 LLM 問答模式，使用者直接向模型提出問題，模型給出回答；而 Agent mode 則是透過代理自動或半自動地執行任務，可能涉及多步驟的計畫與執行。
 
 #  Custom Instruction 實戰
+
+## GitHub Copilot Custom Instruction
+
+GitHub Copilot Custom Instruction 允許使用者自訂代理的行為與回應方式，使用者可以設定代理的角色、語氣、偏好等，以便代理在與使用者互動時能更符合使用者的需求與期望。
+
+## 為什麼需要 Custom Instructions
+
+通常我們會重複使用一些特定的要求或是 Prompt 模板:
+
+```text
+請求AI以特定角色回應
+使用特定步驟或標準
+套用固定的輸出樣式
+```
+
+這時候就可以透過 Custom Instructions 來設定代理的行為與回應方式，避免每次都需要手動輸入相同的內容。
+
+## 使用 Custom Instructions 的Harness架構
+
+使用 Custom Instructions 可以讓代理在接收到 User Prompt 後，加入使用者設定的行為與回應方式進行處理，並結合 Workspace Context 與 Source Code 來生成最終的回應。
+
+&nbsp;
+
+User Prompt  
+      ↓  
+Custom Instructions  
+      ↓  
+Workspace Context  
+      ↓  
+Source Code  
+      ↓  
+LLM generates response based on above inputs  
+
+## Custom Instructions 種類＆建立位置
+
+GitHub Copilot Custom Instructions 可以分為專案全域與針對特定檔案類這兩種：
+
+&nbsp;
+
+專案全域作用：
+
+```
+.github/
+└─ copilot-instructions.md
+
+```
+
+&nbsp;
+
+針對特定檔案類型：
+
+```
+.github/instructions/abcd/
+                      └─ abcd.instructions.md
+.github/instructions/defg/
+                      └─ defg.instructions.md
+```
+
+&nbsp;
+
+:::{.callout-note}
+1. 針對特定檔案類型的 Custom Instructions 會覆蓋專案全域作用類型的設定
+2. 除了專案層級之外，也可以設定使用者層級的 Custom Instructions，而企業版GitHub 可以在管理網站上建立組織層級的 Custom Instructions。([官方說明](https://docs.github.com/en/enterprise-cloud@latest/copilot/concepts/prompting-and-context/custom-instructions#types-of-custom-instructions){target="_blank"})
+3. 套用 Custom Instructions 不是讓 AI 變聰明，而是讓團隊不同成員在此專案工作時 AI 能保持一致的行為與回應方式。
+:::
 
 # Agent Mode 深度解析
 
