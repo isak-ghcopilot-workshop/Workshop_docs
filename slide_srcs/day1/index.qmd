@@ -349,6 +349,9 @@ GitHu Copilot Agent Mode 可將 AI 代理的執行範圍超脫到 Visual Studio 
 
 ## Agent 執行流程
 
+&nbsp;
+&nbsp;
+
 ```
 Analyze Project  
       ↓  
@@ -504,6 +507,9 @@ GitHub Copilot Chat 也提供 slash command (**/skills**) 來明確指定LLM要�
 ## 
 
 傳統的軟體開發流程中，開發者需要手動完成需求分析、設計、實作、測試與部署等各個階段，過程繁瑣且容易出錯。
+
+&nbsp;
+&nbsp;
 
 需求  
 ↓  
