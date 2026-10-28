@@ -422,6 +422,7 @@ Agent Skill 是一種讓LLM讀的行為操作 **說明書**，指導 AI 在特�
 ## Agent Skill 結構
 
 Agent Skill 的結構通常包含以下幾個部分：
+
 - Metadata：描述 Skill 的基本資訊，如名稱、版本、作者等。(YAMLFrontmatter)
 - Capabilities：定義 Skill 所能執行的任務或功能。
 - Actions：具體的操作指令，指導 AI 如何完成特定任務。
