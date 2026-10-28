@@ -562,9 +562,11 @@ Agentic SDLC
 
 &nbsp;
 &nbsp;
-官方說明：[https://learn.github.com/product-guides/github-copilot/accelerate-usage/integrate-workflows](https://learn.github.com/product-guides/github-copilot/accelerate-usage/integrate-workflows){target="_blank"}
 
-官方舊版WorkShop：[https://github.com/pkal42/github-copilot-agents-in-sdlc/blob/main/docs/README.md](https://github.com/pkal42/github-copilot-agents-in-sdlc/blob/main/docs/README.md){target="_blank"}
+* 官方說明：[https://learn.github.com/product-guides/github-copilot/accelerate-usage/integrate-workflows](https://learn.github.com/product-guides/github-copilot/accelerate-usage/integrate-workflows){target="_blank"}
+
+&nbsp;
+* 官方舊版WorkShop：[https://github.com/pkal42/github-copilot-agents-in-sdlc/blob/main/docs/README.md](https://github.com/pkal42/github-copilot-agents-in-sdlc/blob/main/docs/README.md){target="_blank"}
 
 ## Future Developer
 
