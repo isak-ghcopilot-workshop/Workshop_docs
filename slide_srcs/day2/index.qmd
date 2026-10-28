@@ -1,0 +1,51 @@
+---
+title: "GitHub Copilot Workshop Day2"
+format:
+    revealjs:
+        width: 1300
+        height: 1000
+        slide-tone: false
+        theme: simple
+        menu:
+            side: right
+        slide-number: true
+        include-in-header: 
+            text: |
+                <style>
+                .center-xy {
+                margin: 0;
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                -ms-transform: translateY(-50%), translateX(-50%);
+                transform: translateY(-50%), translateX(-50%);
+                }
+                .text-center {
+                text-align: center;
+                }
+                </style>
+from: markdown+emoji
+code-annotations: below
+---
+
+# Agenda
+
+* Agent Extensibility Overview
+* Agent Hooks
+* MCP 介紹
+* Build MCP Server with .NET 10
+* Custom Agent + Skills + MCP
+* Build Custom Agent Plugin
+
+
+# Agent Extensibility Overview
+
+# Agent Hooks
+
+# MCP 介紹
+
+# Build MCP Server with .NET 10
+
+# Custom Agent + Skills + MCP
+
+# Build Custom Agent Plugin

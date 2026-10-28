@@ -41,6 +41,8 @@ GitHub Copilot Workshop 投影片以及相關資源。
     Custom Agent + Skills + MCP|30
     Build Custom Agent Plugin|55
    
+   [線上投影片](./docs/day2/slides/web/#/title-slide){target="_blank"}
+   
 * Day3
    
     主題| 時數(min)

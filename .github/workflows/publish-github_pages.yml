@@ -32,6 +32,12 @@ jobs:
           python-version: '3.x' # Version range or exact version of a Python version to use, using SemVer's version range syntax
       - run: pip install jupyter
 
+      - name: Render workshop GitHub Pages website 
+        uses: quarto-dev/quarto-actions/render@v2
+        with:
+          path: workshop_website
+          to: html
+
       - name: Render day1 slides
         uses: quarto-dev/quarto-actions/render@v2
         env:
@@ -40,16 +46,23 @@ jobs:
           path: slide_srcs/day1
           to: revealjs
 
-      - name: Render workshop GitHub Pages website 
-        uses: quarto-dev/quarto-actions/render@v2
-        with:
-          path: workshop_website
-          to: html
-
       - name: Copy day1 slides assets to workshop_website # be aware of the directory structure quarto generates
         run: |
           mkdir -p workshop_website/_site/docs/day1
           cp -r slide_srcs/day1/docs/* workshop_website/_site/docs/day1
+      
+      - name: Render day2 slides
+        uses: quarto-dev/quarto-actions/render@v2
+        env:
+          QUARTO_PROFILE: webslide
+        with: 
+          path: slide_srcs/day2
+          to: revealjs
+
+      - name: Copy day2 slides assets to workshop_website # be aware of the directory structure quarto generates
+        run: |
+          mkdir -p workshop_website/_site/docs/day2
+          cp -r slide_srcs/day2/docs/* workshop_website/_site/docs/day2
       
       # NOTE: If Publishing to GitHub Pages, set the permissions correctly (see top of this yaml)
       - name: Publish to GitHub Pages

@@ -2,4 +2,4 @@
 title: "About"
 ---
 
-About this site
+This site is built using Quarto and serves as the workshop website for the GitHub Copilot Workshop.
