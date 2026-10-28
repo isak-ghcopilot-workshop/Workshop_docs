@@ -394,6 +394,13 @@ Fix(done)</p>
 <p>&nbsp;</p>
 <p><a href="https://github.com/isak-ghcopilot-workshop/SmartTaskWorkshop/blob/main/README_ask_vs_agent.md" target="_blank">Lab1 GitHub 及詳細步驟</a></p>
 <p>Ask mode 就類似傳統的 LLM 問答模式，使用者直接向模型提出問題，模型給出回答；而 Agent mode 則是透過代理自動或半自動地執行任務，可能涉及多步驟的計畫與執行。</p>
+</section>
+<section id="github-copilot-cli" class="slide level2">
+<h2>GitHub Copilot CLI</h2>
+<p>GitHub Copilot CLI 是一個命令列工具，允許使用者在終端機中與 GitHub Copilot 互動，執行各種與代理相關的操作，與 VSCode 中的 GitHub Copilot Chat 類似，但更適合在命令列環境下使用。</p>
+<p><a href="https://docs.github.com/copilot/how-tos/copilot-cli" class="uri">https://docs.github.com/copilot/how-tos/copilot-cli</a><br>
+<a href="https://github.com/github/copilot-cli" class="uri">https://github.com/github/copilot-cli</a></p>
+<p><a href="./pics/github_copilot_cli.png" class="lightbox" data-gallery="quarto-lightbox-gallery-4"><img data-src="./pics/github_copilot_cli.png"></a></p>
 </section></section>
 <section>
 <section id="custom-instruction-實戰" class="title-slide slide level1 center">
@@ -451,26 +458,291 @@ LLM generates response based on above inputs</p>
 </div>
 <div class="callout-content">
 <ol type="1">
-<li>針對特定檔案類型的 Custom Instructions 會覆蓋專案全域作用類型的設定</li>
+<li>針對特定檔案類型的 Custom Instructions 會覆蓋專案全域作用類型的設定，覆蓋順序請見<a href="https://docs.github.com/en/enterprise-cloud@latest/copilot/concepts/prompting-and-context/custom-instructions#precedence-of-custom-instructions" target="_blank">官方說明</a>。</li>
 <li>除了專案層級之外，也可以設定使用者層級的 Custom Instructions，而企業版GitHub 可以在管理網站上建立組織層級的 Custom Instructions。(<a href="https://docs.github.com/en/enterprise-cloud@latest/copilot/concepts/prompting-and-context/custom-instructions#types-of-custom-instructions" target="_blank">官方說明</a>)</li>
 <li>套用 Custom Instructions 不是讓 AI 變聰明，而是讓團隊不同成員在此專案工作時 AI 能保持一致的行為與回應方式。</li>
+<li>Custom Instructions 只會影響代理在使用對話介面時的行為與回應方式。對於編輯程式碼時的自動補全或建議不會產生影響。</li>
 </ol>
 </div>
 </div>
 </div>
+</section>
+<section id="custom-instructions-建立方式" class="slide level2 scrollable">
+<h2>Custom Instructions 建立方式</h2>
+<p>除了手動自行在 <code>.github</code> 目錄內建立 Custom Instructions 的純文字檔案之外，</p>
+<p>全域 Custom Instructions 可在 VSCode Chat View 的 GitHub Copilot 或是 GitHub Copilot CLI 中下 <code>/init</code> 指令建立。</p>
+<div class="quarto-layout-panel" data-layout-ncol="2">
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><a href="./pics/vscode_custom_instructions_init.png" class="lightbox" data-gallery="quarto-lightbox-gallery-5" title="VSCode"><img data-src="./pics/vscode_custom_instructions_init.png" alt="VSCode"></a></p>
+<figcaption>VSCode</figcaption>
+</figure>
+</div>
+</div>
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><a href="./pics/github_copilot_cli_custom_instructions_init.png" class="lightbox" data-gallery="quarto-lightbox-gallery-6" title="GitHub Copilot CLI"><img data-src="./pics/github_copilot_cli_custom_instructions_init.png" alt="GitHub Copilot CLI"></a></p>
+<figcaption>GitHub Copilot CLI</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<p>這兩種建立的方式都會掃描整個專案目錄，並自動生成對應的全域 Custom Instructions 檔案，省去自己手動從完全空白建立的麻煩。</p>
+<p>在使用 <code>/init</code> 指令建立時，AI 會主動去掃描是否有其他第三方/公訂標準的 Markdown files，並將其內容納入考量，以生成更完整的 Custom Instructions。</p>
+<div class="quarto-layout-panel" data-layout-ncol="2">
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><a href="./pics/vscode_custom_instructions_init_1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-7" title="VSCode"><img data-src="./pics/vscode_custom_instructions_init_1.png" alt="VSCode"></a></p>
+<figcaption>VSCode</figcaption>
+</figure>
+</div>
+</div>
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><a href="./pics/github_copilot_cli_custom_instructions_init_1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-8" title="GitHub Copilot CLI"><img data-src="./pics/github_copilot_cli_custom_instructions_init_1.png" alt="GitHub Copilot CLI"></a></p>
+<figcaption>GitHub Copilot CLI</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="典型的-custom-instructions-內容" class="slide level2">
+<h2>典型的 Custom Instructions 內容</h2>
+<p>典型的 Custom Instructions 內容通常會包括以下幾個部分<br>
+（依據專案大小 AI 會自動調整）：</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode numberSource text number-lines code-with-copy"><code class="sourceCode"><span id="cb4-1"><a href="" aria-label="1"></a></span>
+<span id="cb4-2"><a href="" aria-label="2"></a># Repository Context (Repository Guide)</span>
+<span id="cb4-3"><a href="" aria-label="3"></a></span>
+<span id="cb4-4"><a href="" aria-label="4"></a>(## Projects and architecture)</span>
+<span id="cb4-5"><a href="" aria-label="5"></a></span>
+<span id="cb4-6"><a href="" aria-label="6"></a>這部分通常包含專案的基本資訊、目錄結構、重要檔案說明等，讓代理能夠理解專案的整體背景。</span>
+<span id="cb4-7"><a href="" aria-label="7"></a></span>
+<span id="cb4-8"><a href="" aria-label="8"></a>## Build and run (Build, test, and analysis)</span>
+<span id="cb4-9"><a href="" aria-label="9"></a></span>
+<span id="cb4-10"><a href="" aria-label="10"></a>這部分通常包含專案的建置與執行方式，例如所需的依賴、建置指令、執行指令等，讓代理能夠理解如何在本地環境中運行專案。</span>
+<span id="cb4-11"><a href="" aria-label="11"></a></span>
+<span id="cb4-12"><a href="" aria-label="12"></a>##　Architecture</span>
+<span id="cb4-13"><a href="" aria-label="13"></a></span>
+<span id="cb4-14"><a href="" aria-label="14"></a>這部分通常包含專案的整體架構設計、模組劃分、主要元件及其關係等，讓代理能夠理解專案的結構與設計理念。</span>
+<span id="cb4-15"><a href="" aria-label="15"></a></span>
+<span id="cb4-16"><a href="" aria-label="16"></a>## Code and configuration conventions (Project-specific conventions)</span>
+<span id="cb4-17"><a href="" aria-label="17"></a></span>
+<span id="cb4-18"><a href="" aria-label="18"></a>這部分通常包含專案的程式碼風格、命名規範、配置檔案結構等，讓代理能夠理解專案的程式碼與配置慣例。</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>可參見官方說明：<a href="https://docs.github.com/en/enterprise-cloud@latest/copilot/concepts/prompting-and-context/custom-instructions#writing-effective-custom-instructions" target="_blank">Writing Effective Custom Instructions</a></p>
+<p>Custom Instruction 不需要一定得用英文，可用專案團隊習慣語言撰寫。<br>
+如<a href="https://github.com/windperson-demo-devops/GHAgenticWorkflowsDemo-SecretLeakDetector/blob/main/.github/copilot-instructions.md" target="_blank">範例</a>所示</p>
+</section>
+<section id="lab2-建立-custom-instruction" class="slide level2">
+<h2>Lab2: 建立 Custom Instruction</h2>
+<p>&nbsp; &nbsp;</p>
+<p><a href="https://github.com/isak-ghcopilot-workshop/SmartTaskWorkshop/blob/main/README_custom_instructions.md" target="_blank">Lab2 GitHub 及詳細步驟</a></p>
+<p>可比較，將 Lab1 產生的原始碼檔案都 <code>git clean -dxf</code> 檔案內容重設後，再依照 Lab2 的步驟建立 Custom Instruction 是否有不同。</p>
+<p>或是建立 Custom Instruction 後，再下Prompt:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode numberSource text number-lines code-with-copy"><code class="sourceCode"><span id="cb5-1"><a href="" aria-label="1"></a>Create Product API</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>觀察是否 AI 能夠根據建立的 Custom Instruction 正確生成對應 Clean Architecture 的程式碼或回應。</p>
+</section>
+<section id="team-standard-as-ai-context" class="slide level2">
+<h2>Team Standard as AI Context</h2>
+<p>在專案中，團隊可能會有一些標準或慣例，例如程式碼風格、命名規範、提交訊息格式等。這些標準可以寫成 Custom Instructions，作為 AI 的上下文，幫助 AI 在生成程式碼或回應時遵循團隊的規範。</p>
+<p>傳統沒導入 AI 前，團隊的標準通常只會以文件或口頭方式傳達，容易因人而異，且新成員需要花時間熟悉：</p>
+<pre><code>Wiki
+Coding Standard
+Confluence/Jira web site
+      ↓  
+Human Brain      </code></pre>
+<p>導入 AI 後，將團隊標準寫入 Custom Instructions，可以讓 AI 在生成程式碼或回應時自動遵循這些標準，減少人為差異，提升團隊協作效率：</p>
+<pre><code>Copilot Instructions
+      ↓  
+Copilot (AI Agent)</code></pre>
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Note</strong></p>
+</div>
+<div class="callout-content">
+<ul>
+<li>將團隊標準寫入 Custom Instructions，可以讓 AI 在生成程式碼或回應時自動遵循這些標準，減少人為差異，提升團隊協作效率。</li>
+<li>Documentation 告訴人看，Instructions 告訴 AI 做。</li>
+</ul>
+</div>
+</div>
+</div>
 </section></section>
+<section>
 <section id="agent-mode-深度解析" class="title-slide slide level1 center">
 <h1>Agent Mode 深度解析</h1>
 
 </section>
+<section id="agent-mode-講-ai-agent-超脫到編輯器之外" class="slide level2">
+<h2>Agent Mode ： 講 AI Agent 超脫到編輯器之外</h2>
+<p>GitHu Copilot Agent Mode 可將 AI 代理的執行範圍超脫到 Visual Studio / VSCode 編輯器之外，<strong>Agent Host</strong> 讓 AI 能夠在更多場景中協助開發者完成任務，例如在命令列、CI/CD 流程中，甚至與其他工具整合，提升開發效率與自動化能力。</p>
 
+<img data-src="./pics/Agent-Host.png" class="r-stretch"></section>
+<section id="agent-執行流程" class="slide level2">
+<h2>Agent 執行流程</h2>
+<pre><code>Analyze Project  
+      ↓  
+Create Plan  
+      ↓  
+Modify Files  
+      ↓  
+Build  
+      ↓  
+Fix Errors</code></pre>
+</section>
+<section id="agent-coding-工作流-best-practices" class="slide level2">
+<h2>Agent Coding 工作流 Best Practices</h2>
+<p>&nbsp;</p>
+<p>使用 Agent Mode 進行程式功能開發時，建議遵循以下最佳實踐，以確保開發過程高效且可控：</p>
+<p>&nbsp;</p>
+<p>✅ 小步驟</p>
+<p>✅ 看 Plan</p>
+<p>✅ 定期 Commit 成果檔案</p>
+<p>✅ 驗證結果</p>
+<p>&nbsp;</p>
+<p>避免一次命令下達過多操作，應將任務拆解成小步驟，逐步執行，確保你有辦法審核每一步的結果，並確認每一步都能正確完成。</p>
+</section>
+<section id="lab3-使用-agent-mode-進行程式開發" class="slide level2">
+<h2>Lab3: 使用 Agent Mode 進行程式開發</h2>
+<p>&nbsp; &nbsp;</p>
+<p><a href="https://github.com/isak-ghcopilot-workshop/SmartTaskWorkshop/blob/main/README_agent_mode.md" target="_blank">Lab3 GitHub 及詳細步驟</a></p>
+<p>&nbsp;</p>
+<p>可嘗試增加/減少目前專案的功能，觀察 AI 代理在不同情境下的表現，並驗證其是否能正確執行任務。</p>
+</section>
+<section id="總結" class="slide level2">
+<h2>總結</h2>
+<p>在本章中，我們介紹了 GitHub Copilot 的 Agent Mode，並展示了如何使用 Agent Mode 進行程式開發。透過 Agent Mode，AI 代理可以超脫編輯器，協助開發者完成從分析專案、建立計畫、修改檔案到建置與修正錯誤的整個開發流程。同時，我們也介紹了使用 Agent Mode 的最佳實踐，確保開發過程高效且可控。</p>
+</section></section>
+<section>
 <section id="agent-skill-介紹與實作" class="title-slide slide level1 center">
 <h1>Agent Skill 介紹與實作</h1>
 
 </section>
+<section id="agent-skill-介紹" class="slide level2">
+<h2>Agent Skill 介紹</h2>
+<p>AI Agent 可以透過不同的 Skill 來完成特定任務，例如程式碼生成、測試、部署等。每個 Skill 都封裝了一組能力，讓 AI 能夠在特定場景下高效執行任務。</p>
+<div class="callout callout-important callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Important</strong></p>
+</div>
+<div class="callout-content">
+<p>可將 Agent Skill 視為寫給 AI 的插件，專門處理特定任務。</p>
+</div>
+</div>
+</div>
+</section>
+<section id="為何要使用-agent-skill" class="slide level2">
+<h2>為何要使用 Agent Skill</h2>
+<ul>
+<li>使用 Agent Skill 可以讓 AI 代理在特定任務上更高效地執行，減少重複性工作，提升開發效率。</li>
+<li>透過 Skill 的封裝，團隊可以更容易地管理和擴展 AI 代理的能力，確保在不同場景下都能正確完成任務。</li>
+<li>Skill 可在不同專案上共用，提升團隊整體的開發效率與一致性。</li>
+</ul>
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Note</strong></p>
+</div>
+<div class="callout-content">
+<p>Agent Skill 是一種讓LLM讀的行為操作 <strong>說明書</strong>，指導 AI 在特定任務中應該如何行動。</p>
+</div>
+</div>
+</div>
+</section>
+<section id="agent-skill-結構" class="slide level2">
+<h2>Agent Skill 結構</h2>
+<p>Agent Skill 的結構通常包含以下幾個部分： - Metadata：描述 Skill 的基本資訊，如名稱、版本、作者等。(YAMLFrontmatter) - Capabilities：定義 Skill 所能執行的任務或功能。 - Actions：具體的操作指令，指導 AI 如何完成特定任務。 - Inputs/Outputs：定義 Skill 所需的輸入資料及產生的輸出結果。 - References：列出與 Skill 相關的參考資料或文件。 - Constraints：限制條件，確保 AI 在執行任務時遵循特定規則。</p>
+<p>在 GH Copilot 將放在 .github/skills/ 目錄下，每個 Skill 對應一個子目錄，內含 Skill 的定義檔案。</p>
+<pre><code>.github/skills/
+  └─ my-skill/
+      ├─ SKILL.md
+      └─ ...</code></pre>
+<ul>
+<li>官方說明：<br>
+<a href="https://code.visualstudio.com/docs/agent-customization/agent-skills" target="_blank">https://code.visualstudio.com/docs/agent-customization/agent-skills</a> <a href="https://docs.github.com/en/copilot/concepts/agents/about-agent-skills" target="_blank">https://docs.github.com/en/copilot/concepts/agents/about-agent-skills</a></li>
+<li>GH Copilot支援 Agent Skill公訂規格<br>
+(<a href="https://agentskills.io/specification" target="_blank">https://agentskills.io/specification</a> )，可跨Coding Agent(Claude Code, Codex)共用Skill</li>
+</ul>
+</section>
+<section id="agent-skill-的加載與管理" class="slide level2">
+<h2>Agent Skill 的加載與管理</h2>
+<ul>
+<li>Agent Skill可設計成 Load on demand，節省Context/token花費</li>
+<li>除了將Agent Skill 將其整個檔案結構copy到 .agent/skills/目錄底下使用，或是使用 Node.js 的 <a href="https://github.com/vercel-labs/skills" target="_blank">『Skills』指令列工具</a> 來從各個Git repo下載，抑或配合 VS Code 的 Agent Plugin 功能，可以更方便地管理和加載 Skill。</li>
+<li>.NET 生態系有另外一個MIT開源『dotnet-skills』全域工具可使用來管理/加載/移除 Agent Skill。
+<ul>
+<li><a href="https://github.com/dotnet-mcp-lab/DotNetPrjSkillDemo/blob/main/README_use_dotnet-skills.md" target="_blank">範例練習</a></li>
+</ul></li>
+</ul>
+</section>
+<section id="github-copilot-chat-中使用-agent-skill" class="slide level2">
+<h2>GitHub Copilot Chat 中使用 Agent Skill</h2>
+<p>除了隱含式的在 Prompt 中讓代理自己去理解到應該使用特定 Skill 外，<br>
+GitHub Copilot Chat 也提供 slash command (<strong>/skills</strong>) 來明確指定LLM要去讀哪個 Agent Skill來使用。</p>
+<p>官方說明：<br>
+<a href="https://code.visualstudio.com/docs/agent-customization/agent-skills#_use-skills-as-slash-commands" target="_blank">https://code.visualstudio.com/docs/agent-customization/agent-skills#_use-skills-as-slash-commands</a></p>
 
+<img data-src="./pics/vscode_slash_cmd_skills.png" class="r-stretch"></section>
+<section id="agent-skill-實作" class="slide level2">
+<h2>Agent Skill 實作</h2>
+<ul>
+<li>官方說明：<br>
+<a href="https://code.visualstudio.com/docs/agent-customization/agent-skills" target="_blank">https://code.visualstudio.com/docs/agent-customization/agent-skills</a></li>
+<li>要記得在 GitHub Copilot 中使用的 Skill <strong><em>名稱必須是英文</em></strong></li>
+<li>撰寫建議： <a href="https://agentskills.io/skill-creation/best-practices" target="_blank">https://agentskills.io/skill-creation/best-practices</a></li>
+<li>練習範例： <a href="https://github.com/dotnet-mcp-lab/DotNetPrjSkillDemo/blob/main/README_custom_agent_skill.md" target="_blank">https://github.com/dotnet-mcp-lab/DotNetPrjSkillDemo/blob/main/README_custom_agent_skill.md</a></li>
+</ul>
+</section>
+<section id="agent-skill-load-on-demand" class="slide level2">
+<h2>Agent Skill Load on Demand</h2>
+<ul>
+<li>預設情況 Harness 只會在一開始時把目前安裝的 Agent Skill 的 Metadata 加載到記憶體中，實際的 Skill 內容會在需要時才加載。</li>
+<li>Reference部分就是讓單一 Agent Skill 還可以 Load on Demand 其他 Skill 的關鍵</li>
+</ul>
+<p><a href="./pics/agent_skill_load_on_demand.png" class="lightbox" data-gallery="quarto-lightbox-gallery-9"><img data-src="./pics/agent_skill_load_on_demand.png" class="center"></a></p>
+</section>
+<section id="在-agent-skill-中呼叫命令列程式" class="slide level2">
+<h2>在 Agent Skill 中呼叫命令列程式</h2>
+<ul>
+<li>在Skill裡敘述的一些命令列程式執行方法，在Agent Skill載入執行時會遵守並在需要執行時由 LLM 觸發執行：<br>
+<a href="https://github.com/dotnet-mcp-lab/DotNetPrjSkillDemo/blob/main/.agents/skills/code-reviewer/SKILL.md?plain=1#L18" target="_blank">https://github.com/dotnet-mcp-lab/DotNetPrjSkillDemo/blob/main/.agents/skills/code-reviewer/SKILL.md?plain=1#L18</a></li>
+</ul>
+<p><a href="./pics/agent_skill_call_cli_tool.png" class="lightbox" data-gallery="quarto-lightbox-gallery-10"><img data-src="./pics/agent_skill_call_cli_tool.png" class="center"></a></p>
+</section>
+<section id="總結-1" class="slide level2">
+<h2>總結</h2>
+<ul>
+<li>Agent Skill 是一種可重用的功能模組，能夠在不同的 Coding Agent 中共用。</li>
+<li>可以透過 Load on Demand 的方式節省資源，僅在需要時加載實際內容。</li>
+<li>GitHub Copilot Chat 提供 slash command (<strong>/skills</strong>) 來明確指定使用的 Skill。</li>
+<li>在 Skill 中可以呼叫命令列程式，並由 LLM 觸發執行。</li>
+<li>使用者應遵循最佳實踐來撰寫 Skill，並注意 Skill 名稱必須是英文。</li>
+</ul>
+</section></section>
 <section id="agentic-sdlc-workflow" class="title-slide slide level1 center">
 <h1>Agentic SDLC Workflow</h1>
+<p>##　Agentic Coding 開發工作流</p>
+<blockquote>
+<p>讓 GitHub Copilot 參與整個 SDLC。</p>
+</blockquote>
 
 </section>
     </div>
