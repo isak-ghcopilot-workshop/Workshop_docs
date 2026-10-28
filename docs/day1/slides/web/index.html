@@ -670,7 +670,15 @@ Fix Errors</code></pre>
 </section>
 <section id="agent-skill-結構" class="slide level2">
 <h2>Agent Skill 結構</h2>
-<p>Agent Skill 的結構通常包含以下幾個部分： - Metadata：描述 Skill 的基本資訊，如名稱、版本、作者等。(YAMLFrontmatter) - Capabilities：定義 Skill 所能執行的任務或功能。 - Actions：具體的操作指令，指導 AI 如何完成特定任務。 - Inputs/Outputs：定義 Skill 所需的輸入資料及產生的輸出結果。 - References：列出與 Skill 相關的參考資料或文件。 - Constraints：限制條件，確保 AI 在執行任務時遵循特定規則。</p>
+<p>Agent Skill 的結構通常包含以下幾個部分：</p>
+<ul>
+<li>Metadata：描述 Skill 的基本資訊，如名稱、版本、作者等。(YAMLFrontmatter)</li>
+<li>Capabilities：定義 Skill 所能執行的任務或功能。</li>
+<li>Actions：具體的操作指令，指導 AI 如何完成特定任務。</li>
+<li>Inputs/Outputs：定義 Skill 所需的輸入資料及產生的輸出結果。</li>
+<li>References：列出與 Skill 相關的參考資料或文件。</li>
+<li>Constraints：限制條件，確保 AI 在執行任務時遵循特定規則。</li>
+</ul>
 <p>在 GH Copilot 將放在 .github/skills/ 目錄下，每個 Skill 對應一個子目錄，內含 Skill 的定義檔案。</p>
 <pre><code>.github/skills/
   └─ my-skill/
