@@ -491,9 +491,87 @@ GitHub Copilot Chat 也提供 slash command (**/skills**) 來明確指定LLM要�
 * 在 Skill 中可以呼叫命令列程式，並由 LLM 觸發執行。
 * 使用者應遵循最佳實踐來撰寫 Skill，並注意 Skill 名稱必須是英文。
 
+
 # Agentic SDLC Workflow
 
-##　Agentic Coding 開發工作流
+## Agentic Coding 開發工作流
 
-> 讓 GitHub Copilot 參與整個 SDLC。
 
+> 讓 GitHub Copilot 參與整個 SDLC(Software Development Life Cycle)。
+
+![](./pics/SDLC_GitHub_Copilot.png){.center .lightbox}
+
+## 
+
+傳統的軟體開發流程中，開發者需要手動完成需求分析、設計、實作、測試與部署等各個階段，過程繁瑣且容易出錯。
+
+需求  
+↓  
+設計  
+↓  
+開發  
+↓  
+測試  
+
+## Agentic AI Workflow
+
+在 Agentic AI Workflow 中，GitHub Copilot 會參與整個軟體開發生命週期，協助開發者完成需求分析、設計、實作、測試與部署等各個階段，提升開發效率並降低錯誤率。
+
+&nbsp;
+&nbsp;
+
+需求分析  
+&nbsp;↓  
+設計草稿  
+&nbsp;↓  
+程式開發  
+&nbsp;↓  
+測試產生  
+&nbsp;↓  
+文件產生  
+&nbsp;↓  
+部署  
+
+## Agentic Development Maturity Model
+
+&nbsp;
+
+大部分團隊目前還停留在 Level 1 或 Level 2，而真正的生產力提升通常從 Level 3 開始出現，Level 4 才開始形成團隊資產，Level 5 則是 Agentic Development 的目標狀態。
+
+&nbsp;
+&nbsp;
+
+```
+Level 1
+Chat
+
+Level 2
+Instructions
+
+Level 3
+Agent
+
+Level 4
+Skills
+
+Level 5
+Agentic SDLC
+```
+
+## GitHub Copilot in Agentic Development
+
+&nbsp;
+&nbsp;
+官方說明：[https://learn.github.com/product-guides/github-copilot/accelerate-usage/integrate-workflows](https://learn.github.com/product-guides/github-copilot/accelerate-usage/integrate-workflows){target="_blank"}
+
+官方舊版WorkShop：[https://github.com/pkal42/github-copilot-agents-in-sdlc/blob/main/docs/README.md](https://github.com/pkal42/github-copilot-agents-in-sdlc/blob/main/docs/README.md){target="_blank"}
+
+## Future Developer
+
+&nbsp;
+
+不只是寫程式的人
+
+而是：
+
+> 能設計 Agent、規範 Agent、協作 Agent 的工程師。
