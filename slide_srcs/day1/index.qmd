@@ -419,7 +419,7 @@ AI Agent 可以透過不同的 Skill 來完成特定任務，例如程式碼生�
 Agent Skill 是一種讓LLM讀的行為操作 **說明書**，指導 AI 在特定任務中應該如何行動。
 :::
 
-## Agent Skill 結構
+## Agent Skill 結構{.scrollable}
 
 Agent Skill 的結構通常包含以下幾個部分：
 
