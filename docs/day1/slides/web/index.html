@@ -591,7 +591,11 @@ Copilot (AI Agent)</code></pre>
 <img data-src="./pics/Agent-Host.png" class="r-stretch"></section>
 <section id="agent-執行流程" class="slide level2">
 <h2>Agent 執行流程</h2>
-<p>&nbsp; &nbsp;</p>
+<p>&nbsp;<br>
+&nbsp;<br>
+<a href="https://code.visualstudio.com/blogs/2026/05/15/agent-harnesses-github-copilot-vscode#_the-agent-loop" target="_blank">The agent loop</a> &nbsp;<br>
+&nbsp;<br>
+</p>
 <pre><code>Analyze Project  
       ↓  
 Create Plan  
@@ -679,7 +683,7 @@ Fix Errors</code></pre>
 <li>References：列出與 Skill 相關的參考資料或文件。</li>
 <li>Constraints：限制條件，確保 AI 在執行任務時遵循特定規則。</li>
 </ul>
-<p>在 GH Copilot 將放在 .github/skills/ 目錄下，每個 Skill 對應一個子目錄，內含 Skill 的定義檔案。</p>
+<p>GH Copilot 將放在 .github/skills/ 目錄下，每個 Skill 對應一個自行命名子目錄，內含 SKILL.md 定義markdown檔案的目錄結構，視為一個 Agent Skill。</p>
 <pre><code>.github/skills/
   └─ my-skill/
       ├─ SKILL.md
@@ -707,7 +711,7 @@ Fix Errors</code></pre>
 <section id="github-copilot-chat-中使用-agent-skill" class="slide level2">
 <h2>GitHub Copilot Chat 中使用 Agent Skill</h2>
 <p>除了隱含式的在 Prompt 中讓代理自己去理解到應該使用特定 Skill 外，<br>
-GitHub Copilot Chat 也提供 slash command (<strong>/skills</strong>) 來明確指定LLM要去讀哪個 Agent Skill來使用。</p>
+GitHub Copilot Chat 也提供 slash command (<strong>/skill名稱</strong>) 來明確指定LLM要去讀哪個 Agent Skill來使用。</p>
 <p>官方說明：<br>
 <a href="https://code.visualstudio.com/docs/agent-customization/agent-skills#_use-skills-as-slash-commands" target="_blank">https://code.visualstudio.com/docs/agent-customization/agent-skills#_use-skills-as-slash-commands</a></p>
 

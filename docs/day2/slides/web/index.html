@@ -6,7 +6,10 @@
 <script src="index_files/libs/quarto-html/tippy.umd.min.js"></script>
 <link href="index_files/libs/quarto-html/tippy.css" rel="stylesheet">
 <link href="index_files/libs/quarto-html/light-border.css" rel="stylesheet">
-<link href="index_files/libs/quarto-html/quarto-syntax-highlighting-bf27225e3a48a9273f3daa8f8e829971.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
+<link href="index_files/libs/quarto-html/quarto-syntax-highlighting-bf27225e3a48a9273f3daa8f8e829971.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="index_files/libs/quarto-contrib/glightbox/glightbox.min.js"></script>
+<link href="index_files/libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
+<link href="index_files/libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet"><meta charset="utf-8">
   <meta name="generator" content="quarto-1.10.19">
 
   <title>GitHub Copilot Workshop Day2</title>
@@ -163,21 +166,439 @@
 </ul>
 </section>
 
+<section>
 <section id="agent-extensibility-overview" class="title-slide slide level1 center">
 <h1>Agent Extensibility Overview</h1>
 
 </section>
-
+<section id="github-copilot-customization-features" class="slide level2">
+<h2>GitHub Copilot Customization features</h2>
+<p>官方說明：<br>
+<a href="https://docs.github.com/en/copilot/concepts/customizations/comparing-customizations" target="_blank">GitHub Copilot Customization features</a></p>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th>名稱</th>
+<th style="text-align: center;">可客製化</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Custom instructions</td>
+<td style="text-align: center;">✅</td>
+</tr>
+<tr class="even">
+<td>Agent skills</td>
+<td style="text-align: center;">✅</td>
+</tr>
+<tr class="odd">
+<td>Tools</td>
+<td style="text-align: center;">❌</td>
+</tr>
+<tr class="even">
+<td>MCP Server</td>
+<td style="text-align: center;">✅</td>
+</tr>
+<tr class="odd">
+<td>Hooks</td>
+<td style="text-align: center;">✅</td>
+</tr>
+<tr class="even">
+<td>SubAgent</td>
+<td style="text-align: center;">❌</td>
+</tr>
+<tr class="odd">
+<td>Custom Agents</td>
+<td style="text-align: center;">✅</td>
+</tr>
+<tr class="even">
+<td>Extensions</td>
+<td style="text-align: center;">✅</td>
+</tr>
+<tr class="odd">
+<td>Plugins</td>
+<td style="text-align: center;">✅</td>
+</tr>
+</tbody>
+</table>
+<p>其中 Extensions 需撰寫 JavaScript 程式且只能安裝在 GitHub Copilot app &amp; CLI，其他可客製化的透過撰寫相關Prompt或設定檔(markdown, json)進行，故在此不對 Tools, SubAgent, Extensions 進行說明。</p>
+</section>
+<section id="custom-instructions" class="slide level2">
+<h2>Custom instructions</h2>
+<p><a href="https://docs.github.com/en/copilot/concepts/prompting-and-context/custom-instructions" target="_blank">https://docs.github.com/en/copilot/concepts/customizations/custom-instructions</a><br>
+自訂指令（Custom instructions）讓使用者能夠為 GitHub Copilot 提供具體的指導，以規範其運作行為。這可以包含對程式碼風格、命名慣例或其他專案特定需求的偏好設定。</p>
+<div class="callout callout-note callout-style-simple">
+<div class="callout-body">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-content">
+<ul>
+<li><p>GitHub Copilot Custom Instructions 可以分為專案全域與針對特定檔案類兩種：</p>
+<p>專案全域作用：</p>
+<pre><code>.github/
+└─ copilot-instructions.md
+</code></pre>
+<p>針對特定檔案類型：</p>
+<pre><code>.github/instructions/abcd/
+                      └─ abcd.instructions.md
+.github/instructions/defg/
+                      └─ defg.instructions.md</code></pre></li>
+<li><p>全域 Custom Instructions 可在 VSCode Chat View 的 GitHub Copilot 或 GitHub Copilot CLI 下 <code>/init</code> 指令建立。</p></li>
+</ul>
+</div>
+</div>
+</div>
+<ul>
+<li>建議的範圍區分：<br>
+全域 copilot-instructions.md 負責專案規則，公訂標準『AGENTS.md(<a href="https://agents.md/" target="_blank">https://agents.md/</a>)』 負責 Agent 行為</li>
+</ul>
+</section>
+<section id="agent-skills" class="slide level2">
+<h2>Agent skills</h2>
+<p><a href="https://docs.github.com/en/copilot/concepts/customizations/agent-skills" target="_blank">https://docs.github.com/en/copilot/concepts/customizations/agent-skills</a><br>
+代理技能（Agent skills）允許使用者為 GitHub Copilot 定義特定的功能或行為。這些技能可以擴展 Copilot 的能力，使其能夠執行特定任務或與其他工具整合。</p>
+<div class="callout callout-note callout-style-simple">
+<div class="callout-body">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-content">
+<ul>
+<li><p>GH Copilot 將放在 <strong><em>.github/skills/</em></strong> 或 <strong><em>.agent/skills/</em></strong> 目錄下，每個 Skill 對應一個自命名子目錄，內含 SKILL.md 定義markdown檔案的目錄結構，視為一個 Agent skill。</p>
+<pre><code>.github/skills/
+  └─ my-skill/
+      ├─ SKILL.md
+      └─ ...</code></pre>
+<p>或在 .agent/skills/ 目錄下：</p>
+<pre><code>.agent/skills/
+  └─ my-skill/
+      ├─ SKILL.md
+      └─ ...</code></pre>
+<p>遵循 Agent skill 的公訂規範(<a href="https://agentskills.io/specification" target="_blank">https://agentskills.io/specification</a>)即可使用</p></li>
+<li><p>GH Copilot 使用 <a href="https://docs.github.com/en/copilot/reference/github-copilot-app-reference/slash-commands" target="_blank">“slash command”</a> (<strong><code>/skill名稱</code></strong>) 來明確指定LLM去讀哪個 Agent skill 來使用。</p></li>
+<li><p>另有一個 <code>/skills</code> 指令，列出目前所有可用 Agent skills。</p></li>
+</ul>
+</div>
+</div>
+</div>
+<p>GH Copilot 在 IDE (Visual Studio, VSCode, Xcode, JetBrains IDE) 中還有支援一個舊版的『<a href="https://docs.github.com/en/copilot/concepts/prompting-and-context/prompt-files" target="_blank">Prompt files</a>』功能，但 <em><a href="https://code.visualstudio.com/docs/agent-customization/migrate-customizations#_convert-prompt-files-to-skills" target="_blank">建議將其移轉至 Agent skill</a></em>。</p>
+</section>
+<section id="mcp-server" class="slide level2">
+<h2>MCP Server</h2>
+<p><a href="https://docs.github.com/en/copilot/concepts/customizations/mcp" target="_blank">https://docs.github.com/en/copilot/concepts/customizations/mcp</a><br>
+MCP Server 為 GitHub Copilot 提供擴展功能的伺服器端組件，使用者可以MCP Server 中定義自訂行為、整合外部服務，並與 Copilot 進行互動。</p>
+<div class="callout callout-note callout-style-simple">
+<div class="callout-body">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-content">
+<ul>
+<li>在VSCode中使用MCP Server要在設定檔裡進行相關設定:
+<ul>
+<li><strong>.vscode/mcp.json</strong> (舊版設定檔)</li>
+<li><strong>.mcp.json</strong> (新版設定檔)</li>
+</ul></li>
+<li>MCP Server 的設定通常包含伺服器端點、認證資訊以及其他與 Copilot 互動所需的參數。</li>
+<li>目前支援的 MCP Server 有分為 stdio 和 http 兩種。</li>
+<li>GH Copilot 目前僅能使用 MCP Server 提供的 『Tools』 功能。</li>
+</ul>
+</div>
+</div>
+</div>
+</section>
+<section id="hooks" class="slide level2">
+<h2>Hooks</h2>
+<p><a href="https://docs.github.com/en/copilot/concepts/customizations/hooks" target="_blank">https://docs.github.com/en/copilot/concepts/customizations/hooks</a><br>
+Hooks 允許使用者在特定事件發生時，執行自訂的程式碼或行為。這使 GitHub Copilot 跑的代理能夠在不同的操作流程階段，觸發使用者定義的邏輯，實現更靈活的擴展。</p>
+<div class="callout callout-note callout-style-simple">
+<div class="callout-body">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-content">
+<ul>
+<li>Hooks <a href="https://docs.github.com/en/copilot/reference/hooks-reference#hooks-locations" target="_blank">設定檔位置</a>：
+<ul>
+<li><strong>.github/hooks/＊.json</strong> (VSCode, GitHub Copilot CLI, Copilot cloud agent)</li>
+<li><strong>~/.copilot/hooks/＊.json</strong> (VSCode, GitHub Copilot CLI)</li>
+<li><strong>~/.copilot/settings.json</strong> (GitHub Copilot CLI)</li>
+</ul></li>
+<li>Hooks 非公訂標準，在 VSCode 還是預覽功能，尚無法與 Claude Code 的 Hooks 設定檔共用</li>
+</ul>
+</div>
+</div>
+</div>
+</section>
+<section id="custom-agents" class="slide level2">
+<h2>Custom Agents</h2>
+<p><a href="https://docs.github.com/en/copilot/concepts/customizations/custom-agents" target="_blank">https://docs.github.com/en/copilot/concepts/customizations/custom-agents</a><br>
+自訂代理（Custom Agents）允許使用者建立專屬的 GitHub Copilot 代理，以實現特定的功能或行為。這使得使用者能夠根據自身需求，擴展 Copilot 的能力。</p>
+<div class="callout callout-note callout-style-simple">
+<div class="callout-body">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-content">
+<ul>
+<li>Custom Agent 設定檔位置為 <strong>.github/agents/＊.md</strong></li>
+<li>Custom Agent 設定檔架構類似 Agent skill，也是含有 YAMLForntmatter 的 markdown 格式檔案</li>
+<li>可用Prompt Engineering中的『角色扮演』技巧來控制 Custom Agent 行為</li>
+<li>可額外記載允許使用的 LLM Model、Tools、 MCP Server資訊</li>
+</ul>
+</div>
+</div>
+</div>
+<p>切莫和公訂標準『AGENTS.md (<a href="https://agents.md/" target="_blank">https://agents.md/</a>)』混淆，這是類似 Custom instructions ：<br>
+<a href="https://thepromptshelf.dev/blog/agents-md-github-copilot-integration-2026/" target="_blank">AGENTS.md and GitHub Copilot: How Copilot Reads It, What It Ignores, and How to Make It Work</a></p>
+</section>
+<section id="plugins" class="slide level2">
+<h2>Plugins</h2>
+<p><a href="https://docs.github.com/en/copilot/concepts/customizations/plugins" target="_blank">https://docs.github.com/en/copilot/concepts/customizations/plugins</a><br>
+插件（Plugins）允許使用者為 GitHub Copilot 增加額外的功能或整合。透過撰寫插件，使用者可以擴展 Copilot 的能力，並與其他工具或服務進行互動。</p>
+<div class="callout callout-note callout-style-simple">
+<div class="callout-body">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-content">
+<ul>
+<li>插件的設定檔架構為 JSON 格式，記錄有：
+<ul>
+<li>MCP Server config</li>
+<li>Custom Agent</li>
+<li>Agent Skill</li>
+<li><a href="https://code.visualstudio.com/docs/agents/run/automations#_start-from-a-template" target="_blank">Automation Templates</a> (VSCode only)</li>
+<li>Hook (not public standard)</li>
+<li>LSP server config (not public standard)</li>
+</ul></li>
+<li>Plugin放在同電腦檔案目錄或是在 git repo 上的都可當安裝源</li>
+</ul>
+</div>
+</div>
+</div>
+<p>Plugin 遵循『Agent Plugins(<a href="https://agent-plugins.org/" target="_blank">https://agent-plugins.org/</a>)』這個公訂標準，所以一些 Claude Code Plugin 也可使用，但支援程度請見<a href="https://code.visualstudio.com/docs/agents/reference/agent-plugin-reference#_cross-tool-compatibility" target="_blank">官方文件</a></p>
+</section>
+<section id="使用時機考量" class="slide level2">
+<h2>使用時機考量</h2>
+<ul>
+<li>從作用範圍/是否為公訂規格的角度來分類：
+<ul>
+<li>Custom Instructions – Copilot-instruction.md / AGENTS.md</li>
+<li>Custom Agents – <strong><em>AgentName</em></strong>.agent.md</li>
+<li>Case-by-case – Prompt file / Agent Skill</li>
+<li>Event-based – Hooks<br>
+(VSCode支援格式和專門給GH Copilot CLI/Copilot Cloud Agent用Hook格式有所不同)</li>
+<li>Package/Distribute – Agent Plugin</li>
+</ul></li>
+<li>官方建議分類：<a href="https://copilot-academy.github.io/workshops/copilot-customization/copilot_customization_handbook#1-understanding-the-customization-landscape" target="_blank">GitHub Copilot Customization Handbook</a></li>
+</ul>
+</section></section>
+<section>
 <section id="agent-hooks" class="title-slide slide level1 center">
 <h1>Agent Hooks</h1>
 
 </section>
+<section id="hooks-1" class="slide level2">
+<h2>Hooks</h2>
+<ul>
+<li>官方說明：<br>
 
+<ul>
+<li><a href="https://code.visualstudio.com/docs/agent-customization/hooks" target="_blank">Configure agent hooks in Visual Studio Code (Preview)</a></li>
+<li><a href="https://code.visualstudio.com/learn/customizations/5-hooks" target="_blank">Introduction to hooks</a></li>
+<li><a href="https://docs.github.com/en/copilot/concepts/agents/hooks" target="_blank">Hooks for GitHub Copilot</a></li>
+</ul></li>
+<li>在 AI Agent 執行工作流程到不同狀態時會觸發的Shell Script，目前支援 Bash &amp; PowerShell script （類似 <a href="https://git-scm.com/book/en/v2/Customizing-Git-Git-Hooks" target="_blank">Git Hooks</a> 概念）</li>
+<li>雖然其他 Coding Agent 如 Claude Code 也有Hook，但事件觸發機制名稱不同；且 GitHub Copilot CLI 支援的 Hook 事件種類比 VSCode GH Copilot 來得多(又是另一種版本的Hook)</li>
+<li>在VSCode中，將設定檔(hook.json)以及配套呼叫的script檔案目錄等拷貝到 <strong>.github/hooks</strong> 目錄內即發揮作用</li>
+<li>User Level Hook 則根據作業系統不同而存放在不同的目錄，例如：
+<ul>
+<li>macOS / Linux: <strong>~/.copilot/hooks</strong></li>
+<li>Windows: <strong>%USERPROFILE%\.copilot\hooks</strong></li>
+<li>假如有設定環境變數 <code>COPILOT_HOME</code> ，則會使用 <strong>$COPILOT_HOME/hooks</strong> 目錄</li>
+</ul></li>
+</ul>
+</section>
+<section id="hooks-事件適用範疇" class="slide level2 scrollable">
+<h2>Hooks 事件適用範疇</h2>
+<p><a href="https://docs.github.com/en/copilot/concepts/customizations/hooks#types-of-hooks" target="_blank">GitHub Copilot CLI Hooks 種類</a></p>
+<table class="caption-top">
+<colgroup>
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>事件名稱</th>
+<th>說明</th>
+<th>觸發時機</th>
+<th>用途</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>sessionStart</code></td>
+<td>Agent Session啟動</td>
+<td>於 Session 開始時</td>
+<td>注入初始log記錄</td>
+</tr>
+<tr class="even">
+<td><code>userPromptSubmitted</code></td>
+<td>使用者送出 Prompt</td>
+<td>使用者提交 Prompt ，LLM回應前</td>
+<td>記錄使用者輸入的 Prompt</td>
+</tr>
+<tr class="odd">
+<td><code>preToolUse</code></td>
+<td>Tool 執行前</td>
+<td>Agent 要呼叫任何Tool之前</td>
+<td>審核或記錄將使用之Tool</td>
+</tr>
+<tr class="even">
+<td><code>postToolUse</code></td>
+<td>成功的 Tool 執行後</td>
+<td>Tooling 回傳成功</td>
+<td>格式化回傳結果</td>
+</tr>
+<tr class="odd">
+<td><code>errorOccurred</code></td>
+<td>Tool 執行失敗或是有其他系統錯誤</td>
+<td>Tooling 回傳失敗、拋出錯誤訊息</td>
+<td>記錄錯誤訊息，便於追蹤和偵錯</td>
+</tr>
+<tr class="even">
+<td><code>agentStop</code></td>
+<td>Agent 停止</td>
+<td>主 Agent 完成task，準備輸出回應時</td>
+<td>驗證最終結果</td>
+</tr>
+<tr class="odd">
+<td><code>subagentStop</code></td>
+<td>子 Agent 停止</td>
+<td>子 Agent 完成task<br>(多Agent情境)</td>
+<td>彙整證最終結果</td>
+</tr>
+<tr class="even">
+<td><code>sessionEnd</code></td>
+<td>Session 結束</td>
+<td>整個 Session 完全結束時</td>
+<td>記錄整個 Session 的結果、清理資源</td>
+</tr>
+</tbody>
+</table>
+<div class="callout callout-caution callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Caution</strong></p>
+</div>
+<div class="callout-content">
+<p>與<a href="https://code.visualstudio.com/learn/customizations/5-hooks#_lifecycle-events-where-hooks-run" target="_blank">目前 VSCode 中使用的 Hook 事件名稱</a> 以及 <a href="https://docs.github.com/en/copilot/reference/hooks-reference#hook-events" target="_blank">GH Cloud Agent 的 Hook 事件名稱</a> 均有稍微不同</p>
+</div>
+</div>
+</div>
+</section>
+<section id="lab6-session-logger-hook" class="slide level2 scrollable">
+<h2>Lab6: Session Logger hook</h2>
+<p>&nbsp; &nbsp;</p>
+<p><a href="https://github.com/isak-ghcopilot-workshop/SmartTaskWorkshop/blob/main/README_agent_mode.md" target="_blank">Lab6 GitHub 詳細步驟</a></p>
+<p>&nbsp;</p>
+<p>範例執行畫面：</p>
+<p><a href="./pics/vscode_hook-session_logger.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1"><img data-src="./pics/vscode_hook-session_logger.png" class="center"></a></p>
+<p>原始範例來源：<a href="https://github.com/github/awesome-copilot/tree/main/hooks/session-logger" target="_blank">https://github.com/github/awesome-copilot/tree/main/hooks/session-logger</a></p>
+</section>
+<section id="hooks-範例" class="slide level2">
+<h2>Hooks 範例</h2>
+<ul>
+<li><a href="https://github.com/github/awesome-copilot/tree/main/hooks" target="_blank">Awesome GitHub Copilot Hooks 範例</a></li>
+<li><a href="https://github.com/htekdev/agent-hooks-demo/tree/main" target="_blank">Agent Hooks Demo</a></li>
+</ul>
+</section></section>
+<section>
 <section id="mcp-介紹" class="title-slide slide level1 center">
 <h1>MCP 介紹</h1>
-
+<ul>
+<li>MCP 簡介</li>
+<li>VSCode 使用 MCP (MSLearn、GitHub、MarkItDown)</li>
+</ul>
 </section>
+<section id="mcp-簡介" class="slide level2">
+<h2>MCP 簡介</h2>
+<ul>
+<li>整合 AI Agent 各種外部工具呼叫的通訊協定(JSON-RPC) <a href="https://modelcontextprotocol.io/" target="_blank">https://modelcontextprotocol.io/</a> <a href="https://github.com/modelcontextprotocol" target="_blank">https://github.com/modelcontextprotocol</a></li>
+<li>Ver 2.0 重新定為 State-less 的通訊協定</li>
+</ul>
 
+<img data-src="./pics/mcp-simple-diagram.png" class="center r-stretch"></section>
+<section id="mcp-術語與架構" class="slide level2 scrollable">
+<h2>MCP 術語與架構</h2>
+<ul>
+<li>實務上會由 Agent Harness 框架擔任 MCP Host 的角色，讓承載的 LLM 做為 MCP Client來使用 MCP 呼叫</li>
+<li>Ver2.0的MCP Server底層實際通訊機制為本機端(stdio)以及遠端(http, streamable-http), SSE deprecated</li>
+</ul>
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><a href="./pics/MCP_arch.png" class="lightbox" data-gallery="quarto-lightbox-gallery-2" title="src: https://www.geeksforgeeks.org/artificial-intelligence/model-context-protocol-mcp/"><img data-src="./pics/MCP_arch.png" class="center" alt="src: https://www.geeksforgeeks.org/artificial-intelligence/model-context-protocol-mcp/"></a></p>
+<figcaption>src: <a href="https://www.geeksforgeeks.org/artificial-intelligence/model-context-protocol-mcp/">https://www.geeksforgeeks.org/artificial-intelligence/model-context-protocol-mcp/</a></figcaption>
+</figure>
+</div>
+</section>
+<section id="vscode-使用-mcp" class="slide level2 scrollable">
+<h2>VSCode 使用 MCP</h2>
+<ul>
+<li>在VSCode上使用MCP Server，其實就是在設定檔裡添加設定:<br>
+<a href="https://code.visualstudio.com/docs/agent-customization/mcp-servers" target="_blank">https://code.visualstudio.com/docs/agent-customization/mcp-servers</a></li>
+<li>設定檔有新舊兩種版本，檔案位置以及格式不同(建議往新版本升級）
+<ul>
+<li>Old(VSCode only): <code>.vscode/mcp.json</code></li>
+<li>New(Portable): <code>.mcp.json</code> <a href="./pics/VSCode_mcp_config_files.png" class="lightbox" data-gallery="quarto-lightbox-gallery-3"><img data-src="./pics/VSCode_mcp_config_files.png"></a></li>
+</ul></li>
+<li>使用目前VSCode的UI功能設定時，在專案中沒有舊版設定檔時，優先建立新版設定檔</li>
+<li>除了專案範圍的設定檔之外，還可以有使用者範圍的設定檔，通常位於使用者主目錄下的 <code>.mcp.json</code>，或是設定 <code>COPILOT_Home</code> 環境變數指定位置的設定檔：<a href="https://code.visualstudio.com/docs/agent-customization/mcp-servers#_choose-a-configuration-destination" target="_blank">https://code.visualstudio.com/docs/agent-customization/mcp-servers#_choose-a-configuration-destination</a></li>
+<li>除設定檔之外，stdio的類型由於是呼叫本機的命令列程式，有些需要額外的程式/套件安裝流程，詳閱該MCP Server的說明文件</li>
+<li>遠端MCP Server認證，標準上是<a href="https://modelcontextprotocol.io/docs/2026-07-28/tutorials/security/authorization" target="_blank">遵循 OAuth 2.1 協定進行認證</a></li>
+<li>較舊MCP Server則須在 MCP 設定檔填入API金鑰之類的設定</li>
+</ul>
+</section>
+<section id="vscode-使用-mcp-marketplace-安裝-mcp-server" class="slide level2 scrollable">
+<h2>VSCode 使用 MCP Marketplace 安裝 MCP Server</h2>
+<ol type="1">
+<li>快速鍵 Ctrl(Cmd)+Shift+P 搜尋 MCP: <a href="./pics/VSCode_open_mcp_server_setup01.png" class="lightbox" data-gallery="quarto-lightbox-gallery-4"><img data-src="./pics/VSCode_open_mcp_server_setup01.png" class="center"></a></li>
+<li>導引至 VSCode Agent Window 的 Agent Customization 設定頁面，選擇 MCP Servers 進行安裝與設定: <a href="./pics/VSCode_open_mcp_server_setup02.png" class="lightbox" data-gallery="quarto-lightbox-gallery-5"><img data-src="./pics/VSCode_open_mcp_server_setup02.png" class="center"></a></li>
+<li>安裝好之後，可能還需要自行至設定檔中進行額外的設定，或是安裝所需的程式/套件，詳閱該 MCP Server 的說明文件。</li>
+</ol>
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Tip</strong></p>
+</div>
+<div class="callout-content">
+<p>所有的 MCP Server 可由 <strong><code>MCP: Show Installed Servers</code></strong> 快捷命令來開啟設定介面 <a href="./pics/VSCode_list_installed_mcp_server.png" class="lightbox" data-gallery="quarto-lightbox-gallery-6"><img data-src="./pics/VSCode_list_installed_mcp_server.png" class="center"></a></p>
+</div>
+</div>
+</div>
+</section>
+<section id="vscode-使用-ms-learn-mcp-server" class="slide level2">
+<h2>VSCode 使用 MS Learn MCP Server</h2>
+<ul>
+<li><p>MS Learn MCP Server 可讓 Agent 查找 MS Learn 網站文章/範例程式碼<br>
+<a href="https://learn.microsoft.com/training/support/mcp" target="_blank">https://learn.microsoft.com/training/support/mcp</a></p></li>
+<li><p>假如先前已經隨 VSCCode 早期版本內建而安裝過，在 Agent Customization 設定頁面會額外顯示可點選進行『Migrations』超連結： <a href="./pics/VSCode_recommendae_mcp_server_migrate.png" class="lightbox" data-gallery="quarto-lightbox-gallery-7"><img data-src="./pics/VSCode_recommendae_mcp_server_migrate.png" class="center"></a></p></li>
+</ul>
+</section>
+<section id="vscode-使用-ms-learn-mcp-server-範例" class="slide level2 scrollable">
+<h2>VSCode 使用 MS Learn MCP Server 範例</h2>
+<p>在跟 AI 對話時如果有些問題 Agent 使用的LLM模型不懂，會嘗試使用 MS Learn MCP Server獲取資訊：</p>
+</section></section>
 <section id="build-mcp-server-with-.net-10" class="title-slide slide level1 center">
 <h1>Build MCP Server with .NET 10</h1>
 
@@ -688,6 +1109,38 @@
         }
       });
       </script>
+    <script>var lightboxQuarto = GLightbox({"closeEffect":"zoom","descPosition":"bottom","loop":false,"openEffect":"zoom","selector":".lightbox"});
+    (function() {
+      let previousOnload = window.onload;
+      window.onload = () => {
+        if (previousOnload) {
+          previousOnload();
+        }
+        lightboxQuarto.on('slide_before_load', (data) => {
+          const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+          const href = trigger.getAttribute('href');
+          if (href !== null) {
+            const imgEl = window.document.querySelector(`a[href="${href}"] img`);
+            if (imgEl !== null) {
+              const srcAttr = imgEl.getAttribute("src");
+              if (srcAttr && srcAttr.startsWith("data:")) {
+                slideConfig.href = srcAttr;
+              }
+            }
+          } 
+        });
+      
+        lightboxQuarto.on('slide_after_load', (data) => {
+          const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(slideNode);
+          }
+        });
+      
+      };
+      
+    })();
+              </script>
     
 
 </body></html>
