@@ -298,7 +298,7 @@ Plugin 遵循『Agent Plugins([https://agent-plugins.org/](https://agent-plugins
 ![](./pics/VSCode_list_installed_mcp_server.png){.center .lightbox}
 :::
 
-## VSCode 使用 MS Learn MCP Server
+## VSCode 設定 MS Learn MCP Server {.scrollable}
 
 * MS Learn MCP Server 可讓 Agent 查找 MS Learn 網站文章/範例程式碼  
   [https://learn.microsoft.com/training/support/mcp](https://learn.microsoft.com/training/support/mcp){target="_blank"}
@@ -306,10 +306,71 @@ Plugin 遵循『Agent Plugins([https://agent-plugins.org/](https://agent-plugins
 * 假如先前已經隨 VSCCode 早期版本內建而安裝過，在 Agent Customization 設定頁面會額外顯示可點選進行『Migrations』超連結：
 ![](./pics/VSCode_recommendae_mcp_server_migrate.png){.center .lightbox}
 
+安裝完成之後應該會有如下的 json 設定：
+
+```json
+{
+  "mcpServers": {
+    "microsoft-learn": {
+      "tools": [
+        "*"
+      ],
+      "type": "http",
+      "url": "https://learn.microsoft.com/api/mcp"
+    },
+    // 其他 MCP Server 設定
+  }
+}
+```
+
 ## VSCode 使用 MS Learn MCP Server 範例 {.scrollable}
 
 在跟 AI 對話時如果有些問題 Agent 使用的LLM模型不懂，會嘗試使用 MS Learn MCP Server獲取資訊：
 
+![](./pics/Use_MSLearn_MCP.png){.center .lightbox}
+
+也可以撈取 Sample Code：
+
+![](./pics/Use_MSLearn_MCP_find_sample_code.png){.center .lightbox}
+
+## VSCode 設定 GitHub MCP Server {.scrollable}
+
+* GitHub MCP Server 可對特定 GitHub repository做各種動作：<br/>[https://github.com/github/github-mcp-server](https://github.com/github/github-mcp-server){target="_blank"}
+* 新版的 VSCode 直接內建 GitHub MCP Server，無需額外安裝:
+  ![](./pics/VSCode_built-in_GitHub_MCP.png){.center .lightbox}
+* 也可以直接手動改設定檔，使用 OAuth 進行認證：<br/>[https://github.com/github/github-mcp-server#install-in-vs-code](https://github.com/github/github-mcp-server#install-in-vs-code){target="_blank"}
+   
+    ```json
+    {
+      "mcpServers": {
+          "github": {
+            "type": "http",
+            "url": "https://api.githubcopilot.com/mcp/",
+            "tools": [
+              "*"
+            ]
+          },
+        // 其他 MCP Server 設定
+        }
+    }
+    ```
+
+## VSCode 使用 GitHub MCP Server {.scrollable}
+
+第一次使用時會提示並引導開啟網頁做OAuth登入
+
+之後就可以直接使用，例如 git pull 再用VSCode開啟[ OpenClaw.NET 的 GitHub 專案](https://github.com/clawdotnet/openclaw.net){target="_blank"}後，直接問 AI 得知是否有哪些破壞性版本變更：  
+```text
+Use GitHub MCP Server to list what are likely have breaking changes in this repo?
+```
+   
+![](./pics/Use_GitHub_MCP.png){.center .lightbox}
+
+
+## VSCode 設定  MarkItDown MCP Server {.scrollable}
+
+* MarkItDown MCP Server: [https://github.com/mcp/microsoft/markitdown](https://github.com/mcp/microsoft/markitdown){target="_blank"} 
+* 可用來擷取PDF/docx/xlsx檔案內容並轉換為Markdown格式內容，便於後續LLM AI使用
 
 
 
