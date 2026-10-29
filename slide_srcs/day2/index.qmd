@@ -442,7 +442,8 @@ Use GitHub MCP Server to list what are likely have breaking changes in this repo
 可以再自行加上該MCP Server可用的 MCP tool 名稱，省去LLM偵測的時間
 :::
 
-### Lab10 自製雲端MCP Server (Azure Function) {.scrollable}
+
+## Lab10 自製雲端MCP Server (Azure Function) {.scrollable}
 
 * Azure Function版的串接JSONPlaceholder轉換為MCP Server
   [範例程式碼](https://github.com/dotnet-mcp-lab/CSharpMcpDemo/tree/main/MCPServer/JsonPlaceHolder/AzFunc.JsonPlaceHolderMCP){target="_blank"}
