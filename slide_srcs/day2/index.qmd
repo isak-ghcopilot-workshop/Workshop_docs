@@ -456,10 +456,11 @@ Use GitHub MCP Server to list what are likely have breaking changes in this repo
 
 ## Debug MCP Server {.scrollable}
 
-除了直接設定 VSCode Coding Agent 串MCP Server之外，也可用不消耗token的方式驗證 MCP Server：
-MCP Inspector ([https://github.com/modelcontextprotocol/inspector](https://github.com/modelcontextprotocol/inspector)){target="_blank"}
+除了直接設定 VSCode Coding Agent 串MCP Server之外，也可用不消耗token的方式驗證 MCP Server：  
+MCP Inspector ( [https://github.com/modelcontextprotocol/inspector](https://github.com/modelcontextprotocol/inspector)){target="_blank"})
 需安裝Node.js v22以上版本
-POSTMan App ([https://www.postman.com/downloads/](https://www.postman.com/downloads/)){target="_blank"}
+
+POSTMan App ([https://www.postman.com/downloads/](https://www.postman.com/downloads/){target="_blank"})
 
 以下示範使用 MCP Inspector 接 ASP.NET Core 的 MCP Server
 使用命令列啟動網頁UI
