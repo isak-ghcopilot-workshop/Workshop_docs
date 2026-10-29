@@ -472,6 +472,11 @@ npx @modelcontextprotocol/inspector
 
 ![](./pics/mcp_inspector_start.png){.center .lightbox}
 
+添加自己的 MCP Server:
+
+![](./pics/mcp_inspector_config_01.png){.center .lightbox}
+
+完成設定後，MCP Inspector 就可以呼叫你所添加的 MCP Server 了
 
 # Custom Agent + Skills + MCP
 
