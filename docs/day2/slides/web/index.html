@@ -36,6 +36,72 @@
       margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
       vertical-align: middle;
     }
+    /* CSS for syntax highlighting */
+    html { -webkit-text-size-adjust: 100%; }
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      { color: #003b4f; background-color: #f1f3f5; }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span { color: #003b4f; } /* Normal */
+    code span.al { color: #ad0000; } /* Alert */
+    code span.an { color: #5e5e5e; } /* Annotation */
+    code span.at { color: #657422; } /* Attribute */
+    code span.bn { color: #ad0000; } /* BaseN */
+    code span.bu { } /* BuiltIn */
+    code span.cf { color: #003b4f; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #20794d; } /* Char */
+    code span.cn { color: #8f5902; } /* Constant */
+    code span.co { color: #5e5e5e; } /* Comment */
+    code span.cv { color: #5e5e5e; font-style: italic; } /* CommentVar */
+    code span.do { color: #5e5e5e; font-style: italic; } /* Documentation */
+    code span.dt { color: #ad0000; } /* DataType */
+    code span.dv { color: #ad0000; } /* DecVal */
+    code span.er { color: #ad0000; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #ad0000; } /* Float */
+    code span.fu { color: #4758ab; } /* Function */
+    code span.im { color: #00769e; } /* Import */
+    code span.in { color: #5e5e5e; } /* Information */
+    code span.kw { color: #003b4f; font-weight: bold; } /* Keyword */
+    code span.op { color: #5e5e5e; } /* Operator */
+    code span.ot { color: #003b4f; } /* Other */
+    code span.pp { color: #ad0000; } /* Preprocessor */
+    code span.sc { color: #5e5e5e; } /* SpecialChar */
+    code span.ss { color: #20794d; } /* SpecialString */
+    code span.st { color: #20794d; } /* String */
+    code span.va { color: #111111; } /* Variable */
+    code span.vs { color: #20794d; } /* VerbatimString */
+    code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   </style>
   <link rel="stylesheet" href="index_files/libs/revealjs/dist/theme/quarto-0427d8d92a431aa6a6430e53ec02a470.css">
   <link href="index_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
@@ -587,17 +653,67 @@ Hooks 允許使用者在特定事件發生時，執行自訂的程式碼或行�
 </div>
 </div>
 </section>
-<section id="vscode-使用-ms-learn-mcp-server" class="slide level2">
-<h2>VSCode 使用 MS Learn MCP Server</h2>
+<section id="vscode-設定-ms-learn-mcp-server" class="slide level2 scrollable">
+<h2>VSCode 設定 MS Learn MCP Server</h2>
 <ul>
 <li><p>MS Learn MCP Server 可讓 Agent 查找 MS Learn 網站文章/範例程式碼<br>
 <a href="https://learn.microsoft.com/training/support/mcp" target="_blank">https://learn.microsoft.com/training/support/mcp</a></p></li>
 <li><p>假如先前已經隨 VSCCode 早期版本內建而安裝過，在 Agent Customization 設定頁面會額外顯示可點選進行『Migrations』超連結： <a href="./pics/VSCode_recommendae_mcp_server_migrate.png" class="lightbox" data-gallery="quarto-lightbox-gallery-7"><img data-src="./pics/VSCode_recommendae_mcp_server_migrate.png" class="center"></a></p></li>
 </ul>
+<p>安裝完成之後應該會有如下的 json 設定：</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode numberSource json number-lines code-with-copy"><code class="sourceCode json"><span id="cb5-1"><a href="" aria-label="1"></a><span class="fu">{</span></span>
+<span id="cb5-2"><a href="" aria-label="2"></a>  <span class="dt">"mcpServers"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb5-3"><a href="" aria-label="3"></a>    <span class="dt">"microsoft-learn"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb5-4"><a href="" aria-label="4"></a>      <span class="dt">"tools"</span><span class="fu">:</span> <span class="ot">[</span></span>
+<span id="cb5-5"><a href="" aria-label="5"></a>        <span class="st">"*"</span></span>
+<span id="cb5-6"><a href="" aria-label="6"></a>      <span class="ot">]</span><span class="fu">,</span></span>
+<span id="cb5-7"><a href="" aria-label="7"></a>      <span class="dt">"type"</span><span class="fu">:</span> <span class="st">"http"</span><span class="fu">,</span></span>
+<span id="cb5-8"><a href="" aria-label="8"></a>      <span class="dt">"url"</span><span class="fu">:</span> <span class="st">"https://learn.microsoft.com/api/mcp"</span></span>
+<span id="cb5-9"><a href="" aria-label="9"></a>    <span class="fu">},</span></span>
+<span id="cb5-10"><a href="" aria-label="10"></a>    <span class="er">//</span> <span class="er">其他</span> <span class="er">MCP</span> <span class="er">Server</span> <span class="er">設定</span></span>
+<span id="cb5-11"><a href="" aria-label="11"></a>  <span class="fu">}</span></span>
+<span id="cb5-12"><a href="" aria-label="12"></a><span class="fu">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
 <section id="vscode-使用-ms-learn-mcp-server-範例" class="slide level2 scrollable">
 <h2>VSCode 使用 MS Learn MCP Server 範例</h2>
 <p>在跟 AI 對話時如果有些問題 Agent 使用的LLM模型不懂，會嘗試使用 MS Learn MCP Server獲取資訊：</p>
+<p><a href="./pics/Use_MSLearn_MCP.png" class="lightbox" data-gallery="quarto-lightbox-gallery-8"><img data-src="./pics/Use_MSLearn_MCP.png" class="center"></a></p>
+<p>也可以撈取 Sample Code：</p>
+<p><a href="./pics/Use_MSLearn_MCP_find_sample_code.png" class="lightbox" data-gallery="quarto-lightbox-gallery-9"><img data-src="./pics/Use_MSLearn_MCP_find_sample_code.png" class="center"></a></p>
+</section>
+<section id="vscode-設定-github-mcp-server" class="slide level2 scrollable">
+<h2>VSCode 設定 GitHub MCP Server</h2>
+<ul>
+<li><p>GitHub MCP Server 可對特定 GitHub repository做各種動作：<br><a href="https://github.com/github/github-mcp-server" target="_blank">https://github.com/github/github-mcp-server</a></p></li>
+<li><p>新版的 VSCode 直接內建 GitHub MCP Server，無需額外安裝: <a href="./pics/VSCode_built-in_GitHub_MCP.png" class="lightbox" data-gallery="quarto-lightbox-gallery-10"><img data-src="./pics/VSCode_built-in_GitHub_MCP.png" class="center"></a></p></li>
+<li><p>也可以直接手動改設定檔，使用 OAuth 進行認證：<br><a href="https://github.com/github/github-mcp-server#install-in-vs-code" target="_blank">https://github.com/github/github-mcp-server#install-in-vs-code</a></p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode numberSource json number-lines code-with-copy"><code class="sourceCode json"><span id="cb6-1"><a href="" aria-label="1"></a><span class="fu">{</span></span>
+<span id="cb6-2"><a href="" aria-label="2"></a>  <span class="dt">"mcpServers"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb6-3"><a href="" aria-label="3"></a>      <span class="dt">"github"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb6-4"><a href="" aria-label="4"></a>        <span class="dt">"type"</span><span class="fu">:</span> <span class="st">"http"</span><span class="fu">,</span></span>
+<span id="cb6-5"><a href="" aria-label="5"></a>        <span class="dt">"url"</span><span class="fu">:</span> <span class="st">"https://api.githubcopilot.com/mcp/"</span><span class="fu">,</span></span>
+<span id="cb6-6"><a href="" aria-label="6"></a>        <span class="dt">"tools"</span><span class="fu">:</span> <span class="ot">[</span></span>
+<span id="cb6-7"><a href="" aria-label="7"></a>          <span class="st">"*"</span></span>
+<span id="cb6-8"><a href="" aria-label="8"></a>        <span class="ot">]</span></span>
+<span id="cb6-9"><a href="" aria-label="9"></a>      <span class="fu">},</span></span>
+<span id="cb6-10"><a href="" aria-label="10"></a>    <span class="er">//</span> <span class="er">其他</span> <span class="er">MCP</span> <span class="er">Server</span> <span class="er">設定</span></span>
+<span id="cb6-11"><a href="" aria-label="11"></a>    <span class="fu">}</span></span>
+<span id="cb6-12"><a href="" aria-label="12"></a><span class="fu">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div></li>
+</ul>
+</section>
+<section id="vscode-使用-github-mcp-server" class="slide level2 scrollable">
+<h2>VSCode 使用 GitHub MCP Server</h2>
+<p>第一次使用時會提示並引導開啟網頁做OAuth登入</p>
+<p>之後就可以直接使用，例如 git pull 再用VSCode開啟<a href="https://github.com/clawdotnet/openclaw.net" target="_blank">OpenClaw.NET 的 GitHub 專案</a>後，直接問 AI 得知是否有哪些破壞性版本變更：</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode numberSource text number-lines code-with-copy"><code class="sourceCode"><span id="cb7-1"><a href="" aria-label="1"></a>Use GitHub MCP Server to list what are likely have breaking changes in this repo?</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><a href="./pics/Use_GitHub_MCP.png" class="lightbox" data-gallery="quarto-lightbox-gallery-11"><img data-src="./pics/Use_GitHub_MCP.png" class="center"></a></p>
+</section>
+<section id="vscode-設定-markitdown-mcp-server" class="slide level2 scrollable">
+<h2>VSCode 設定 MarkItDown MCP Server</h2>
+<ul>
+<li>MarkItDown MCP Server: <a href="https://github.com/mcp/microsoft/markitdown" target="_blank">https://github.com/mcp/microsoft/markitdown</a></li>
+<li>可用來擷取PDF/docx/xlsx檔案內容並轉換為Markdown格式內容，便於後續LLM AI使用</li>
+</ul>
 </section></section>
 <section id="build-mcp-server-with-.net-10" class="title-slide slide level1 center">
 <h1>Build MCP Server with .NET 10</h1>
