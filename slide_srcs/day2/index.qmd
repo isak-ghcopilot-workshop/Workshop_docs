@@ -445,10 +445,8 @@ Use GitHub MCP Server to list what are likely have breaking changes in this repo
 
 ## Lab10 自製雲端MCP Server (Azure Function) {.scrollable}
 
-* Azure Function版的串接JSONPlaceholder轉換為MCP Server
-  [範例程式碼](https://github.com/dotnet-mcp-lab/CSharpMcpDemo/tree/main/MCPServer/JsonPlaceHolder/AzFunc.JsonPlaceHolderMCP){target="_blank"}
-* 使用 Azure Function SDK 的 MCPToolTrigger實作MCP endpoint:
-  [教學文件](https://learn.microsoft.com/azure/azure-functions/functions-bindings-mcp-tool-trigger?pivots=programming-language-csharp){target="_blank"}
+* Azure Function版的串接JSONPlaceholder轉換為MCP Server<br/>[範例程式碼](https://github.com/dotnet-mcp-lab/CSharpMcpDemo/tree/main/MCPServer/JsonPlaceHolder/AzFunc.JsonPlaceHolderMCP){target="_blank"}
+* 使用 Azure Function SDK 的 MCPToolTrigger實作MCP endpoint:<br/>[教學文件](https://learn.microsoft.com/azure/azure-functions/functions-bindings-mcp-tool-trigger?pivots=programming-language-csharp){target="_blank"}
 * Azure Function啟動後會有對應的 Tool Trigger 可供LLM AI呼叫
 
 在 VSCode 內執行起來會列出可呼叫的 MCP Tool Trigger 列表
