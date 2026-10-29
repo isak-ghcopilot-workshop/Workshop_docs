@@ -788,12 +788,22 @@ Hooks 允許使用者在特定事件發生時，執行自訂的程式碼或行�
 </div>
 </div>
 </div>
+<h3 class="scrollable" id="lab10-自製雲端mcp-server-azure-function">Lab10 自製雲端MCP Server (Azure Function)</h3>
+<ul>
+<li>Azure Function版的串接JSONPlaceholder轉換為MCP Server <a href="https://github.com/dotnet-mcp-lab/CSharpMcpDemo/tree/main/MCPServer/JsonPlaceHolder/AzFunc.JsonPlaceHolderMCP" target="_blank">範例程式碼</a></li>
+<li>使用 Azure Function SDK 的 MCPToolTrigger實作MCP endpoint: <a href="https://learn.microsoft.com/azure/azure-functions/functions-bindings-mcp-tool-trigger?pivots=programming-language-csharp" target="_blank">教學文件</a></li>
+<li>Azure Function啟動後會有對應的 Tool Trigger 可供LLM AI呼叫</li>
+</ul>
+<p>在 VSCode 內執行起來會列出可呼叫的 MCP Tool Trigger 列表</p>
+<p><a href="./pics/Azure_MCP_Server_Tool_Trigger.png" class="lightbox" data-gallery="quarto-lightbox-gallery-18"><img data-src="./pics/Azure_MCP_Server_Tool_Trigger.png" class="center"></a></p>
 </section>
 <section id="debug-mcp-server" class="slide level2 scrollable">
 <h2>Debug MCP Server</h2>
 <p>除了直接設定 VSCode Coding Agent 串MCP Server之外，也可用不消耗token的方式驗證 MCP Server： MCP Inspector (<a href="https://github.com/modelcontextprotocol/inspector">https://github.com/modelcontextprotocol/inspector</a>){target=“_blank”} 需安裝Node.js v22以上版本 POSTMan App (<a href="https://www.postman.com/downloads/">https://www.postman.com/downloads/</a>){target=“_blank”}</p>
 <p>以下示範使用 MCP Inspector 接 ASP.NET Core 的 MCP Server 使用命令列啟動網頁UI</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode numberSource sh number-lines code-with-copy"><code class="sourceCode bash"><span id="cb9-1"><a href="" aria-label="1"></a><span class="ex">npx</span> @modelcontextprotocol/inspector</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>啟動後會在瀏覽器中開啟 MCP Inspector 的網頁介面，並列出可呼叫的 MCP Tool 列表</p>
+<p><a href="./pics/mcp_inspector_start.png" class="lightbox" data-gallery="quarto-lightbox-gallery-19"><img data-src="./pics/mcp_inspector_start.png" class="center"></a></p>
 </section></section>
 <section id="custom-agent-skills-mcp" class="title-slide slide level1 center">
 <h1>Custom Agent + Skills + MCP</h1>
