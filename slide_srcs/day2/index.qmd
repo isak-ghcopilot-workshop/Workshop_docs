@@ -232,12 +232,13 @@ Plugin 遵循『Agent Plugins([https://agent-plugins.org/](https://agent-plugins
 
 ## Lab6: Session Logger hook {.scrollable}
 
-&nbsp;
-&nbsp;
+&nbsp;\ 
+&nbsp;\ 
 
 [Lab6 GitHub 詳細步驟](https://github.com/isak-ghcopilot-workshop/SmartTaskWorkshop/blob/main/README_agent_mode.md){target="_blank"}
 
-&nbsp;
+&nbsp;\ 
+&nbsp;\ 
  
 範例執行畫面：
 
@@ -371,10 +372,87 @@ Use GitHub MCP Server to list what are likely have breaking changes in this repo
 
 * MarkItDown MCP Server: [https://github.com/mcp/microsoft/markitdown](https://github.com/mcp/microsoft/markitdown){target="_blank"} 
 * 可用來擷取PDF/docx/xlsx檔案內容並轉換為Markdown格式內容，便於後續LLM AI使用
+* 這是 stdio 模式的 MCP Server，建議設定前先安裝 uv 命令列之後，再由 uv 安裝 markitdown-mcp 全域命令列
+   
+   ```sh
+   uv tool install markitdown-mcp@latest
+   ```
 
+   ![](./pics/uv_install_markitdown_mcp.png){.center .lightbox}
+
+## Lab7: VSCode 使用 MarkItDown MCP Server {.scrollable}
+
+&nbsp;\ 
+
+[Lab7 GitHub 詳細步驟](https://github.com/dotnet-mcp-lab/demo-using-mcp/blob/main/README_markitdown.md){target="_blank"}
+
+&nbsp;\ 
+
+範例執行畫面：
+
+![](./pics/Use_Markitdown_MCP.png){.center .lightbox}
 
 
 # Build MCP Server with .NET 10
+
+## 自製地端MCP Server {.scrollable}
+
+* MCP C# SDK 最主要是提供了MCP endpoint的 C# Attribute，套用在 C#類別 & 方法程式碼上
+* 在 C#方法上Attribute 的Description敘述為 LLM 查找/使用此方法的依據，需確實完善填寫，避免語意模糊或多個方法相似
+* 在 C#類別的Attribute為便於 hosting程式碼註冊MCP端點使用，如果是手動註冊該C#類別為MCP端點，就可不必套用該Attribute
+
+
+## Lab8 自製地端MCP Server {.scrollable}
+
+使用 MCP C# SDK 建立命令列程式然後設定為地端 MCP Server
+
+* 先建立一個新的 .NET 10 命令列專案
+* 安裝 MCP C# SDK 套件
+* 實作 MCP Server 的邏輯
+* 在 VSCode 設定中加入此地端 MCP Server 的資訊
+
+1. 溫度轉換範例程式：<br/>[https://github.com/dotnet-mcp-lab/CSharpMcpDemo/tree/main/MCPServer/TemperatureConvert](https://github.com/dotnet-mcp-lab/CSharpMcpDemo/tree/main/MCPServer/TemperatureConvert){target="_blank"}
+2. 使用 .NET SDK 編譯成單一命令列程式之後，複製到 demo-using-mcp 專案內使用：<br/>[https://github.com/dotnet-mcp-lab/demo-using-mcp](https://github.com/dotnet-mcp-lab/demo-using-mcp){target="_blank"}
+
+![](./pics/LLM_use_example_MCP.png){.center .lightbox}
+
+在使用此 MCP Server 時，可能會碰到某些太簡單的換算情況，LLM AI會直接背答案回應
+
+![](./pics/LLM_think_tool_no_use.png){.center .lightbox}
+
+## Lab9 自製雲端MCP Server (ASP.NET Core) {.scrollable}
+
+* 示範如何串接現有的REST API (JSONPlaceholder)轉換為MCP Server
+  [範例程式碼](https://github.com/dotnet-mcp-lab/CSharpMcpDemo/tree/main/MCPServer/JsonPlaceHolder/JsonPlaceHolderApiToMCP){target="_blank"}
+* 為 ASP.NET Core minimal API 專案裝 ModelContextProtocol.AspNetCore 這個 MCP SDK Nuget 套件：
+  [Nuget 套件](https://www.nuget.org/packages/ModelContextProtocol.AspNetCore/){target="_blank"}
+
+![JSONPlaceholder 網站](./pics/JSONPlaceholder_website.png){.center .lightbox}
+
+* 程式碼就是在 MCP endpoint方法內使用httpclient呼叫JSONPlaceholder網站的 REST API
+* MCP endpoint方法輸入參數也可使用 [Description] 這Attribute來增加metadata敘述，以便讓取用的LLM AI知道該參數用途/值範圍
+
+* 在VSCode內要使用前，先將專案跑起來之後，加上 MCP 設定檔的設定
+
+![](./pics/VSCode_MCP_set_tools_methods.png){.center .lightbox}
+
+:::{.callout-tip}
+可以再自行加上該MCP Server可用的 MCP tool 名稱，省去LLM偵測的時間
+:::
+
+## Debug MCP Server {.scrollable}
+
+除了直接設定 VSCode Coding Agent 串MCP Server之外，也可用不消耗token的方式驗證 MCP Server：
+MCP Inspector ([https://github.com/modelcontextprotocol/inspector](https://github.com/modelcontextprotocol/inspector)){target="_blank"}
+需安裝Node.js v22以上版本
+POSTMan App ([https://www.postman.com/downloads/](https://www.postman.com/downloads/)){target="_blank"}
+
+以下示範使用 MCP Inspector 接 ASP.NET Core 的 MCP Server
+使用命令列啟動網頁UI
+
+```sh
+npx @modelcontextprotocol/inspector
+```
 
 # Custom Agent + Skills + MCP
 
