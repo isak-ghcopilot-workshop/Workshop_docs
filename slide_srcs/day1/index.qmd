@@ -349,8 +349,11 @@ GitHu Copilot Agent Mode 可將 AI 代理的執行範圍超脫到 Visual Studio 
 
 ## Agent 執行流程
 
-&nbsp;
-&nbsp;
+&nbsp;\
+&nbsp;\
+[The agent loop](https://code.visualstudio.com/blogs/2026/05/15/agent-harnesses-github-copilot-vscode#_the-agent-loop){target="_blank"} 
+&nbsp;\
+&nbsp;\
 
 ```
 Analyze Project  
@@ -430,7 +433,7 @@ Agent Skill 的結構通常包含以下幾個部分：
 - References：列出與 Skill 相關的參考資料或文件。
 - Constraints：限制條件，確保 AI 在執行任務時遵循特定規則。
 
-在 GH Copilot 將放在 .github/skills/ 目錄下，每個 Skill 對應一個子目錄，內含 Skill 的定義檔案。
+GH Copilot 將放在 .github/skills/ 目錄下，每個 Skill 對應一個自行命名子目錄，內含 SKILL.md 定義markdown檔案的目錄結構，視為一個 Agent Skill。
 
 ```
 .github/skills/
@@ -458,7 +461,7 @@ Agent Skill 的結構通常包含以下幾個部分：
 ## GitHub Copilot Chat 中使用 Agent Skill
 
 除了隱含式的在 Prompt 中讓代理自己去理解到應該使用特定 Skill 外，\
-GitHub Copilot Chat 也提供 slash command (**/skills**) 來明確指定LLM要去讀哪個 Agent Skill來使用。
+GitHub Copilot Chat 也提供 slash command (**/skill名稱**) 來明確指定LLM要去讀哪個 Agent Skill來使用。
 
 官方說明：\
 [https://code.visualstudio.com/docs/agent-customization/agent-skills#_use-skills-as-slash-commands](https://code.visualstudio.com/docs/agent-customization/agent-skills#_use-skills-as-slash-commands){target="_blank"}
