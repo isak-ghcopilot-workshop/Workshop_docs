@@ -165,6 +165,8 @@ Hooks 允許使用者在特定事件發生時，執行自訂的程式碼或行�
 切莫和公訂標準『AGENTS.md ([https://agents.md/](https://agents.md/){target="_blank"})』混淆，這是類似 Custom instructions ：\
 [AGENTS.md and GitHub Copilot: How Copilot Reads It, What It Ignores, and How to Make It Work](https://thepromptshelf.dev/blog/agents-md-github-copilot-integration-2026/){target="_blank"}
 
+[Custom Agent 範例](https://github.com/dotnet-mcp-lab/DotNetPrjSkillDemo/blob/main/README_custom_agent.md){target="_blank"}
+
 ## Plugins
 
 [https://docs.github.com/en/copilot/concepts/customizations/plugins](https://docs.github.com/en/copilot/concepts/customizations/plugins){target="_blank"}\
@@ -197,7 +199,7 @@ Plugin 遵循『Agent Plugins([https://agent-plugins.org/](https://agent-plugins
 
 # Agent Hooks
 
-## Hooks
+## Hooks {.scrollable}
 
 * 官方說明：\
   - [Configure agent hooks in Visual Studio Code (Preview)](https://code.visualstudio.com/docs/agent-customization/hooks){target="_blank"}
@@ -235,7 +237,7 @@ Plugin 遵循『Agent Plugins([https://agent-plugins.org/](https://agent-plugins
 &nbsp;\ 
 &nbsp;\ 
 
-[Lab6 GitHub 詳細步驟](https://github.com/isak-ghcopilot-workshop/SmartTaskWorkshop/blob/main/README_agent_mode.md){target="_blank"}
+[Lab6 GitHub 詳細步驟](){target="_blank"}
 
 &nbsp;\ 
 &nbsp;\ 
@@ -453,6 +455,8 @@ POSTMan App ([https://www.postman.com/downloads/](https://www.postman.com/downlo
 ```sh
 npx @modelcontextprotocol/inspector
 ```
+
+
 
 # Custom Agent + Skills + MCP
 
