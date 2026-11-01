@@ -267,6 +267,9 @@ Plugin 遵循『Agent Plugins([https://agent-plugins.org/](https://agent-plugins
 
 ![](./pics/mcp-simple-diagram.png){.center}
 
+* MCP讓LLM突破原本只有查詢/回覆文字輸出的限制，開始做事
+* MCP Server藉由串接既有REST API，讓AI Agent跟既有系統互動
+
 ## MCP 術語與架構 {.scrollable}
 
 * 實務上會由 Agent Harness 框架擔任 MCP Host 的角色，讓承載的 LLM 做為 MCP Client來使用 MCP 呼叫
@@ -474,10 +477,116 @@ npx @modelcontextprotocol/inspector
 
 添加自己的 MCP Server:
 
-![](./pics/mcp_inspector_config_01.png){.center .lightbox}
+![](./pics/mcp_inspector_config_01.png){.lightbox}
 
-完成設定後，MCP Inspector 就可以呼叫你所添加的 MCP Server 了
+![](./pics/mcp_inspector_config_02.png){.lightbox}
+
+![](./pics/mcp_inspector_config_done.png){.lightbox}
+
+完成設定後，MCP Inspector 就可以在 Tools 分頁呼叫你所添加的 MCP Server 了
+
+使用 stdio 模式的 MCP Server 也可以透過 MCP Inspector 進行測試與呼叫，設定的介面如下所示：
+
+![](./pics/mcp_inspector_config_stdio.png){.lightbox}
 
 # Custom Agent + Skills + MCP
+
+## 結合 Skills + MCP 製作客製化 Agent
+
+介紹 MCP 這個可以和外部工具溝通的媒介之後，我們可以將 Skills 與 MCP 結合，製作出更強大的客製化 Agent，讓 AI 能夠不僅查詢資訊，還能執行各種操作。
+
+以下是結合 Skills 與 MCP 的客製化 .NET Backend Developer Agent 架構示意圖：
+
+```
+.NET Backend Developer Agent
+          │
+          ├── Custom Agent(Coding Instructions)
+          ├── API Development Skill
+          ├── Testing Skill
+          ├── Architecture MCP
+          └── Quality Hooks
+```
+
+## .NET Backend Developer Agent 實際結構
+
+.NET Backend Developer Agent 在原始碼專案中會有以下的結構：
+
+
+```{.text code-line-numbers="true"}
+.github/
+│
+├── agents/
+│   └── dotnet-backend-developer.agent.md
+│
+├── skills/
+│   ├── dotnet-api-development/
+│   │   └── SKILL.md
+│   │
+│   ├── efcore-data-access/
+│   │   └── SKILL.md
+│   │
+│   ├── dotnet-testing/
+│   │   └── SKILL.md
+│   │
+│   ├── dotnet-security-review/
+│   │   └── SKILL.md
+│   │
+│   └── dotnet-code-review/
+│       └── SKILL.md
+│
+└── hooks/
+    ├── dotnet-quality.json
+    └── dotnet-security.json
+
+scripts/
+├── dotnet-quality-check.sh
+├── dotnet-quality-check.ps1
+├── security-check.sh
+└── security-check.ps1
+```
+
+`dotnet-backend-developer.agent.md` 為 Custom Agent 的設定檔，定義了 Agent 的行為與使用的 Skills。
+
+`skills/` 目錄下的每個子目錄對應一個 Skill，每個 Skill 內都有一個 `SKILL.md` 文件，定義了該 Skill 的行為與使用方式。
+
+`hooks/` 目錄下的 JSON 檔案定義了各種 Hook 的設定，例如程式碼品質檢查與安全檢查，裡面設定的腳本路徑指向 `scripts/` 目錄下的 Bash 與 PowerShell 腳本，這些腳本則實作了對應的檢查邏輯。
+
+## .NET Backend Developer Agent 運作流程 {.scrollable}
+
+實際使用時，運作流程如下：
+
+```{=html}
+<pre>
+User
+ │
+ │ prompt "Implement Order API"
+ ▼
+.NET Backend Developer Agent
+ │
+ ├─► API Development Skill
+ │
+ ├─► EF Core Skill
+ │
+ ├─► Testing Skill
+ │
+ ▼
+Modify Code
+ │
+ ▼
+Hooks
+ ├─► Format
+ ├─► Build
+ ├─► Test
+ └─► Security Check
+ │
+ ▼
+Review
+ │
+ └─► Code Review Skill
+ │
+ ▼
+Done
+</pre>
+```
 
 # Build Custom Agent Plugin
