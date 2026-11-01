@@ -6,11 +6,11 @@
 <script src="index_files/libs/quarto-html/tippy.umd.min.js"></script>
 <link href="index_files/libs/quarto-html/tippy.css" rel="stylesheet">
 <link href="index_files/libs/quarto-html/light-border.css" rel="stylesheet">
-<link href="index_files/libs/quarto-html/quarto-syntax-highlighting-bf27225e3a48a9273f3daa8f8e829971.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="index_files/libs/quarto-html/quarto-syntax-highlighting-17888a1159294d3eb470f19f6f52f5a5.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="index_files/libs/quarto-contrib/glightbox/glightbox.min.js"></script>
 <link href="index_files/libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
 <link href="index_files/libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet"><meta charset="utf-8">
-  <meta name="generator" content="quarto-1.10.19">
+  <meta name="generator" content="quarto-1.10.20">
 
   <title>GitHub Copilot Workshop Day2</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -602,7 +602,11 @@ Hooks 允許使用者在特定事件發生時，執行自訂的程式碼或行�
 <li>Ver 2.0 重新定為 State-less 的通訊協定</li>
 </ul>
 
-<img data-src="./pics/mcp-simple-diagram.png" class="center r-stretch"></section>
+<img data-src="./pics/mcp-simple-diagram.png" class="center r-stretch"><ul>
+<li>MCP讓LLM突破原本只有查詢/回覆文字輸出的限制，開始做事</li>
+<li>MCP Server藉由串接既有REST API，讓AI Agent跟既有系統互動</li>
+</ul>
+</section>
 <section id="mcp-術語與架構" class="slide level2 scrollable">
 <h2>MCP 術語與架構</h2>
 <ul>
@@ -811,14 +815,101 @@ Hooks 允許使用者在特定事件發生時，執行自訂的程式碼或行�
 <p>啟動後會在瀏覽器中開啟 MCP Inspector 的網頁介面，並列出可呼叫的 MCP Tool 列表</p>
 <p><a href="./pics/mcp_inspector_start.png" class="lightbox" data-gallery="quarto-lightbox-gallery-19"><img data-src="./pics/mcp_inspector_start.png" class="center"></a></p>
 <p>添加自己的 MCP Server:</p>
-<p><a href="./pics/mcp_inspector_config_01.png" class="lightbox" data-gallery="quarto-lightbox-gallery-20"><img data-src="./pics/mcp_inspector_config_01.png" class="center"></a></p>
-<p>完成設定後，MCP Inspector 就可以呼叫你所添加的 MCP Server 了</p>
+<p><a href="./pics/mcp_inspector_config_01.png" class="lightbox" data-gallery="quarto-lightbox-gallery-20"><img data-src="./pics/mcp_inspector_config_01.png"></a></p>
+<p><a href="./pics/mcp_inspector_config_02.png" class="lightbox" data-gallery="quarto-lightbox-gallery-21"><img data-src="./pics/mcp_inspector_config_02.png"></a></p>
+<p><a href="./pics/mcp_inspector_config_done.png" class="lightbox" data-gallery="quarto-lightbox-gallery-22"><img data-src="./pics/mcp_inspector_config_done.png"></a></p>
+<p>完成設定後，MCP Inspector 就可以在 Tools 分頁呼叫你所添加的 MCP Server 了</p>
+<p>使用 stdio 模式的 MCP Server 也可以透過 MCP Inspector 進行測試與呼叫，設定的介面如下所示：</p>
+<p><a href="./pics/mcp_inspector_config_stdio.png" class="lightbox" data-gallery="quarto-lightbox-gallery-23"><img data-src="./pics/mcp_inspector_config_stdio.png"></a></p>
 </section></section>
+<section>
 <section id="custom-agent-skills-mcp" class="title-slide slide level1 center">
 <h1>Custom Agent + Skills + MCP</h1>
 
 </section>
-
+<section id="結合-skills-mcp-製作客製化-agent" class="slide level2">
+<h2>結合 Skills + MCP 製作客製化 Agent</h2>
+<p>介紹 MCP 這個可以和外部工具溝通的媒介之後，我們可以將 Skills 與 MCP 結合，製作出更強大的客製化 Agent，讓 AI 能夠不僅查詢資訊，還能執行各種操作。</p>
+<p>以下是結合 Skills 與 MCP 的客製化 .NET Backend Developer Agent 架構示意圖：</p>
+<pre><code>.NET Backend Developer Agent
+          │
+          ├── Custom Agent(Coding Instructions)
+          ├── API Development Skill
+          ├── Testing Skill
+          ├── Architecture MCP
+          └── Quality Hooks</code></pre>
+</section>
+<section id="net-backend-developer-agent-實際結構" class="slide level2">
+<h2>.NET Backend Developer Agent 實際結構</h2>
+<p>.NET Backend Developer Agent 在原始碼專案中會有以下的結構：</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode numberSource text number-lines code-with-copy"><code class="sourceCode"><span id="cb11-1"><a href="" aria-label="1"></a>.github/</span>
+<span id="cb11-2"><a href="" aria-label="2"></a>│</span>
+<span id="cb11-3"><a href="" aria-label="3"></a>├── agents/</span>
+<span id="cb11-4"><a href="" aria-label="4"></a>│   └── dotnet-backend-developer.agent.md</span>
+<span id="cb11-5"><a href="" aria-label="5"></a>│</span>
+<span id="cb11-6"><a href="" aria-label="6"></a>├── skills/</span>
+<span id="cb11-7"><a href="" aria-label="7"></a>│   ├── dotnet-api-development/</span>
+<span id="cb11-8"><a href="" aria-label="8"></a>│   │   └── SKILL.md</span>
+<span id="cb11-9"><a href="" aria-label="9"></a>│   │</span>
+<span id="cb11-10"><a href="" aria-label="10"></a>│   ├── efcore-data-access/</span>
+<span id="cb11-11"><a href="" aria-label="11"></a>│   │   └── SKILL.md</span>
+<span id="cb11-12"><a href="" aria-label="12"></a>│   │</span>
+<span id="cb11-13"><a href="" aria-label="13"></a>│   ├── dotnet-testing/</span>
+<span id="cb11-14"><a href="" aria-label="14"></a>│   │   └── SKILL.md</span>
+<span id="cb11-15"><a href="" aria-label="15"></a>│   │</span>
+<span id="cb11-16"><a href="" aria-label="16"></a>│   ├── dotnet-security-review/</span>
+<span id="cb11-17"><a href="" aria-label="17"></a>│   │   └── SKILL.md</span>
+<span id="cb11-18"><a href="" aria-label="18"></a>│   │</span>
+<span id="cb11-19"><a href="" aria-label="19"></a>│   └── dotnet-code-review/</span>
+<span id="cb11-20"><a href="" aria-label="20"></a>│       └── SKILL.md</span>
+<span id="cb11-21"><a href="" aria-label="21"></a>│</span>
+<span id="cb11-22"><a href="" aria-label="22"></a>└── hooks/</span>
+<span id="cb11-23"><a href="" aria-label="23"></a>    ├── dotnet-quality.json</span>
+<span id="cb11-24"><a href="" aria-label="24"></a>    └── dotnet-security.json</span>
+<span id="cb11-25"><a href="" aria-label="25"></a></span>
+<span id="cb11-26"><a href="" aria-label="26"></a>scripts/</span>
+<span id="cb11-27"><a href="" aria-label="27"></a>├── dotnet-quality-check.sh</span>
+<span id="cb11-28"><a href="" aria-label="28"></a>├── dotnet-quality-check.ps1</span>
+<span id="cb11-29"><a href="" aria-label="29"></a>├── security-check.sh</span>
+<span id="cb11-30"><a href="" aria-label="30"></a>└── security-check.ps1</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><code>dotnet-backend-developer.agent.md</code> 為 Custom Agent 的設定檔，定義了 Agent 的行為與使用的 Skills。</p>
+<p><code>skills/</code> 目錄下的每個子目錄對應一個 Skill，每個 Skill 內都有一個 <code>SKILL.md</code> 文件，定義了該 Skill 的行為與使用方式。</p>
+<p><code>hooks/</code> 目錄下的 JSON 檔案定義了各種 Hook 的設定，例如程式碼品質檢查與安全檢查，裡面設定的腳本路徑指向 <code>scripts/</code> 目錄下的 Bash 與 PowerShell 腳本，這些腳本則實作了對應的檢查邏輯。</p>
+</section>
+<section id="net-backend-developer-agent-運作流程" class="slide level2 scrollable">
+<h2>.NET Backend Developer Agent 運作流程</h2>
+<p>實際使用時，運作流程如下：</p>
+<pre>User
+ │
+ │ prompt "Implement Order API"
+ ▼
+.NET Backend Developer Agent
+ │
+ ├─► API Development Skill
+ │
+ ├─► EF Core Skill
+ │
+ ├─► Testing Skill
+ │
+ ▼
+Modify Code
+ │
+ ▼
+Hooks
+ ├─► Format
+ ├─► Build
+ ├─► Test
+ └─► Security Check
+ │
+ ▼
+Review
+ │
+ └─► Code Review Skill
+ │
+ ▼
+Done
+</pre>
+</section></section>
 <section id="build-custom-agent-plugin" class="title-slide slide level1 center">
 <h1>Build Custom Agent Plugin</h1>
 
