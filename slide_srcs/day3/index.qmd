@@ -32,7 +32,7 @@ code-annotations: below
 
 * GHCopilot 自訂功能回顧與 Agentic E2E Testing 概念
 * GHCopilot + Playwright MCP 與 Browser Agent 測試
-* Playwright CLI 與 GHCopilot 整合
+* Playwright CLI 與 GitHub Copilot 整合
 * 使用 GHCopilot 產生 Playwright E2E Tests case
 * E2E Test Debug、Diagnose、Fix 與 Retest
 * Agent Skills + MCP + CLI 的 Agentic Testing Workflow
@@ -220,11 +220,35 @@ Playwright MCP 支援的瀏覽器操作包括：
 
 除操作瀏覽器之外，Playwright MCP 還能夠建立目前瀏覽器網頁的 snapshot 快照(結構化文件或截圖)，方便 AI 代理進行網頁結構或視覺上的檢查與比對，進一步提升測試的準確性與可靠性。
 
-## Lab12: Playwright MCP 讓 GitHub Copilot 自己探索網站
+## Lab12: Playwright MCP 讓 GitHub Copilot 自己探索網站 {.scrollable}
+
+\ 
+
+[Lab12 操作步驟及範例原始碼](https://github.com/dotnet-mcp-lab/demo-using-mcp/blob/main/README_playwright_mcp.md){target="_blank"}
+
+![](./pics/Lab12_Using_Playwright_MCP.png){.center .lightbox}
+
+不需要告訴 AI 代理具體的 DOM 操作細節，AI 代理會根據 Playwright MCP 提供的結構化快照，自行探索網站並列出網站可操作的邏輯功能。
+
+## GitHub Copilot + Playwright MCP產生E2E測試案例{.scrollable}
+
+可以指揮 GitHub Copilot 透過 Playwright MCP 提供的結構化快照，自動生成對應的 E2E 測試案例，涵蓋網站的各種操作場景。
+
+開發者無需手動編寫繁瑣的 DOM 操作程式碼，只需關注測試邏輯與驗證條件，提升測試效率與可靠性。
 
 
 
-# Playwright CLI 與 GHCopilot 整合
+# Playwright CLI 與 GitHub Copilot<br/>整合
+
+## Playwright CLI
+
+[Playwright CLI](https://playwright.dev/agent-cli/introduction){target="_blank"} 是 Playwright 提供的命令列工具，用於自動化瀏覽器操作。透過 Playwright CLI，開發者可以編寫、執行和調試端對端測試腳本，支援多種瀏覽器環境。
+
+Playwright CLI 為 Apache-2.0 授權的開源軟體：<br/>[https://github.com/microsoft/playwright-cli](https://github.com/microsoft/playwright-cli){target="_blank"}
+
+## Why another CLI tool for Playwright?
+
+Playwright MCP 可做的任務，Playwright CLI 也能完成，但 CLI 消耗的 AI Token 較少，因此在某些情境下使用 CLI 會更高效。
 
 # 使用 GHCopilot 產生 Playwright E2E Tests case
 

@@ -496,11 +496,11 @@ npx @modelcontextprotocol/inspector
 
 ## Lab11: 結合 Skills + MCP 製作客製化 Agent
 
-&nbsp;\ 
+\ 
 
 [Lab11 操作步驟及範例原始碼](https://github.com/isak-ghcopilot-workshop/SmartTaskWorkshop/blob/main/README_dotnet_backend_agent.md){target="_blank"}
 
-&nbsp;\ 
+\ 
 
 
 介紹 MCP 這個可以和外部工具溝通的媒介之後，我們可以將 Skills 與 MCP 結合，製作出更強大的客製化 Agent，讓 AI 能夠不僅查詢資訊，還能執行各種操作。
