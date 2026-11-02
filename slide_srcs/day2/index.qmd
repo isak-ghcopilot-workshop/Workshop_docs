@@ -263,7 +263,7 @@ Plugin 遵循『Agent Plugins([https://agent-plugins.org/](https://agent-plugins
 * 整合 AI Agent 各種外部工具呼叫的通訊協定(JSON-RPC)
    [https://modelcontextprotocol.io/](https://modelcontextprotocol.io/){target="_blank"}
    [https://github.com/modelcontextprotocol](https://github.com/modelcontextprotocol){target="_blank"}
-* Ver 2.0 重新定為 State-less 的通訊協定
+* Ver 2.0 重新定為 [State-less 的通訊協定](https://blog.modelcontextprotocol.io/posts/2026-07-28/#no-handshake-or-sessions){target="_blank"}
 
 ![](./pics/mcp-simple-diagram.png){.center}
 
@@ -302,6 +302,10 @@ Plugin 遵循『Agent Plugins([https://agent-plugins.org/](https://agent-plugins
 :::{.callout-tip}
 所有的 MCP Server 可由 **`MCP: Show Installed Servers`** 快捷命令來開啟設定介面
 ![](./pics/VSCode_list_installed_mcp_server.png){.center .lightbox}
+:::
+
+:::{.callout-note}
+其他 MCP Server 參考：[https://copilot-academy.github.io/workshops/copilot-customization/integrations#the-mcp-registry](https://copilot-academy.github.io/workshops/copilot-customization/integrations#the-mcp-registry){target="_blank"}
 :::
 
 ## VSCode 設定 MS Learn MCP Server {.scrollable}
@@ -397,7 +401,6 @@ Use GitHub MCP Server to list what are likely have breaking changes in this repo
 
 ![](./pics/Use_Markitdown_MCP.png){.center .lightbox}
 
-
 # Build MCP Server with .NET 10
 
 ## 自製地端MCP Server {.scrollable}
@@ -491,7 +494,14 @@ npx @modelcontextprotocol/inspector
 
 # Custom Agent + Skills + MCP
 
-## 結合 Skills + MCP 製作客製化 Agent
+## Lab11: 結合 Skills + MCP 製作客製化 Agent
+
+&nbsp;\ 
+
+[Lab11 操作步驟及範例原始碼](https://github.com/isak-ghcopilot-workshop/SmartTaskWorkshop/blob/main/README_dotnet_backend_agent.md){target="_blank"}
+
+&nbsp;\ 
+
 
 介紹 MCP 這個可以和外部工具溝通的媒介之後，我們可以將 Skills 與 MCP 結合，製作出更強大的客製化 Agent，讓 AI 能夠不僅查詢資訊，還能執行各種操作。
 
@@ -503,8 +513,7 @@ npx @modelcontextprotocol/inspector
           ├── Custom Agent(Coding Instructions)
           ├── API Development Skill
           ├── Testing Skill
-          ├── Architecture MCP
-          └── Quality Hooks
+          └── Architecture MCP
 ```
 
 ## .NET Backend Developer Agent 實際結構
@@ -512,81 +521,143 @@ npx @modelcontextprotocol/inspector
 .NET Backend Developer Agent 在原始碼專案中會有以下的結構：
 
 
-```{.text code-line-numbers="true"}
-.github/
-│
-├── agents/
-│   └── dotnet-backend-developer.agent.md
-│
-├── skills/
-│   ├── dotnet-api-development/
-│   │   └── SKILL.md
-│   │
-│   ├── efcore-data-access/
-│   │   └── SKILL.md
-│   │
-│   ├── dotnet-testing/
-│   │   └── SKILL.md
-│   │
-│   ├── dotnet-security-review/
-│   │   └── SKILL.md
-│   │
-│   └── dotnet-code-review/
-│       └── SKILL.md
-│
-└── hooks/
-    ├── dotnet-quality.json
-    └── dotnet-security.json
-
-scripts/
-├── dotnet-quality-check.sh
-├── dotnet-quality-check.ps1
-├── security-check.sh
-└── security-check.ps1
+```{.text code-line-numbers="false"}
+Git Repository root
+├── .github/
+│   ├── agents/
+│   │   └── dotnet-backend-developer.agent.md
+│   ├── skills/
+│   │   ├── dotnet-api-design/
+│   │   │   └── SKILL.md
+│   │   ├── dotnet-architecture/
+│   │   │   └── SKILL.md
+│   │   ├── dotnet-observability-security/
+│   │   │   └── SKILL.md
+│   │   ├── dotnet-testing/
+│   │   │   └── SKILL.md
+│   │   └── ef-core-persistence/
+│   │       └── SKILL.md
+│   └── copilot-instructions.md
+└─── .mcp.json
 ```
 
 `dotnet-backend-developer.agent.md` 為 Custom Agent 的設定檔，定義了 Agent 的行為與使用的 Skills。
 
 `skills/` 目錄下的每個子目錄對應一個 Skill，每個 Skill 內都有一個 `SKILL.md` 文件，定義了該 Skill 的行為與使用方式。
 
-`hooks/` 目錄下的 JSON 檔案定義了各種 Hook 的設定，例如程式碼品質檢查與安全檢查，裡面設定的腳本路徑指向 `scripts/` 目錄下的 Bash 與 PowerShell 腳本，這些腳本則實作了對應的檢查邏輯。
+`.mcp.json` 為 MCP Server 的設定檔，定義 MCP Server 相關資訊與設定。
 
 ## .NET Backend Developer Agent 運作流程 {.scrollable}
 
-實際使用時，運作流程如下：
+實際使用記得要先在 VS Code Chat View 中選取 .NET Backend Developer Agent：
+![](./pics/Use_dotnet_backend_developer_agent_01.png){.center .lightbox}
+
+運作流程如下：
 
 ```{=html}
 <pre>
 User
  │
- │ prompt "Implement Order API"
+ │ "Implement Order API"
+ ▼
+Copilot CLI
+ │
+ ├─ Repository Instructions
+ │    .github/copilot-instructions.md
+ │
+ ├─ Custom Agent 選擇
+ │    .NET Backend Developer
+ │
  ▼
 .NET Backend Developer Agent
  │
- ├─► API Development Skill
+ ├─ Inspect Repository
  │
- ├─► EF Core Skill
+ ├─ Agent Skills
+ │   ├─ dotnet-api-design
+ │   ├─ ef-core-persistence
+ │   ├─ dotnet-testing
+ │   ├─ dotnet-observability-security
+ │   └─ dotnet-architecture   ← 必要時
  │
- ├─► Testing Skill
+ ├─ Microsoft Learn MCP
+ │        ↓
+ │   Microsoft 官方文件
+ │
+ ├─ Implement
+ │   ├─ Entity
+ │   ├─ DTO
+ │   ├─ Endpoint
+ │   ├─ Validation
+ │   ├─ EF Core
+ │   └─ Tests
+ │
+ ├─ Build / Test / Format
  │
  ▼
-Modify Code
- │
- ▼
-Hooks
- ├─► Format
- ├─► Build
- ├─► Test
- └─► Security Check
- │
- ▼
-Review
- │
- └─► Code Review Skill
- │
- ▼
-Done
+Final Response
 </pre>
 ```
 
 # Build Custom Agent Plugin
+
+## VSCode Agent Plugin
+
+前面的 Custom Agent , Agent Skill, 以及 MCP Server 都是一堆很多文字&設定檔案，管理起來可能會比較麻煩，因此我們可以將它們打包成一個 VSCode Agent Plugin，方便在 VSCode 中使用與管理。
+
+* 官方說明：
+  * VSCode 官方說明：[https://code.visualstudio.com/docs/agent-customization/agent-plugins](https://code.visualstudio.com/docs/agent-customization/agent-plugins){target="_blank"}
+  * GitHub Copilot 官方說明：[https://docs.github.com/en/copilot/concepts/customizations/plugins](https://docs.github.com/en/copilot/concepts/customizations/plugins){target="_blank"}
+* Agent Plugin 為一套目錄結構由『plugin.json』檔案所描述，可儲存：
+   
+  * MCP Server config
+  * Custom Agent
+  * Agent Skill
+  * Automation Templates, Hook (Optional, not standard)
+
+  相關資訊，並添加版本號碼方便管理與更新
+* Plugin放在同電腦檔案目錄或是在 git repo 上的都可當安裝源
+
+## 如何製作 VSCode Agent Plugin {.scrollable}
+
+* **`VSCode Agent Plugin 1.0`** 規格遵循 ***Agent Plugins*** 公訂標準([https://agent-plugins.org/](https://agent-plugins.org/){target="_blank"})的目錄結構與設定規範
+
+* 由一個 `plugin.json` 檔案描述(plugin manifest)：<br/>[https://code.visualstudio.com/docs/agents/reference/agent-plugin-reference](https://code.visualstudio.com/docs/agents/reference/agent-plugin-reference){target="_blank"}
+
+* **plugin.json** 必填的欄位為 `$schema`, `name`, `version`, `description`，其他如果都依照規格定義義之目錄放置相關檔案，會自動偵測到：
+  ![](./pics/Demo_Agent_Plugin_pluginjson.png)  
+  [plugin.json 範例](https://github.com/windperson-demo-devops/my-dotent-review/blob/main/plugin.json){target="_blank"}
+* Custom Agent 設定檔案(myCustomAgent.agen.md)預設規定要放置在 `com.github.copilot/agents` 目錄下
+* 每個 Agent Skill 目錄預設規定要放置在 `skills` 目錄內
+* **mcp.json** 為 MCP Server 的設定檔案，預設規定要放置在根目錄，使用 GitHub Copilot MCP 的新版設定格式，並且要多一個 `$schema` 欄位：
+  ![](./pics/Demo_Agent_Plugin_mcpjson.png)
+  [mcp.json 範例](https://github.com/windperson-demo-devops/my-dotent-review/blob/main/mcp.json){target="_blank"}
+
+## 安裝 VSCode Agent Plugin {.scrollable}
+
+VSCode Agent Customization 提供了安裝 Agent Plugin 的功能，可以將本地或遠端的 Agent Plugin 安裝到 VSCode 中。
+
+1. 打開 VSCode Agent Customization UI，
+   ![](./pics/Use_Agent_plugin_00.png){target="_blank"}  
+  左邊選擇 Plugins
+2. 目前只能安裝在 User 層級，按右邊對應的『+』按鈕
+   ![](./pics/Use_Agent_plugin_01.png){target="_blank"}
+3. 輸入本地 Agent Plugin 目錄路徑或是按右上角的開啟目錄按鈕選擇 Agent Plugin 目錄:
+   ![](./pics/Use_Agent_plugin_02.png){target="_blank"}
+4. 安裝完成：  
+   ![](./pics/Use_Agent_plugin_03.png){target="_blank"}  
+  可以滑鼠left-click點入後看安裝的 Agent Plugin 詳細資訊:  
+   ![](./pics/Use_Agent_plugin_04.png){target="_blank"}  
+
+
+在遠端 Git repository 上的 Agent Plugin 也可以安裝，方法類似，輸入遠端 Git URL 即可。
+
+安裝完之後在 VSCode Agent Chat 或是 VSCode Agent Window 中均可使用 安裝的Custom Agent 與 Agent Skill 以及 MCP Server。
+
+## 結論
+
+透過將 Custom Agent、Agent Skill 以及 MCP Server 打包成 VSCode Agent Plugin，可以更方便地在 VSCode 中管理與使用這些資源。無論是本地目錄還是遠端 Git repository 上的 Agent Plugin，都可以輕鬆安裝，並在 VSCode Agent Chat 或 Agent Window 中使用。這種方式不僅提升了管理效率，也方便了版本控制與更新。
+
+:::{.callout-tip}
+儘量都先以使用公訂規格的方向做客製化，以免在現在的 VSCode/GitHub Copilot  快速更版下，客製化功能就突然故障或得一直migrate
+:::
