@@ -1,0 +1,235 @@
+---
+title: "GitHub Copilot Workshop Day3"
+format:
+    revealjs:
+        width: 1300
+        height: 1000
+        slide-tone: false
+        theme: simple
+        menu:
+            side: right
+        slide-number: true
+        mermaid: 
+          theme: neutral
+        include-in-header: 
+            text: |
+                <style>
+                margin: 0;
+                position: absolute;
+                top: 50%;
+                -ms-transform: translateY(-50%), translateX(-50%);
+                transform: translateY(-50%), translateX(-50%);
+                }
+                .text-center {
+                text-align: center;
+                }
+                </style>
+from: markdown+emoji
+code-annotations: below
+---
+
+# Agenda
+
+* GHCopilot 自訂功能回顧與 Agentic E2E Testing 概念
+* GHCopilot + Playwright MCP 與 Browser Agent 測試
+* Playwright CLI 與 GHCopilot 整合
+* 使用 GHCopilot 產生 Playwright E2E Tests case
+* E2E Test Debug、Diagnose、Fix 與 Retest
+* Agent Skills + MCP + CLI 的 Agentic Testing Workflow
+* Hands-on: Blazor WebAssembly E2E Tesing Challenge & QA
+
+# GHCopilot 自訂功能回顧與 Agentic E2E Testing 概念
+
+## GHCopilot 自訂功能回顧
+
+GHCopilot 自訂功能允許使用者根據自身需求擴展 Copilot 的能力：
+
+名稱 | 可客製化
+-----|:-----:
+Custom instructions | ✅
+Agent skills | ✅
+Tools | ❌
+MCP Server | ✅
+Hooks | ✅
+SubAgent | ❌ 
+Custom Agents | ✅
+Extensions | ✅
+Plugins | ✅
+
+## Agentic E2E Testing 概念
+
+Agentic E2E Testing 是一種結合 GitHub Copilot 的 Agent Skills、MCP Server 與 CLI 工具的端對端測試方法。它的核心理念是：
+
+- 使用 Agent Skills 自動化測試流程中的各個步驟
+- 透過 MCP Server 溝通 E2E 測試工具，實際進行測試
+- AI代理呼叫工具執行、監控與管理測試
+
+這種方法能夠提高測試的自動化程度，減少人工干預，並提升測試的可靠性與效率。
+
+## Agentic E2E Testing v.s. 傳統 E2E Testing {.scrollable}
+
+傳統的 E2E Testing 主要依賴人工編寫測試腳本，通過CLI工具執行測試，缺乏自動化協調與智能化管理，是一件非常耗時的工作。
+
+```{=html}
+<pre>
+  Requirement
+   ↓
+  Developer / QA
+   ↓
+  Write Test
+   ↓
+  Run Test
+   ↓
+  Failure
+   ↓
+  Read Error
+   ↓
+  Debug
+   ↓
+  Fix
+   ↓
+  Run Again
+</pre>
+```
+* Test case 要人工撰寫
+* UI Locator 容易隨著產品版本快速更新而一直壞
+* Debug Test Failure 花時間
+* Fail → Diagnose & Debug → Fix → Retest 大量人工介入
+
+
+Agentic E2E Testing 則利用 AI 代理自動化協調測試流程，減少人工自行製作測試腳本的需求，提高測試效率與可靠性：
+
+```{=html}
+<pre>
+  Coding Assistant
+    ↓
+  Generate Code
+
+  E2E Agent
+    ↓
+  Understand
+    ↓
+  Plan
+    ↓
+  Act ←─────────────────────┐
+    ↓                       │
+  Observe                   │
+    ↓                       │
+  Fix ──────────────────────┘ AI Agent 在修復後持續 Re-test
+    ↓
+  Verify
+</pre>
+```
+
+\
+
+不考量AI token 消耗的情況下，Agentic E2E Testing 可以顯著提高 E2E 測試的自動化程度與效率，減少人工所需時間精力。
+
+::: {.callout-note}
+Testing 本身其實就是非常典型的 "_Agent Loop_"，包含觀察、計劃、行動與反饋的循環過程。
+
+```{=html}
+<pre>
+  Goal
+  ↓
+  Agent
+  ├─ Explore UI
+  ├─ Understand Behavior
+  ├─ Generate Tests
+  ├─ Execute Tests
+  ├─ Observe Failure
+  ├─ Diagnose
+  ├─ Fix
+  └─ Retest
+        ↑
+        └──────── Agent Loop
+</pre>
+```
+:::
+
+## Agentic E2E Testing 所需能力/實現工具
+
+\
+\
+
+所需能力 | 實現工具
+-----|:-----:
+Reasoning | GitHub Copilot
+Browser Interaction | Playwright
+Playwright Agent Automation | Playwright MCP
+CLI Automation | Playwright CLI
+Reusable Knowledge | Agent Skills
+
+# GHCopilot + Playwright MCP 與 Browser Agent 測試
+
+## What is Browser Agent? {.scrollable}
+
+\
+Browser Agent 是一種能夠自動化瀏覽器操作的 AI 代理，通常用於端對端測試中。它能夠理解測試需求，生成測試計劃，執行測試步驟，觀察結果，並在必要時進行修復與重測。透過 Browser Agent，可以大幅提高 E2E 測試的自動化程度與效率。
+\
+
+
+```{mermaid}
+flowchart TD
+    A["GitHub Copilot"] -->|"Instructs / Emits Actions"| B["Browser Tool"]
+    B -->|"Executes Events / Inspects DOM"| C["Web Application"]
+
+    classDef default fill:#1f2937,stroke:#3b82f6,stroke-width:1.5px,color:#f9fafb;
+    classDef tool fill:#111827,stroke:#10b981,stroke-width:1.5px,color:#f9fafb;
+    class B tool;
+```
+
+配合 Playwright MCP，AI 代理可以自動化瀏覽器操作，實現端對端測試的全流程自動化。 AI 代理不再只是產生程式碼，而是能夠直接與瀏覽器互動，完成測試任務。
+
+這樣的分層架構設計可讓 AI 代理不需要輸出具體的 DOM 操作細節，只需專注於高層次的測試指令與策略，降低了測試腳本的維護成本。
+
+## Playwright MCP {.scrollable}
+
+[Playwright MCP](https://playwright.dev/docs/getting-started-mcp){target="_blank"} 提供 browser automation，而且主要透過 structured accessibility snapshot 讓 LLM 與頁面互動。
+
+* Playwright MCP server 為 Apache-2.0 授權的開源軟體：<br/>[https://github.com/microsoft/playwright-mcp](https://github.com/microsoft/playwright-mcp){target="_blank"}
+* 在 VSCode GitHub Copilot 的環境下使用 Playwright MCP server，需要安裝 [Node.js](https://nodejs.org/){target="_blank"} 並配置相關的 Playwright MCP 設定。
+
+  ```json
+  {
+    "mcpServers": {
+      "playwright": {
+        "command": "npx",
+        "args": [
+          "@playwright/mcp@latest"
+        ]
+      }
+    }
+  }
+  ```
+
+從設定的指令列看出這是 stdio 模式的 MCP Server，在不需安裝全域套件的情況下用 [Node.js 的 npx 指令](https://docs.npmjs.com/cli/v12/commands/npx){target="_blank"} 來啟動 Playwright MCP。
+
+Playwright MCP提供了一個 _標準接口_，使 AI 代理能夠與瀏覽器進行互動，無需直接操作 DOM。因為 Playwright MCP 支援主流的 Edge, Chrome, Firefox 等瀏覽器，AI 代理可以在不同瀏覽器環境下執行測試，保證測試的廣泛適用性與可靠性。
+
+\
+
+Playwright MCP 支援的瀏覽器操作包括：
+
+* Navigation: Open URLs, go back/forward, reload pages.
+* Clicking and typing: Click elements, type text, fill forms, select dropdowns.
+* Screenshots: Capture the current page or specific elements for visual verification.
+* Keyboard and mouse: Press keys, hover, drag and drop.
+* Dialogs: Accept or dismiss browser dialogs.
+* Tabs: Create, close, and switch between browser tabs.
+
+除操作瀏覽器之外，Playwright MCP 還能夠建立目前瀏覽器網頁的 snapshot 快照(結構化文件或截圖)，方便 AI 代理進行網頁結構或視覺上的檢查與比對，進一步提升測試的準確性與可靠性。
+
+## Lab12: Playwright MCP 讓 GitHub Copilot 自己探索網站
+
+
+
+# Playwright CLI 與 GHCopilot 整合
+
+# 使用 GHCopilot 產生 Playwright E2E Tests case
+
+# E2E Test Debug、Diagnose、Fix 與 Retest
+
+# Agent Skills + MCP + CLI 的 Agentic Testing Workflow
+
+# Hands-on: Blazor WebAssembly E2E Tesing Challenge & QA

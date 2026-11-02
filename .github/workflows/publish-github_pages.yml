@@ -63,7 +63,21 @@ jobs:
         run: |
           mkdir -p workshop_website/_site/docs/day2
           cp -r slide_srcs/day2/docs/* workshop_website/_site/docs/day2
+
+      - name: Render day3 slides
+        uses: quarto-dev/quarto-actions/render@v2
+        env:
+          QUARTO_PROFILE: webslide
+        with: 
+          path: slide_srcs/day3
+          to: revealjs
+
+      - name: Copy day3 slides assets to workshop_website # be aware of the directory structure quarto generates
+        run: |
+          mkdir -p workshop_website/_site/docs/day3
+          cp -r slide_srcs/day3/docs/* workshop_website/_site/docs/day3
       
+          
       # NOTE: If Publishing to GitHub Pages, set the permissions correctly (see top of this yaml)
       - name: Publish to GitHub Pages
         uses: quarto-dev/quarto-actions/publish@v2

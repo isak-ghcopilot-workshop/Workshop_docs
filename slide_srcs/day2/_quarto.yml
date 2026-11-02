@@ -1,5 +1,5 @@
 project:
-  output-dir: docs/slides/day1
+  output-dir: docs/slides/day2
   render:
   - index.qmd
 
