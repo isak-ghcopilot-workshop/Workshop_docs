@@ -55,6 +55,8 @@ GitHub Copilot Workshop 投影片以及相關資源。
     Agent Skills + MCP + CLI 的 Agentic Testing Workflow|30
     Hands-on: Blazor WebAssembly E2E Testing Challenge & QA|30
    
+   [線上投影片](./docs/day3/slides/web/#/title-slide){target="_blank"}
+
 * Day4
    
     主題| 時數(min)
@@ -73,5 +75,8 @@ GitHub Copilot Workshop 投影片以及相關資源。
 * [Visual Studio Code 官方網站](https://code.visualstudio.com/)
 * [.NET 官方網站](https://dotnet.microsoft.com/)
 * [C# Dev Kit 擴充套件](https://marketplace.visualstudio.com/items?itemName=ms-dotnettools.csdevkit)
+* [MCP Inspector](https://modelcontextprotocol.io/docs/2026-07-28/tools/inspector)
+* [Playwright MCP 官方網站](https://playwright.dev/docs/getting-started-mcp)
+
 
 ---
