@@ -475,19 +475,59 @@ Browser Agent 是一種能夠自動化瀏覽器操作的 AI 代理，通常用�
 <li>Dialogs: Accept or dismiss browser dialogs.</li>
 <li>Tabs: Create, close, and switch between browser tabs.</li>
 </ul>
-<p>除操作瀏覽器之外，Playwright MCP 還能夠建立目前瀏覽器網頁的 snapshot 快照(結構化文件或截圖)，方便 AI 代理進行網頁結構或視覺上的檢查與比對，進一步提升測試的準確性與可靠性。</p>
+<p>除操作瀏覽器之外，Playwright MCP 還能夠建立目前瀏覽器網頁的 snapshot 快照(結構化文件或截圖)，方便 AI 代理進行網頁結構或視覺上的檢查與比對，進一步提升測試的準確性與可靠性</p>
 </section>
 <section id="lab12-playwright-mcp-讓-github-copilot-自己探索網站" class="slide level2 scrollable">
 <h2>Lab12: Playwright MCP 讓 GitHub Copilot 自己探索網站</h2>
 <p>&nbsp;</p>
 <p><a href="https://github.com/dotnet-mcp-lab/demo-using-mcp/blob/main/README_playwright_mcp.md" target="_blank">Lab12 操作步驟及範例原始碼</a></p>
 <p><a href="./pics/Lab12_Using_Playwright_MCP.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1"><img data-src="./pics/Lab12_Using_Playwright_MCP.png" class="center"></a></p>
-<p>不需要告訴 AI 代理具體的 DOM 操作細節，AI 代理會根據 Playwright MCP 提供的結構化快照，自行探索網站並列出網站可操作的邏輯功能。</p>
+<p>不需要告訴 AI 代理具體的 DOM 操作細節，AI 代理會根據 Playwright MCP 提供的結構化快照，自行探索網站並列出網站可操作的邏輯功能</p>
+<p><a href="./pics/Playwright_structured_snapshot.png" class="lightbox" data-gallery="quarto-lightbox-gallery-2"><img data-src="./pics/Playwright_structured_snapshot.png" class="center"></a></p>
 </section>
-<section id="github-copilot-playwright-mcp產生e2e測試案例" class="slide level2 scrollable">
-<h2>GitHub Copilot + Playwright MCP產生E2E測試案例</h2>
-<p>可以指揮 GitHub Copilot 透過 Playwright MCP 提供的結構化快照，自動生成對應的 E2E 測試案例，涵蓋網站的各種操作場景。</p>
-<p>開發者無需手動編寫繁瑣的 DOM 操作程式碼，只需關注測試邏輯與驗證條件，提升測試效率與可靠性。</p>
+<section id="github-copilot-playwright-mcp-產生e2e測試案例" class="slide level2 scrollable">
+<h2>GitHub Copilot + Playwright MCP<br>產生E2E測試案例</h2>
+<p><br>
+</p>
+<ul>
+<li>指揮 GitHub Copilot 透過 Playwright MCP 提供的結構化快照，自動生成對應的 E2E 測試案例，涵蓋網站的各種操作場景。</li>
+<li>開發者無需手動編寫繁瑣的 DOM 操作程式碼，只需關注測試邏輯與驗證條件，提升測試效率與可靠性。</li>
+</ul>
+<ol type="1">
+<li><p>將測試專案 <a href="https://github.com/isak-ghcopilot-workshop/Demo_Playwright/tree/todolist_src">Demo_Playwright</a> 的 <code>todolist_src</code> git clone 或下載 zip 到本機硬碟</p></li>
+<li><p>用 VSCode 開啟 <code>todolist_src</code> 專案</p></li>
+<li><p>確認系統已安裝 .NET 10 SDK, Node.js LTS 版本</p></li>
+<li><p>在 <strong>src/</strong> 目錄下建立一個 “E2ETest” 目錄</p></li>
+<li><p>在 <strong>src/BlazorApp</strong> 目錄下執行 <code>dotnet watch</code>，此時應會執行 Blazor Web App，並自動開啟瀏覽器網址：http://localhost:5241/ <a href="./pics/Demo_PlaywrightMCP_01.png" class="lightbox" data-gallery="quarto-lightbox-gallery-3"><img data-src="./pics/Demo_PlaywrightMCP_01.png" class="center"></a></p></li>
+<li><p>將剛剛建立的 E2ETest 目錄用滑鼠拖曳到 VSCode Agent Chat View，並使用此 Prompt 來指揮 GitHub Copilot 生成 E2E 測試案例：</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode numberSource text number-lines code-with-copy"><code class="sourceCode"><span id="cb2-1"><a href="" aria-label="1"></a>```</span>
+<span id="cb2-2"><a href="" aria-label="2"></a> - You are a playwright test generator.</span>
+<span id="cb2-3"><a href="" aria-label="3"></a> - You are given a scenario and you need to generate a playwright test for it.</span>
+<span id="cb2-4"><a href="" aria-label="4"></a> - DO NOT generate test code based on the scenario alone. </span>
+<span id="cb2-5"><a href="" aria-label="5"></a> - DO run steps one by one using the tools provided by the Playwright MCP.</span>
+<span id="cb2-6"><a href="" aria-label="6"></a> - Only after all steps are completed, emit a Playwright TypeScript test that uses @playwright/test based on message history</span>
+<span id="cb2-7"><a href="" aria-label="7"></a> - Save generated test file in the tests directory</span>
+<span id="cb2-8"><a href="" aria-label="8"></a> - Execute the test file and iterate until the test passes</span>
+<span id="cb2-9"><a href="" aria-label="9"></a>```</span>
+<span id="cb2-10"><a href="" aria-label="10"></a>Generate playwright test project in E2ETest for http://localhost:5241/</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><a href="./pics/Demo_PlaywrightMCP_02.png" class="lightbox" data-gallery="quarto-lightbox-gallery-4"><img data-src="./pics/Demo_PlaywrightMCP_02.png" class="center"></a></p></li>
+<li><p>GitHub Copilot 會呼叫 Playwright MCP 開始『探索網站』： <a href="./pics/Demo_PlaywrightMCP_03.png" class="lightbox" data-gallery="quarto-lightbox-gallery-5"><img data-src="./pics/Demo_PlaywrightMCP_03.png" class="center"></a> 允許它執行所有跟 Playwright 相關的 tool 呼叫，此時會自動開啟另一個瀏覽器並開始自動探索網站。 <a href="./pics/Demo_PlaywrightMCP_03-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-6"><img data-src="./pics/Demo_PlaywrightMCP_03-1.png" class="center"></a></p></li>
+<li><p>執行到最後，GitHub Copilot 會根據 Playwright MCP 提供的結構化快照，自動生成 E2E 測試案例： <a href="./pics/Demo_PlaywrightMCP_04.png" class="lightbox" data-gallery="quarto-lightbox-gallery-7"><img data-src="./pics/Demo_PlaywrightMCP_04.png" class="center"></a></p></li>
+<li><p>此時應該也可以在 src/E2ETest 目錄下執行 <code>npm test</code> 來運行生成的 E2E 測試案例。 <a href="./pics/Demo_PlaywrightMCP_05.png" class="lightbox" data-gallery="quarto-lightbox-gallery-8"><img data-src="./pics/Demo_PlaywrightMCP_05.png" class="center"></a></p></li>
+</ol>
+<div class="callout callout-important callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Important</strong></p>
+</div>
+<div class="callout-content">
+<p>產生的測試案例雖然可以跑，但可能需要根據實際情況進行調整與修正，AI 生成的程式碼可能不會測試到網站的所有功能或預期邏輯。</p>
+</div>
+</div>
+</div>
 </section></section>
 <section>
 <section id="playwright-cli-與-github-copilot-整合" class="title-slide slide level1 center">
@@ -501,7 +541,24 @@ Browser Agent 是一種能夠自動化瀏覽器操作的 AI 代理，通常用�
 </section>
 <section id="why-another-cli-tool-for-playwright" class="slide level2">
 <h2>Why another CLI tool for Playwright?</h2>
-<p>Playwright MCP 可做的任務，Playwright CLI 也能完成，但 CLI 消耗的 AI Token 較少，因此在某些情境下使用 CLI 會更高效。</p>
+<ul>
+<li>Playwright MCP 可做的任務，Playwright CLI 也能完成，但 CLI 消耗的 AI Token 較少，因此在某些情境下使用 CLI 會更高效。</li>
+<li>Playwright CLI 可配合 Chrome 的 DevTools 進行已在運作中瀏覽器的操作與調試，因此可在測試案例上跳過某些不需/無法寫自動測試的認證步驟、使用遠端瀏覽器進行測試。</li>
+</ul>
+</section>
+<section id="playwright-cli-agent-skill" class="slide level2">
+<h2>Playwright CLI + Agent Skill</h2>
+<ul>
+<li>Playwright CLI 結合 Agent Skill 可以實現更高效/可客製化的自動化測試流程，利用 AI 來輔助生成、調試和修正測試案例。</li>
+</ul>
+<pre>GHCopilot
+   ↓
+Agent Skill
+   ↓
+Playwright CLI
+   ↓
+Browser
+</pre>
 </section></section>
 <section id="使用-ghcopilot-產生-playwright-e2e-tests-case" class="title-slide slide level1 center">
 <h1>使用 GHCopilot 產生 Playwright E2E Tests case</h1>
