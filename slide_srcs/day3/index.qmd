@@ -697,7 +697,7 @@ Report
 
 ## Lab14: Blazor WebAssembly E2E Testing 
 
-[Lab14 操作步驟及範例原始碼](){target="_blank"}
+[Lab14 操作步驟及範例原始碼](https://github.com/isak-ghcopilot-workshop/BlazorWasmTodoList){target="_blank"}
 
 ## 結論
 
