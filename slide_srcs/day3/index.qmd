@@ -322,7 +322,7 @@ CLI 將一些隱含的知識和操作背景藏在指令列實際執行的動作�
 
 ## Playwright CLI + Agent Skill
 
-* Playwright CLI 本身帶有幾個內建的 Agent Skill，結合 GitHub Copilot 呼叫可以實現更高效/可客製化的自動化測試流程，利用 AI 來輔助生成、調試和修正測試案例。
+* Playwright CLI 本身帶有[內建的 Agent Skill](https://github.com/microsoft/playwright-cli/tree/main/skills/playwright-cli){target="_blank"}，結合 GitHub Copilot 呼叫可以實現更高效/可客製化的自動化測試流程，利用 AI 來輔助生成、調試和修正測試案例。
 
 ```{=html}
 <pre>
