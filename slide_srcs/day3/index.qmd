@@ -287,13 +287,13 @@ Playwright MCP 支援的瀏覽器操作包括：
    ````
    
    ![](./pics/Demo_PlaywrightMCP_02.png){.center .lightbox}
-7. GitHub Copilot 會呼叫 Playwright MCP 開始『探索網站』：
+7. GitHub Copilot 會呼叫 Playwright MCP 開始『探索網站』：  
    ![](./pics/Demo_PlaywrightMCP_03.png){.center .lightbox}
-   允許它執行所有跟 Playwright 相關的 tool 呼叫，此時會自動開啟另一個瀏覽器並開始自動探索網站。
+   允許它執行所有跟 Playwright 相關的 tool 呼叫，此時會自動開啟另一個瀏覽器並開始自動探索網站。  
    ![](./pics/Demo_PlaywrightMCP_03-1.png){.center .lightbox}
-8. 執行到最後，GitHub Copilot 會根據 Playwright MCP 提供的結構化快照，自動生成 E2E 測試案例：
+8. 執行到最後，GitHub Copilot 會根據 Playwright MCP 提供的結構化快照，自動生成 E2E 測試案例：  
    ![](./pics/Demo_PlaywrightMCP_04.png){.center .lightbox}
-9. 此時應該也可以在 src/E2ETest 目錄下執行 `npm test` 來運行生成的 E2E 測試案例。
+9. 此時應該也可以在 src/E2ETest 目錄下執行 `npm test` 來運行生成的 E2E 測試案例。  
    ![](./pics/Demo_PlaywrightMCP_05.png){.center .lightbox}
 
 :::{.callout-important}
