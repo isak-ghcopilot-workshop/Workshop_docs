@@ -1,0 +1,193 @@
+---
+title: "GitHub Copilot Workshop Day3"
+format:
+    revealjs:
+        width: 1300
+        height: 1000
+        slide-tone: false
+        theme: simple
+        menu:
+            side: right
+        slide-number: true
+        mermaid: 
+          theme: neutral
+        include-in-header: 
+            text: |
+                <style>
+                margin: 0;
+                position: absolute;
+                top: 50%;
+                -ms-transform: translateY(-50%), translateX(-50%);
+                transform: translateY(-50%), translateX(-50%);
+                }
+                .text-center {
+                text-align: center;
+                }
+                </style>
+from: markdown+emoji
+code-annotations: below
+---
+
+# Agenda
+
+* Agentic Coding Recap
+* GitHub Copilot CLI Fundamentals
+* CLI Agentic Coding Techniques
+* Agent Skill Engineering: Good Skill vs Bad Skill
+* Context & Token Engineering
+* Agentic Coding Challenge & QA
+
+# Agentic Coding Recap
+
+
+
+# GitHub Copilot CLI Fundamentals
+
+# CLI Agentic Coding Techniques
+
+# Agent Skill Engineering: Good Skill vs Bad Skill
+
+## Agent Skill Engineering
+
+Agent Skill ≈ Context Engineering
+
+## What Makes a Good Agent Skill?
+
+## Bad Skill vs Good Skill
+
+## Scope & Trigger Design
+
+## Progressive Disclosure
+
+Agent 只在需要時載入所需 context；Skill 由 SKILL.md 搭配 scripts/、references/、assets(examples)/ 等內容組成
+
+\
+
+:::: {.columns}
+::: {.column}
+
+❌ Everything in SKILL.md
+
+```
+SKILL.md
+
+Architecture
+Coding Standard
+Testing Standards
+API Guideline
+Security Guideline
+Examples
+Troubleshooting
+Templates
+...
+```
+
+最後變成一大包
+:::
+::: {.column}
+✅ Progressive Skill
+
+```
+dotnet-api/
+
+├── SKILL.md
+│
+├── references/
+│   ├── architecture.md
+│   ├── api-guidelines.md
+│   └── testing.md
+│
+├── examples/
+│   └── product-api.md
+│
+└── scripts/
+    └── validate.sh
+```
+
+:::
+::::
+
+\
+Microsoft Agent Framework [**four-stage progressive disclosure pattern**](https://learn.microsoft.com/agent-framework/agents/skills?pivots=programming-language-csharp#progressive-disclosure){target="_blank"}
+
+## Teach Procedures, not Knowledge Dumps
+
+\
+\
+
+:::: {.columns}
+::: {.column}
+
+❌ Knowledge Dump
+
+``` {.text code-line-numbers="false"}
+Our application uses Clean Architecture.
+
+Domain contains entities.
+
+Application contains business logic.
+
+Infrastructure contains database implementation.
+
+API contains controllers.
+```
+
+這些只是「_知識_」。
+
+:::
+::: {.column}
+
+✅ Procedural Guidance
+
+``` {.text code-line-numbers="false"}
+## Implementing an API
+
+1. Inspect existing endpoints.
+
+2. Identify the existing architectural pattern.
+
+3. Identify the Domain and Application components affected by the feature.
+
+4. Implement the smallest required change.
+
+5. Add tests following existing test conventions.
+
+6. Build the solution.
+
+7. Run affected tests.
+
+8. Review the diff before completing the task.
+```
+:::
+::::
+
+:::{.callout-tip}
+A good Skill doesn't just tell the agent what it knows. It tells the agent **how** to work.
+:::
+
+## Verification Strategy
+
+## Evaluation
+
+## Agent Skill Recap
+
+Agent Skill Review Checklist
+
+ | # | 檢驗項目
+ |---|---|
+ | 1 | Purpose 是否清楚？ |
+ | 2 | Trigger / Description 是否明確？ |
+ | 3 | Scope 是否夠小、夠聚焦？ |
+ | 4 | Instructions 是否 actionable？ |
+ | 5 | 是否避免塞入不必要 context？ |
+ | 6 | References / Scripts 是否合理拆分？ |
+ | 7 | 是否有 validation？ |
+ | 8 | 是否有測試 Trigger / Non-trigger scenarios？ |
+
+> A good prompt gets a good answer once.
+
+> A good skill creates a repeatable engineering behavior.
+
+# Context & Token Engineering
+
+# Agentic Coding Challenge & QA

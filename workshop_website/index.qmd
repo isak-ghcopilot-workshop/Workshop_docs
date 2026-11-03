@@ -68,6 +68,7 @@ GitHub Copilot Workshop 投影片以及相關資源。
     Context & Token Engineering|30
     Agentic Coding Challenge & QA|40
    
+   [線上投影片](./docs/day4/slides/web/#/title-slide){target="_blank"}
 
 ## 相關資源
 

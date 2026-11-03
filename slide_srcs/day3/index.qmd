@@ -54,7 +54,7 @@ Hooks | ✅
 SubAgent | ❌ 
 Custom Agents | ✅
 Extensions | ✅
-Plugins | ✅
+Agent Plugins | ✅
 
 ## Agentic E2E Testing 概念
 
