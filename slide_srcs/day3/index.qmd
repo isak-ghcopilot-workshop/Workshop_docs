@@ -290,7 +290,7 @@ Playwright CLI 為 Apache-2.0 授權的開源軟體：<br/>[https://github.com/m
 
 ## Playwright CLI + Agent Skill
 
-* Playwright CLI 結合 Agent Skill 可以實現更高效/可客製化的自動化測試流程，利用 AI 來輔助生成、調試和修正測試案例。
+* Playwright CLI 本身帶有幾個內建的 Agent Skill，結合 GitHub Copilot 呼叫可以實現更高效/可客製化的自動化測試流程，利用 AI 來輔助生成、調試和修正測試案例。
 
 ```{=html}
 <pre>
@@ -304,10 +304,219 @@ Browser
 </pre>
 ```
 
+## 選用 Playwright CLI 或 Playwright MCP 的考量
+
+[Playwright CLI vs MCP](https://playwright.dev/agent-cli/introduction#playwright-cli-vs-mcp){target="_blank"}
+
+| | Playwright CLI | MCP |
+|---|---|---|
+| Best for | Coding agents (Claude Code, Copilot) working with large codebases | Specialized agentic loops, exploratory automation |
+| How it works | Agent runs shell commands | LLM calls MCP tools with structured parameters |
+| Token cost | Lower — concise CLI output, skills loaded on demand | Higher — tool schemas + snapshots in context |
+| Default mode | Headless | Headed |
+| WebMCP support | Faster | Slower |
+| Setup | `npm install -g @playwright/cli` | JSON config in MCP client |
+
+## Lab13: 使用 Playwright CLI 與 GitHub Copilot 自己探索網站{.scrollable}
+
+1. 安裝 Playwright CLI：<br/>
+   確保已經安裝 Node.js，然後在終端中執行以下命令安裝 Playwright CLI。
+   
+    ```sh
+    npm install -g @playwright/cli@latest
+    ```
+2. 初始化 Playwright：<br/>
+   用 VSCodoe 開啟一個空白工作目錄，在終端中執行以下命令初始化 Playwright-CLI，這會安裝 Playwright-CLI 的 Agent Skill 到此工作目錄。
+   
+    ```sh
+    playwright-cli install --skills=agents
+    ```
+   :::{.callout-note}
+   假如你碰到類似下圖錯誤，請先執行 `nvm firewall trust module playwright-cli` 和 `nvm reshim` 後再執行 Playwright CLI 的初始化命令。
+   ![](./pics/PlaywrightCLI_failed_1st_time.png){.center .lightbox}
+   :::
+3. Playwright-CLI 的 Agent Skill 已安裝完成，可在根目錄的 .agents 目錄下看到相關配置與技能檔案。
+   ![](./pics/PlaywrightCLI_skill_installed.png){.center .lightbox}
+4. 此時打開 VSCode Agent Chat View，應該會有 Playwright CLI 的 Agent Skill 可供使用。
+   ![](./pics/PlaywrightCLI_skill_in_VSCode.png){.center .lightbox}
+5. 現在可以開始使用 Playwright CLI 的 Agent Skill 來探索網站，透過以下 Prompt ：
+   ```text
+   /playwright-cli find the available operation on https://demo.playwright.dev/todomvc/#/
+   ```
+   ![](./pics/PlaywrightCLI_find_todomvc_features_start.png){.center .lightbox}
+6. 如詢問是否要允許 Playwright CLI 的 tool 呼叫，選擇允許，等執行完畢後，應該可觀察到類似之前使用 Playwrright MCP 的操作結果。
+   ![](./pics/PlaywrightCLI_find_todomvc_features_result.png){.center .lightbox}
+
+## 直接使用 Playwright CLI
+
+Playwright CLI 也可以直接使用，而不透過 Agent Skill。可以在終端中執行 Playwright CLI 的命令來操作瀏覽器，例如：
+
+
+```sh
+playwright-cli open https://demo.playwright.dev/todomvc/ --headed
+playwright-cli type "Buy groceries"
+playwright-cli press Enter
+playwright-cli type "Water flowers"
+playwright-cli press Enter
+playwright-cli check e21
+playwright-cli check e35
+playwright-cli screenshot
+```
+
+
+所以如果有那種確定不變型的操作需求，可以直接使用 Playwright CLI 來執行，而不需要透過 Agent Skill 和 AI 代理來跑。
+
 # 使用 GHCopilot 產生 Playwright E2E Tests case
+
+## 從 Requirement 到 Test
+
+假如一開始就有明確的需求，我們可以先將需求轉化為測試案例，再使用 Playwright CLI 或 Agent Skill 來實現自動化測試：
+
+\
+
+```{=html}
+<pre>
+Requirement
+ ↓
+Copilot
+ ↓
+Test Scenarios
+ ↓
+Playwright Tests
+ ↓
+Execution
+</pre>
+```
+
+\
+
+這樣會比直接叫 AI 代理 `Write Playwright Tests` 的效果更好，因為需求、測試場景與測試案例的轉化過程是可控且可驗證的，給予 AI 足夠的上下文，能確保生成的測試更符合實際需求。
+
+## 讓 AI 代理先生成網站敘述再產生測試
+
+
+:::: {.columns}
+::: {.column}
+Bad:
+
+```text
+Write Playwright tests
+```
+:::
+::: {.column}
+Good:
+```text
+Analyze the user workflow first.
+
+Identify:
+1. happy paths
+2. validation errors
+3. edge cases
+4. navigation behavior
+
+Then generate Playwright E2E tests.
+```
+:::
+::::
+
+> Don't guess the UI. Let the agent inspect the UI first.
+
+## 讓 AI 代理也讀取網站原始碼再產生測試
+
+在生成測試之前，讓 AI 代理先讀取網站的原始碼<br/>(如果網站專案是遵循SDD開發的話更好)，能夠更準確地理解網站的結構與元素，從而生成更可靠的 Playwright 測試案例。
+
+\
+
+```{=html}
+<pre>
+  Source Code 
+      +
+Requirements + Browser Exploration
+      ↓
+ GitHub Copilot
+      ↓
+Playwright Tests
+</pre>
+```
+
 
 # E2E Test Debug、Diagnose、Fix 與 Retest
 
+## E2E Test Debug {.scrollable}
+
+Playwright 提供 VSCode 的擴充套件：[Playwright Test for VSCode](https://marketplace.visualstudio.com/items?itemName=ms-playwright.playwright){target="_blank"}
+
+![](./pics/Playwright_VSCode_extension.png){.center .lightbox}
+
+安裝後，除了可以在 VSCode 中以GUI執行 Playwright 測試:
+
+![](./pics/Playwright_VSCode_test_run_ui.png){.center .lightbox}
+
+Playwright 測試專案在 VSCode 還可設定中斷點，在測試執行過程中進行偵錯與診斷：
+
+![](./pics/Playwright_VSCode_start_debug.png){.center .lightbox}
+
+所以可在執行途中暫停測試，檢查瀏覽器狀態與元素，進行偵錯：
+![](./pics/Playwright_VSCode_breakpoint_debug.png){.center .lightbox}
+
+官方文件：[https://playwright.dev/docs/getting-started-vscode](https://playwright.dev/docs/getting-started-vscode){target="_blank"}
+
+## Diagnose, Fix, Retest {.scrollable}
+
+\
+
+Agentic E2E Test 有價值的不是純粹產生測試，而是在測試失敗時，能夠協助診斷問題，提供修復建議，並在修復後重新執行測試，形成完整的測試迭代流程。
+
+\
+
+```{=html}
+<pre>
+Generate
+ ↓
+Run
+ ↓
+Fail
+ ↓
+Diagnose
+ ↓
+Fix
+ ↓
+Retest
+</pre>
+```
+
+::: {.callout-tip}
+Test Failure 不只是 Error，而是『Agent Observation』
+:::
+
+\
+
+### Self-Correction Loop
+
+
+```{=html}
+<pre>
+Run Test
+   ↓
+Observe Failure
+   ↓
+Diagnose
+   ↓
+Propose Fix
+   ↓
+Apply Fix
+   ↓
+Retest
+   │
+   └──── Failure ────┐
+                     ↓
+                  Diagnose
+
+</pre>
+```
+
 # Agent Skills + MCP + CLI 的 Agentic Testing Workflow
+
+
 
 # Hands-on: Blazor WebAssembly E2E Tesing Challenge & QA
