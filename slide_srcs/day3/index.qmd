@@ -183,6 +183,31 @@ flowchart TD
 
 這樣的分層架構設計可讓 AI 代理不需要輸出具體的 DOM 操作細節，只需專注於高層次的測試指令與策略，降低了測試腳本的維護成本。
 
+## Playwright
+
+\
+
+* Web End-to-End Testing Framework/tool
+  * [https://playwright.dev/](https://playwright.dev/){target="_blank"}
+  * [https://github.com/microsoft/playwright](https://github.com/microsoft/playwright){target="_blank"}
+
+* Code-based testing, Support Js/Typescript, Python, Java, .NET C#
+  * [https://playwright.dev/docs/languages](https://playwright.dev/docs/languages){target="_blank"}
+  * 新功能會先在 JavaScript/TypeScript 上實現，其他語言稍晚支援。<br/>(VSCode擴充套件的除錯目前也只支援 JavaScript/TypeScript)
+
+## Why Playwright?
+
+\
+
+* Cross-browser : Chromium/Edge, Firefox, WebKit from one API
+* Auto-waiting and web-first assertions cut flaky tests
+* Fast feedback: parallel workers, browser contexts, reusable auth state
+* Built-in debugging: trace viewer, screenshots, video, UI mode
+* Codegen records real user flows into runnable test code
+* CI-ready: official Docker images and GitHub Actions support
+
+
+
 ## Playwright MCP {.scrollable}
 
 [Playwright MCP](https://playwright.dev/docs/getting-started-mcp){target="_blank"} 提供 browser automation，而且主要透過 structured accessibility snapshot 讓 LLM 與頁面互動。
@@ -285,8 +310,15 @@ Playwright CLI 為 Apache-2.0 授權的開源軟體：<br/>[https://github.com/m
 
 ## Why another CLI tool for Playwright?
 
+\
+
 * Playwright MCP 可做的任務，Playwright CLI 也能完成，但 CLI 消耗的 AI Token 較少，因此在某些情境下使用 CLI 會更高效。
+   
 * Playwright CLI 可配合 Chrome 的 DevTools 進行已在運作中瀏覽器的操作與調試，因此可在測試案例上跳過某些不需/無法寫自動測試的認證步驟、使用遠端瀏覽器進行測試。
+
+::: {.callout-note}
+CLI 將一些隱含的知識和操作背景藏在指令列實際執行的動作中，因此可以減少AI Agent 需要理解的上下文資訊。
+:::
 
 ## Playwright CLI + Agent Skill
 
@@ -459,6 +491,8 @@ Playwright 測試專案在 VSCode 還可設定中斷點，在測試執行過程�
 所以可在執行途中暫停測試，檢查瀏覽器狀態與元素，進行偵錯：
 ![](./pics/Playwright_VSCode_breakpoint_debug.png){.center .lightbox}
 
+![](./pics/Playwright_VSCode_debug_error.png){.center .lightbox}
+
 官方文件：[https://playwright.dev/docs/getting-started-vscode](https://playwright.dev/docs/getting-started-vscode){target="_blank"}
 
 ## Diagnose, Fix, Retest {.scrollable}
@@ -517,6 +551,156 @@ Retest
 
 # Agent Skills + MCP + CLI 的 Agentic Testing Workflow
 
+## Agentic Testing Workflow
+
+Playwright-CLI 的 Agent Skill，除了直接拿來使用之外，也可配合我們自己撰寫的 Agent Skills 進行更靈活的自動化測試流程。
+
+```{=html}
+<pre>
+                 GHCopilot
+                     │
+             ┌───────┴───────┐
+             │               │
+        Agent Skills         MCP
+             │               │
+      Testing Knowledge    Browser
+             │               │
+             └───────┬───────┘
+                     │
+                Playwright CLI
+                     │
+                     ▼
+             Playwright Tests
+                     │
+                     ▼
+              Blazor WASM App
+</pre>
+```
+
+## 自製的 Testing Skill 包含什麼？{.scrollable}
+
+首先定義我們自製的 Testing Agent Skill 檔案架構如下：
+
+[Skill 原始檔](https://github.com/isak-ghcopilot-workshop/Custom-Playwright-TestingSkill/tree/main/.github/skills/playwright-testing){target="_blank"}
+
+```{.text code-line-numbers="false"}
+.github/
+└── skills/
+    └── playwright-testing/
+        ├── SKILL.md
+        ├── test-strategy.md
+        ├── debugging.md
+        └── conventions.md
+```
+\
+
+Skill 定義:
+
+* Test conventions
+* Naming
+* Locator strategy
+* Debugging workflow
+* Screenshot policy
+* Retry policy
+* Reporting
+
+\
+
+```{=html}
+<pre>
+SKILL.md
+│
+│   Agentic Testing Workflow
+│   Explore → Plan → Implement → Run
+│                    ↓
+│              Diagnose → Fix → Retest
+│
+├── test-strategy.md
+│     What should we test?
+│
+├── conventions.md
+│     How should we write tests?
+│
+└── debugging.md
+      How should we diagnose failures?  
+</pre>
+```
+
+\
+
+AI 代理在執行時進行的階段流程如下：
+
+```{=html}
+<pre>
+Feature
+ ↓
+Explore
+ ↓
+Discover Test Scenarios
+ ↓
+Generate Tests
+ ↓
+Run Tests
+ ↓
+Diagnose
+ ↓
+Fix
+ ↓
+Retest
+ ↓
+Report
+</pre>
+```
+
+## Agentic Testing Core Concepts
+
+\
+
+* Browser 是 Agent 的「眼睛」
+* Playwright CLI 是 Agent 的「手」
+* Skill 是 Agent 的「經驗」
+
+## Agentic E2E Testing Workflow 目標
+
+\
+
+從『用 Copilot 寫 Playwright Test』 升級成
+
+\
+
+> 『能 Explore、Test、Diagnose、Fix、Retest 的<br/>Agentic E2E Testing Workflow』
+
+
+```{=html}
+<pre>
+           GitHub Copilot
+               Agent 
+                 │
+      ┌──────────┼──────────┐
+      │          │          │
+    Skills      MCP        CLI
+   Knowledge   Observe     Act
+      │          │          │
+      └──────────┼──────────┘
+                 ↓
+          Agentic Testing
+                 ↓
+ Explore → Test → Fail → Diagnose
+                 ↑          │
+                 └── Fix ←──┘
+</pre>
+```
 
 
 # Hands-on: Blazor WebAssembly E2E Tesing Challenge & QA
+
+
+## Lab14: Blazor WebAssembly E2E Testing 
+
+[Lab14 操作步驟及範例原始碼](){target="_blank"}
+
+## 結論
+
+* 使用 GitHub Copilot Agent + Playwright 進行 E2E 測試
+* Agentic Testing Workflow 的完整流程，包括探索測試場景、生成測試、診斷失敗、修復問題以及重新測試。
+* 透過自製的 Testing Skill，我們能夠提升測試的自動化程度與可靠性，並建立一致的測試規範與流程。
