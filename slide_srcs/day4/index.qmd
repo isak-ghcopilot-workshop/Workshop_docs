@@ -39,23 +39,195 @@ code-annotations: below
 
 # Agentic Coding Recap
 
+## GitHub Copilot Agentic Coding {.scrollable}
 
+:::: {.columns}
+::: {.column}
+```{=html}
+<pre>
+  Developer
+   │
+   ▼
+Prompt
+   │
+   ├── Custom Instructions
+   │
+   ├── AGENTS.md
+   │
+   ├── Agent Skills
+   │
+   ├── Custom Agent
+   │
+   ├── MCP
+   │
+   └── Agent Plugin
+   │
+   ▼
+GitHub Copilot
+   │
+   ├── VS Code
+   │
+   ├── Copilot CLI
+   │
+   └── Coding Agent
+   │
+   ▼
+Code / Test / Build / Git / GitHub
+</pre>
+```
+:::
+::: {.column}
+
+![](./pics/SDLC_GitHub_Copilot.png){.center .lightbox}
+
+現在的趨勢是越來越不需要人類主動打開IDE手動操作、手動打程式碼，而是由 AI 代理自動完成開發流程，但人類仍然需要負責設計、監督與驗證，負擔最終的責任。
+
+:::
+::::
 
 # GitHub Copilot CLI Fundamentals
 
+## GitHub Copilot CLI Overview
+
+GitHub Copilot CLI 是一個命令列工具，允許開發者在終端中使用 GitHub Copilot 的功能。它可以幫助開發者自動生成程式碼片段、測試、以及其他開發相關的任務，並且可以與 Agentic Coding 流程整合，提升開發效率。
+
 # CLI Agentic Coding Techniques
 
-# Agent Skill Engineering: Good Skill vs Bad Skill
+## GitHub Copilot CLI Recap
+
+\
+從單純的 Console 使用，Agentic Coding，進階到 Agentic SDLC 的流程
+\
+\
+
+::: {.r-stack}
+```{.text code-line-numbers="1,4,13"}
+  GitHub Copilot CLI
+        │
+        ▼
+   Agentic Coding
+        │
+        ▼
+    Agent Skills
+        │
+        ▼
+  Reusable Workflow
+        │
+        ▼
+   Agentic SDLC
+```
+:::
+
+# Agent Skill Engineering:<br/>Good Skill vs Bad Skill
 
 ## Agent Skill Engineering
 
-Agent Skill ≈ Context Engineering
+\
+\
+\
 
-## What Makes a Good Agent Skill?
+::: {.r-stack}
+> Agent Skill ≈ Context Engineering 
+:::
+
+\
+\
+
+::: {.r-stack}
+從「會寫 Skill」進階到「會設計好的 Skill」
+:::
 
 ## Bad Skill vs Good Skill
 
+\
+
+### ❌ Bad Skill
+
+```markdown
+---
+name: dotnet-api
+description: Create APIs.
+---
+
+Create an API.
+
+Follow best practices.
+
+Add tests.
+
+Make sure the code is good.
+```
+\
+通常人類看了覺得很『模糊』，不知道該怎麼做的，AI 也會感到困惑。
+
+## What Makes a Good Agent Skill?
+\
+
+### 6 個評估面向
+
+\
+
+面向 | 要問的問題
+---|---
+🎯 Discoverability |	Agent 知不知道什麼時候該用它？
+📐 Scope |	Skill 的責任範圍是否清楚？
+🧭 Instructions |	執行步驟是否明確、可操作？
+📦 Context |	有沒有只提供真正需要的 context？
+🔁 Repeatability |	同類任務重跑，結果是否穩定？
+✅ Verifiability	| Agent 做完之後，知道怎麼驗證嗎？
+
+
 ## Scope & Trigger Design
+
+**"When to Use"** AND/OR **"When _NOT_ to Use"**
+
+```{=html}
+<pre>
+  Good Skill
+
+        What I DO
+            │
+            ▼
+      ┌─────────────┐
+      │ Skill Scope │
+      └─────────────┘
+            ▲
+            │
+      What I DON'T DO
+</pre>
+```
+\
+
+::::{.columns}
+::: {.column}
+``` {.text code-line-numbers="false"}
+## When to use
+
+Use this skill when:
+
+- creating REST API endpoints
+- modifying existing endpoints
+- adding API request/response models
+- adding API tests
+```
+:::
+::: {.column}
+``` {.text code-line-numbers="false"}
+## Do not use
+
+Do not use this skill for:
+
+- UI development
+- database migration
+- infrastructure provisioning
+- general code review
+```
+:::
+::::
+
+:::{.callout-tip}
+降低 Skill 之間的 Scope Overlap，避免 AI 代理同時載入多個 Skill，造成 context 混亂。
+:::
 
 ## Progressive Disclosure
 
@@ -167,7 +339,78 @@ A good Skill doesn't just tell the agent what it knows. It tells the agent **how
 
 ## Verification Strategy
 
+\
+
+很多 Agnet SKill 最大的問題是 `Do something `\
+但是沒有：`How do I know I'm done?`
+
+\
+
+``` {.text code-line-numbers="false"}
+## Validation
+
+Before completing the task:
+
+1. Build the solution.
+2. Run affected unit tests.
+3. Verify no unrelated files were modified.
+4. Review the implementation against the requirements.
+5. Report any unresolved issues.
+```
+
+## 
+
+\
+Agent Skill 被 LLM/Agent 的使用流程應該要是：
+
+\
+
+::: {.r-stack}
+::: {style="width: 50%;"} 
+```{=html}
+<pre>
+Understand
+    ↓
+  Plan
+    ↓
+ Execute
+    ↓
+ Validate
+    ↓
+  Review
+    ↓
+   Done
+</pre>
+```
+:::
+:::
+
 ## Evaluation
+
+* Agnet Skill 還有一個隱藏面向上述沒有提及：AI token 使用成本。
+
+* 這牽扯到使用的 Harness 框架設計 與 Agent選用的大語言模型選型，都會影響 AI token 的使用成本。
+
+![[圖片來源](https://code.visualstudio.com/blogs/2026/05/15/agent-harnesses-github-copilot-vscode){target="_blank"}](./pics/Copilot_Agent.png){.center .lightbox}
+
+## {.scrollable}
+
+::: {.callout-important}
+也不是說 AI token 消耗越少的 Agent Skill 越好，因為很有可能消耗少但執行效果差，導致 AI 代理判斷任務完成度沒達到而looping重複執行，反而增加總成本。
+:::
+
+![[圖片來源](https://code.visualstudio.com/blogs/2026/05/15/agent-harnesses-github-copilot-vscode){target="_blank"}](./pics/Copilot_Agent-loop.png){.center .lightbox}
+
+## 如何進行 Agent Skill 評估
+
+1. 準備測試材料
+2. 限定測試環境
+3. 執行 Agent Skill
+4. 收集執行結果
+5. 評估結果是否符合預期
+6. 記錄評估過程與結論
+
+
 
 ## Agent Skill Recap
 
