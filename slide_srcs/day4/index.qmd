@@ -593,6 +593,196 @@ Agent Skill Review Checklist
 
 > A good skill creates a repeatable engineering behavior.
 
+\
+
+第三方相關工具/資源：
+
+* [Nvidia SkillSpector](https://docs.nvidia.com/skills/scanning-agent-skills){target="_blank"}
+* [Anthropic Skill Creator](https://copilot-academy.github.io/workshops/copilot-customization/agent_skills_developer_guide#4-walkthrough-2-using-the-skill-creator){target="_blank"}
+* [Agent Skills File Guidelines](https://github.com/github/awesome-copilot/blob/main/instructions/agent-skills.instructions.md){target="_blank"}
+* [自製的 Portable VSCode 隔離環境](https://github.com/windperson/Win-VSCode-Portable){target="_blank"}
+* [skillops-studio](https://hackmd.io/@HWDC/2026/%2FIgPBdg-8S5WlcpD9IaP1-A){target="_blank"}
+
 # Context & Token Engineering
 
+## Context ≠ 越多越好 {.scrollable}
+
+\
+
+
+```{=html}
+<pre>
+  Relevant Context
+         +
+  Clear Instructions
+         +
+  Required Tools
+         ↓
+  Better Agent Behavior
+</pre>
+```
+
+通常越大 Context 的模型越貴
+
+```text
+"Read the whole repository"
+```
+
+::: {.r-stack}
+
+\
+⬇️
+\
+\
+
+:::
+
+
+```text
+Explore the repository structure first.
+
+Identify files relevant to this task.
+
+Read only the files needed before creating
+an implementation plan.
+```
+
+## Specific Context > Broad Context
+
+在提供 context 時，應優先提供與任務直接相關的資訊，而非整個資料庫或所有檔案的內容。這樣可以讓 AI 代理更專注於當前任務，避免被過多無關資訊干擾。
+
+尤其 CLI 執行過程中的 command output、file contents、tool results 資訊都會進入 context，建議只提供與任務相關的必要資訊，避免 context 過於冗長。
+
+:::: {.columns}
+::: {.column}
+❌ Broad
+
+```text
+Analyze this project and implement Product Search.
+```
+:::
+::: {.column}
+✅ Targeted
+
+先找 Product Search 相關元件：
+
+```text
+Find the components related to Product Search.
+Do not modify anything.
+```
+
+知道相關檔案之後，再：
+
+```text
+Implement the feature using the existing
+ProductService pattern.
+
+Only inspect additional files when required.
+```
+
+:::
+::::
+
+## Control Tool Output
+
+\
+
+> Tool Output is Context too.
+
+:::: {.columns}
+::: {.column}
+❌ Broad
+
+```{=html}
+<pre>
+Command
+   ↓
+Huge output
+   ↓
+Context Window
+████████████████████
+</pre>
+```
+:::
+::: {.column}
+✅ Relevant
+
+```{=html}
+<pre>
+Focused Command
+   ↓
+Relevant Output
+   ↓
+Context
+█████
+</pre>
+```
+
+:::
+::::
+
+\
+可參考[Managing context for GitHub Copilot](https://docs.github.com/en/copilot/concepts/prompting-and-context/context-management) 必要時自己手動管理 context。
+
+
+## KV Cache & Prompt Cache {.scrollable}
+
+### KV Cache
+
+KV Cache 是模型在處理長對話或大量 context 時，用來儲存 key-value pair 的快取機制。它可以讓模型在生成回應時快速訪問之前的 context，避免每次都重新處理整個 context，從而提升效率。
+
+LLM模型層級的快取、節省算力的機制，如果已經算過『Attention值』但文字內容沒有改變的，就不需重算，直接使用快取的結果即可。
+
+::: {.callout-tip}
+儘量不要讓一個Session去按Edit把舊的歷史對話改掉重跑
+:::
+
+\
+
+### Prompt Cache
+
+Prompt Cache 則是對整個 prompt 的快取，當相同的 prompt 再次出現時，可以直接使用快取結果，而不需要重新計算模型輸出。這對於重複性高的任務特別有用。
+
+Agent Harness 框架會在多次的Session，有相同句子的Prompt token 快取起來不必一直重算來節省算力，屬於 Harness + LLM 層級的快取。
+
+::: {.callout-tip}
+有使用多次Prompt時，固定內容放前面，變動內容放後面
+:::
+
+![](./pics/Prompt_Cache_saving.png){.center .lightbox}
+
+
+## GitHub Copilot 互動時的操作技巧
+
+* 只提供此次任務需要的context
+* 善用 `@selection` 而不是送整個程式碼檔案為context
+* 不要太常用 `@workspace`
+* 錯誤log不要全部複製貼上，如自己知道大概出錯位置，就只提供相關部分
+* Prompt問題內容描述精準
+* Agent任務避免太開放性目標、一次性修改太多檔案
+* 善用有 Load-on-demand 的 Agent Skill
+* 一個 Agent Session就只做一個任務
+* 開啟 [GitHub Copilot Fusion](https://github.blog/changelog/2026-10-28-route-and-orchestrate-models-with-github-copilot-fusion/){target="_blank"} 結合可用的地端模型來節省雲端模型token花費。
+
+## C.L.E.A.R. 心法 {.scrollable}
+
+\
+
+[C.L.E.A.R. 心法 影片](https://www.youtube.com/live/HcIbvwE39NE) 
+![](./pics/CLEAR_mindset.png){.center .lightbox}
+
+::: {.block}
+* Constrain (限制/定義輸出)
+* Lean (精簡無禮貌客套詞)
+* Explicit (明確Prompt)
+* Architected (架構化的Prompt)
+* Re-usable (讓越前面的文字能夠重複使用)
+:::
+
+> 用更少 Prompt Token 與 Output Token，得到同樣甚至更好的結果
+
 # Agentic Coding Challenge & QA
+
+\
+
+[Lab範例專案及操作步驟](https://github.com/isak-ghcopilot-workshop/AgenticCodingChallenge/blob/main/CHALLENGE.md){target="_blank"}
