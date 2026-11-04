@@ -229,7 +229,7 @@ Copilot CLI 也特別提供 /plan，強調先進行 planning，再進入 executi
 5. 若有問題，回到步驟 1 重新規劃
 :::
 
-## GitHub Action 整合 GitHub Copilot CLI
+## GitHub Action 整合 GitHub Copilot CLI {.scrollable}
 
 在一些很簡單CI/CD場合，可使用 GH Copilot 的 –p 參數來執行一些Prompt讓 Coding Agent 做事：
 
@@ -239,10 +239,11 @@ Copilot CLI 也特別提供 /plan，強調先進行 planning，再進入 executi
 
 ::: {.callout-important}
 * 這會消耗設定 PAT Token 的 GitHub Copilot 個人/組織帳號所屬的 AI Credit 使用額度
-* 建議需要比較長時間跑或是去跟外部資源/MCP整合的還是使用 [Cloud Agent](https://docs.github.com/en/copilot/how-tos/use-copilot-agents/cloud-agent/use-cloud-agent-on-github){target="_blank"} / [GitHub Agent Workflow](https://github.com/github/gh-aw){target="_blank"}
+* 建議需要比較長時間跑或是去跟外部資源/MCP整合的還是使用 [Cloud Agent](https://docs.github.com/en/copilot/how-tos/use-copilot-agents/cloud-agent/use-cloud-agent-on-github){target="_blank"} / [GitHub Agent Workflow](https://docs.github.com/en/copilot/how-tos/github-agentic-workflows){target="_blank"}，有較完善的Sandbox環境讓 AI 代理可安全執行任務。
+   ![](./pics/GitHub_Agentic_Workflows.png){.center .lightbox}
 :::
 
-其他將 GH Copilot CLI 整合 DevOps 流程的實例，可參考此 [部落格文章](https://dev.to/pwd9000/github-copilot-cli-a-devops-engineers-practical-guide-to-ai-powered-terminal-automation-1jh0){target="_blank"}。
+其他將 GH Copilot CLI 整合 DevOps 流程實例，可參考此 [部落格文章](https://dev.to/pwd9000/github-copilot-cli-a-devops-engineers-practical-guide-to-ai-powered-terminal-automation-1jh0){target="_blank"}。
 
 ## GitHub Copilot CLI Recap
 
