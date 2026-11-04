@@ -87,11 +87,162 @@ Code / Test / Build / Git / GitHub
 
 # GitHub Copilot CLI Fundamentals
 
-## GitHub Copilot CLI Overview
+## GitHub Copilot CLI Overview {.scrollable}
 
-GitHub Copilot CLI 是一個命令列工具，允許開發者在終端中使用 GitHub Copilot 的功能。它可以幫助開發者自動生成程式碼片段、測試、以及其他開發相關的任務，並且可以與 Agentic Coding 流程整合，提升開發效率。
+GitHub Copilot CLI 是一個命令列工具，允許開發者在終端中使用 GitHub Copilot。它可以幫助開發者自動生成程式碼片段、測試、以及其他開發相關的任務，且可與 Agentic Coding 流程整合，提升開發效率。
+
+[GitHub 原始碼](https://github.com/github/copilot-cli){target="_blank"}
+
+  * [GitHub Copilot CLI 使用說明](https://docs.github.com/en/copilot/concepts/copilot-surfaces/copilot-cli){target="_blank"}
+  * [GitHub Copilot CLI how-tos](https://docs.github.com/en/copilot/how-tos/copilot-cli){target="_blank"}
+
+
+:::{.callout-tip}
+* 在Windows環境建議搭配 [Windows Terminal](https://aka.ms/terminal){target="_blank"} 使用
+* 安裝時請順便裝 GitHub CLI ([https://cli.github.com/](https://cli.github.com/){target="_blank"} )，使用者登入授權會比較方便
+:::
+
+* 獨立於VSCode等 IDE 工具的單獨 GH Copilot 命令列工具
+* 適用於完全不需/不想看程式碼的 AI Coding場合
+   
+   ```
+   Prompt → Explore → Plan → Execute → Verify
+   ```
+
+* 或是用於 CI/CD 等沒有 IDE 的軟體專案工作場合
+
+## GitHub Copilot CLI 優點 {.scrollable}
+
+* 可持續使用，GH Copilot CLI 會[自動壓縮 Agent Session memory](https://docs.github.com/en/copilot/how-tos/copilot-cli/cli-best-practices#3-leverage-infinite-sessions){target="_blank"}
+* 用自然語言操作 Terminal ，省得記憶一堆指令\
+   (等價交換的代價是燒AI token)
+* 不需要開啟IDE就可命令Coding Agent改程式\
+  (不過若同專案在VSCode打開時會偵測到並即時sync)\
+  ![](./pics/GHCopilotCLI_show_VSCode_Connected.png){.center .lightbox}
+* 與 GitHub.com 網站服務深度整合，進行DevOps自動化任務\
+  VS Code Copilot 幫你寫程式，\
+  GitHub Copilot CLI 幫你完成整個開發工作流程。
+
+## GitHub Copilot CLI 使用方式 {.scrollable}
+
+* 在終端中使用 `copilot` 指令進入 GitHub Copilot CLI 環境
+  ![](./pics/GHCopilotCLI_UI.png){.center .lightbox}
+  
+  :::{.callout-tip}
+  要輸入多行文字，使用 `Ctrl+J` 換行
+  ![](./pics/GHCopilotCLI_UI_multiple_lines_prompt.png)
+  ::: 
+   
+* 使用 `copilot -p "輸入的Prompt"` 執行單次的 AI 代理操作
+   ![](./pics/GHCopilotCLI_single_prompt.png){.center .lightbox}
+
+## GitHub Copilot CLI 幾個常用的 『slash(/)』指令
+
+[GitHub Copilot CLI 指令總覽](https://docs.github.com/en/copilot/reference/copilot-cli-reference/cli-command-reference){target="_blank"}
+
+* `/model` : 選擇使用的 LLM model
+* `/init` : 建立/更新目錄所在專案層級 GitHub Copilot 之 Global Custom Instruction 檔案
+* `/plan` : 切換到 GitHub Copilot 不會動到任何檔案的 Plan 模式
+* `/resume` : 恢復先前退出時的Chat session
+* `/agent` : 選取/使用 GitHub Copilot 的 Custom Agent
+* `/skill` & `/skills` : 管理 GitHub Copilot 的 Agent Skills
+* `/mcp` : 管理 GitHub Copilot 的 MCP Server 資源
+* `/plugin` : 管理 GitHub Copilot 的 Agent Plugin 相關資源
+* `/exit` : 退出 GitHub Copilot CLI 環境
+* `/help` : 顯示所有可用指令及其說明
 
 # CLI Agentic Coding Techniques
+
+## 先 Explore，不要直接叫它改
+
+讓 AI 代理先探索專案，而不是直接修改程式碼
+\
+\
+
+```text
+Fix this project.
+```
+
+::: {.r-stack}
+
+\
+⬇️
+\
+\
+
+:::
+
+```text
+Explore this repository.
+
+Identify:
+1. architecture
+2. major components
+3. dependencies
+4. potential risks
+
+Do not modify any files.
+```
+
+## Planning before Coding {.scrollable}
+
+在開始修改程式碼之前，先讓 AI 代理進行規劃，確認專案架構、主要元件、依賴關係以及潛在風險，人類確認後再指揮 AI 代理進行修改，由避免盲目修改造成問題。
+
+1️⃣
+
+```text
+Analyze the requirement.
+
+Create an implementation plan.
+
+For each step identify:
+- files affected
+- implementation approach
+- risks
+- tests required
+
+Do not modify the code yet.
+```
+
+2️⃣
+
+```text
+Implement step 1 only.
+Do not proceed to step 2 until step 1 is completed and verified.
+```
+
+::: {.callout-tip}
+Copilot CLI 也特別提供 /plan，強調先進行 planning，再進入 execution。
+:::
+
+## Verification Loop
+
+如果要讓 GitHub Copilot CLI 在修改程式碼後進行驗證，應該建立一個 Verification Loop，確保每一步修改都經過檢查與確認，避免錯誤累積。
+
+\
+
+::: {.border}
+1. AI 代理提出修改計畫
+2. 人類審查計畫，確認無誤
+3. AI 代理執行修改
+4. 使用測試案例或其他驗證工具驗證修改結果
+5. 若有問題，回到步驟 1 重新規劃
+:::
+
+## GitHub Action 整合 GitHub Copilot CLI
+
+在一些很簡單CI/CD場合，可使用 GH Copilot 的 –p 參數來執行一些Prompt讓 Coding Agent 做事：
+
+[官方說明](https://docs.github.com/en/copilot/how-tos/copilot-cli/automate-copilot-cli/automate-with-actions){target="_blank"}
+
+![](./pics/GHCopilotCLI_used_in_CI.png){.center .lightbox}
+
+::: {.callout-important}
+* 這會消耗設定 PAT Token 的 GitHub Copilot 個人/組織帳號所屬的 AI Credit 使用額度
+* 建議需要比較長時間跑或是去跟外部資源/MCP整合的還是使用 [Cloud Agent](https://docs.github.com/en/copilot/how-tos/use-copilot-agents/cloud-agent/use-cloud-agent-on-github){target="_blank"} / [GitHub Agent Workflow](https://github.com/github/gh-aw){target="_blank"}
+:::
+
+其他將 GH Copilot CLI 整合 DevOps 流程的實例，可參考此 [部落格文章](https://dev.to/pwd9000/github-copilot-cli-a-devops-engineers-practical-guide-to-ai-powered-terminal-automation-1jh0){target="_blank"}。
 
 ## GitHub Copilot CLI Recap
 
@@ -401,18 +552,29 @@ Understand
 
 ![[圖片來源](https://code.visualstudio.com/blogs/2026/05/15/agent-harnesses-github-copilot-vscode){target="_blank"}](./pics/Copilot_Agent-loop.png){.center .lightbox}
 
-## 如何進行 Agent Skill 評估
+## 如何進行 Agent Skill 評估 {.scrollable}
 
+要進行正規 Agent Skill 評估，概念上的進行步驟：
+
+[https://agentskills.io/skill-creation/evaluating-skills](https://agentskills.io/skill-creation/evaluating-skills){target="_blank"}
+
+::: {.border}
 1. 準備測試材料
 2. 限定測試環境
-3. 執行 Agent Skill
+3. 測試環境 AI 代理執行 Agent Skill
 4. 收集執行結果
 5. 評估結果是否符合預期
 6. 記錄評估過程與結論
+:::
 
+得先蒐集資料，包含測試材料、測試環境設定以及相關的 AI 代理配置，才能進行後續的評估步驟。
 
+然後使用例如 [Microsoft Foundry Evaluation Service](https://learn.microsoft.com/azure/foundry/concepts/observability){target="_blank"} 結合一些 [自行撰寫的評估工具](https://learn.microsoft.com/agent-framework/agents/evaluation?pivots=programming-language-csharp){target="_blank"} 來進行 Agent Skill 的評估。
 
-## Agent Skill Recap
+* NET 開發團隊的範例: [https://github.com/dotnet/skills/tree/main/eng/skill-validator/src](https://github.com/dotnet/skills/tree/main/eng/skill-validator/src){target="_blank"}
+* 第三方如 [Nvidia 的 SkillEvaluator](https://docs.nvidia.com/skills/skillevaluator){target="_blank"}
+
+## Agent Skill Recap {.scrollable}
 
 Agent Skill Review Checklist
 
