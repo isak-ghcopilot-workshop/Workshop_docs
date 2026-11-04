@@ -278,14 +278,183 @@ Code / Test / Build / Git / GitHub
 <h1>GitHub Copilot CLI Fundamentals</h1>
 
 </section>
-<section id="github-copilot-cli-overview" class="slide level2">
+<section id="github-copilot-cli-overview" class="slide level2 scrollable">
 <h2>GitHub Copilot CLI Overview</h2>
-<p>GitHub Copilot CLI 是一個命令列工具，允許開發者在終端中使用 GitHub Copilot 的功能。它可以幫助開發者自動生成程式碼片段、測試、以及其他開發相關的任務，並且可以與 Agentic Coding 流程整合，提升開發效率。</p>
+<p>GitHub Copilot CLI 是一個命令列工具，允許開發者在終端中使用 GitHub Copilot。它可以幫助開發者自動生成程式碼片段、測試、以及其他開發相關的任務，且可與 Agentic Coding 流程整合，提升開發效率。</p>
+<p><a href="https://github.com/github/copilot-cli" target="_blank">GitHub 原始碼</a></p>
+<ul>
+<li><a href="https://docs.github.com/en/copilot/concepts/copilot-surfaces/copilot-cli" target="_blank">GitHub Copilot CLI 使用說明</a></li>
+<li><a href="https://docs.github.com/en/copilot/how-tos/copilot-cli" target="_blank">GitHub Copilot CLI how-tos</a></li>
+</ul>
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Tip</strong></p>
+</div>
+<div class="callout-content">
+<ul>
+<li>在Windows環境建議搭配 <a href="https://aka.ms/terminal" target="_blank">Windows Terminal</a> 使用</li>
+<li>安裝時請順便裝 GitHub CLI (<a href="https://cli.github.com/" target="_blank">https://cli.github.com/</a> )，使用者登入授權會比較方便</li>
+</ul>
+</div>
+</div>
+</div>
+<ul>
+<li><p>獨立於VSCode等 IDE 工具的單獨 GH Copilot 命令列工具</p></li>
+<li><p>適用於完全不需/不想看程式碼的 AI Coding場合</p>
+<pre><code>Prompt → Explore → Plan → Execute → Verify</code></pre></li>
+<li><p>或是用於 CI/CD 等沒有 IDE 的軟體專案工作場合</p></li>
+</ul>
+</section>
+<section id="github-copilot-cli-優點" class="slide level2 scrollable">
+<h2>GitHub Copilot CLI 優點</h2>
+<ul>
+<li>可持續使用，GH Copilot CLI 會<a href="https://docs.github.com/en/copilot/how-tos/copilot-cli/cli-best-practices#3-leverage-infinite-sessions" target="_blank">自動壓縮 Agent Session memory</a></li>
+<li>用自然語言操作 Terminal ，省得記憶一堆指令<br>
+(等價交換的代價是燒AI token)</li>
+<li>不需要開啟IDE就可命令Coding Agent改程式<br>
+(不過若同專案在VSCode打開時會偵測到並即時sync)<br>
+<a href="./pics/GHCopilotCLI_show_VSCode_Connected.png" class="lightbox" data-gallery="quarto-lightbox-gallery-2"><img data-src="./pics/GHCopilotCLI_show_VSCode_Connected.png" class="center"></a></li>
+<li>與 GitHub.com 網站服務深度整合，進行DevOps自動化任務<br>
+VS Code Copilot 幫你寫程式，<br>
+GitHub Copilot CLI 幫你完成整個開發工作流程。</li>
+</ul>
+</section>
+<section id="github-copilot-cli-使用方式" class="slide level2 scrollable">
+<h2>GitHub Copilot CLI 使用方式</h2>
+<ul>
+<li><p>在終端中使用 <code>copilot</code> 指令進入 GitHub Copilot CLI 環境 <a href="./pics/GHCopilotCLI_UI.png" class="lightbox" data-gallery="quarto-lightbox-gallery-3"><img data-src="./pics/GHCopilotCLI_UI.png" class="center"></a></p>
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Tip</strong></p>
+</div>
+<div class="callout-content">
+<p>要輸入多行文字，使用 <code>Ctrl+J</code> 換行 <img data-src="./pics/GHCopilotCLI_UI_multiple_lines_prompt.png"></p>
+</div>
+</div>
+</div></li>
+<li><p>使用 <code>copilot -p "輸入的Prompt"</code> 執行單次的 AI 代理操作 <a href="./pics/GHCopilotCLI_single_prompt.png" class="lightbox" data-gallery="quarto-lightbox-gallery-4"><img data-src="./pics/GHCopilotCLI_single_prompt.png" class="center"></a></p></li>
+</ul>
+</section>
+<section id="github-copilot-cli-幾個常用的-slash指令" class="slide level2">
+<h2>GitHub Copilot CLI 幾個常用的 『slash(/)』指令</h2>
+<p><a href="https://docs.github.com/en/copilot/reference/copilot-cli-reference/cli-command-reference" target="_blank">GitHub Copilot CLI 指令總覽</a></p>
+<ul>
+<li><code>/model</code> : 選擇使用的 LLM model</li>
+<li><code>/init</code> : 建立/更新目錄所在專案層級 GitHub Copilot 之 Global Custom Instruction 檔案</li>
+<li><code>/plan</code> : 切換到 GitHub Copilot 不會動到任何檔案的 Plan 模式</li>
+<li><code>/resume</code> : 恢復先前退出時的Chat session</li>
+<li><code>/agent</code> : 選取/使用 GitHub Copilot 的 Custom Agent</li>
+<li><code>/skill</code> &amp; <code>/skills</code> : 管理 GitHub Copilot 的 Agent Skills</li>
+<li><code>/mcp</code> : 管理 GitHub Copilot 的 MCP Server 資源</li>
+<li><code>/plugin</code> : 管理 GitHub Copilot 的 Agent Plugin 相關資源</li>
+<li><code>/exit</code> : 退出 GitHub Copilot CLI 環境</li>
+<li><code>/help</code> : 顯示所有可用指令及其說明</li>
+</ul>
 </section></section>
 <section>
 <section id="cli-agentic-coding-techniques" class="title-slide slide level1 center">
 <h1>CLI Agentic Coding Techniques</h1>
 
+</section>
+<section id="先-explore不要直接叫它改" class="slide level2">
+<h2>先 Explore，不要直接叫它改</h2>
+<p>讓 AI 代理先探索專案，而不是直接修改程式碼<br>
+<br>
+</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode numberSource text number-lines code-with-copy"><code class="sourceCode"><span id="cb2-1"><a href="" aria-label="1"></a>Fix this project.</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="r-stack">
+<p><br>
+⬇️<br>
+<br>
+</p>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode numberSource text number-lines code-with-copy"><code class="sourceCode"><span id="cb3-1"><a href="" aria-label="1"></a>Explore this repository.</span>
+<span id="cb3-2"><a href="" aria-label="2"></a></span>
+<span id="cb3-3"><a href="" aria-label="3"></a>Identify:</span>
+<span id="cb3-4"><a href="" aria-label="4"></a>1. architecture</span>
+<span id="cb3-5"><a href="" aria-label="5"></a>2. major components</span>
+<span id="cb3-6"><a href="" aria-label="6"></a>3. dependencies</span>
+<span id="cb3-7"><a href="" aria-label="7"></a>4. potential risks</span>
+<span id="cb3-8"><a href="" aria-label="8"></a></span>
+<span id="cb3-9"><a href="" aria-label="9"></a>Do not modify any files.</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="planning-before-coding" class="slide level2 scrollable">
+<h2>Planning before Coding</h2>
+<p>在開始修改程式碼之前，先讓 AI 代理進行規劃，確認專案架構、主要元件、依賴關係以及潛在風險，人類確認後再指揮 AI 代理進行修改，由避免盲目修改造成問題。</p>
+<p>1️⃣</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode numberSource text number-lines code-with-copy"><code class="sourceCode"><span id="cb4-1"><a href="" aria-label="1"></a>Analyze the requirement.</span>
+<span id="cb4-2"><a href="" aria-label="2"></a></span>
+<span id="cb4-3"><a href="" aria-label="3"></a>Create an implementation plan.</span>
+<span id="cb4-4"><a href="" aria-label="4"></a></span>
+<span id="cb4-5"><a href="" aria-label="5"></a>For each step identify:</span>
+<span id="cb4-6"><a href="" aria-label="6"></a>- files affected</span>
+<span id="cb4-7"><a href="" aria-label="7"></a>- implementation approach</span>
+<span id="cb4-8"><a href="" aria-label="8"></a>- risks</span>
+<span id="cb4-9"><a href="" aria-label="9"></a>- tests required</span>
+<span id="cb4-10"><a href="" aria-label="10"></a></span>
+<span id="cb4-11"><a href="" aria-label="11"></a>Do not modify the code yet.</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>2️⃣</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode numberSource text number-lines code-with-copy"><code class="sourceCode"><span id="cb5-1"><a href="" aria-label="1"></a>Implement step 1 only.</span>
+<span id="cb5-2"><a href="" aria-label="2"></a>Do not proceed to step 2 until step 1 is completed and verified.</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Tip</strong></p>
+</div>
+<div class="callout-content">
+<p>Copilot CLI 也特別提供 /plan，強調先進行 planning，再進入 execution。</p>
+</div>
+</div>
+</div>
+</section>
+<section id="verification-loop" class="slide level2">
+<h2>Verification Loop</h2>
+<p>如果要讓 GitHub Copilot CLI 在修改程式碼後進行驗證，應該建立一個 Verification Loop，確保每一步修改都經過檢查與確認，避免錯誤累積。</p>
+<p><br>
+</p>
+<div class="border">
+<ol type="1">
+<li>AI 代理提出修改計畫</li>
+<li>人類審查計畫，確認無誤</li>
+<li>AI 代理執行修改</li>
+<li>使用測試案例或其他驗證工具驗證修改結果</li>
+<li>若有問題，回到步驟 1 重新規劃</li>
+</ol>
+</div>
+</section>
+<section id="github-action-整合-github-copilot-cli" class="slide level2">
+<h2>GitHub Action 整合 GitHub Copilot CLI</h2>
+<p>在一些很簡單CI/CD場合，可使用 GH Copilot 的 –p 參數來執行一些Prompt讓 Coding Agent 做事：</p>
+<p><a href="https://docs.github.com/en/copilot/how-tos/copilot-cli/automate-copilot-cli/automate-with-actions" target="_blank">官方說明</a></p>
+<p><a href="./pics/GHCopilotCLI_used_in_CI.png" class="lightbox" data-gallery="quarto-lightbox-gallery-5"><img data-src="./pics/GHCopilotCLI_used_in_CI.png" class="center"></a></p>
+<div class="callout callout-important callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Important</strong></p>
+</div>
+<div class="callout-content">
+<ul>
+<li>這會消耗設定 PAT Token 的 GitHub Copilot 個人/組織帳號所屬的 AI Credit 使用額度</li>
+<li>建議需要比較長時間跑或是去跟外部資源/MCP整合的還是使用 <a href="https://docs.github.com/en/copilot/how-tos/use-copilot-agents/cloud-agent/use-cloud-agent-on-github" target="_blank">Cloud Agent</a> / <a href="https://github.com/github/gh-aw" target="_blank">GitHub Agent Workflow</a></li>
+</ul>
+</div>
+</div>
+</div>
+<p>其他將 GH Copilot CLI 整合 DevOps 流程的實例，可參考此 <a href="https://dev.to/pwd9000/github-copilot-cli-a-devops-engineers-practical-guide-to-ai-powered-terminal-automation-1jh0" target="_blank">部落格文章</a>。</p>
 </section>
 <section id="github-copilot-cli-recap" class="slide level2">
 <h2>GitHub Copilot CLI Recap</h2>
@@ -294,19 +463,19 @@ Code / Test / Build / Git / GitHub
 <br>
 </p>
 <div class="r-stack">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1" data-code-line-numbers="1,4,13"><pre class="sourceCode numberSource text number-lines code-with-copy"><code class="sourceCode"><span id="cb1-1"><a href="" aria-label="1"></a>  GitHub Copilot CLI</span>
-<span id="cb1-2"><a href="" aria-label="2"></a>        │</span>
-<span id="cb1-3"><a href="" aria-label="3"></a>        ▼</span>
-<span id="cb1-4"><a href="" aria-label="4"></a>   Agentic Coding</span>
-<span id="cb1-5"><a href="" aria-label="5"></a>        │</span>
-<span id="cb1-6"><a href="" aria-label="6"></a>        ▼</span>
-<span id="cb1-7"><a href="" aria-label="7"></a>    Agent Skills</span>
-<span id="cb1-8"><a href="" aria-label="8"></a>        │</span>
-<span id="cb1-9"><a href="" aria-label="9"></a>        ▼</span>
-<span id="cb1-10"><a href="" aria-label="10"></a>  Reusable Workflow</span>
-<span id="cb1-11"><a href="" aria-label="11"></a>        │</span>
-<span id="cb1-12"><a href="" aria-label="12"></a>        ▼</span>
-<span id="cb1-13"><a href="" aria-label="13"></a>   Agentic SDLC</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6" data-code-line-numbers="1,4,13"><pre class="sourceCode numberSource text number-lines code-with-copy"><code class="sourceCode"><span id="cb6-1"><a href="" aria-label="1"></a>  GitHub Copilot CLI</span>
+<span id="cb6-2"><a href="" aria-label="2"></a>        │</span>
+<span id="cb6-3"><a href="" aria-label="3"></a>        ▼</span>
+<span id="cb6-4"><a href="" aria-label="4"></a>   Agentic Coding</span>
+<span id="cb6-5"><a href="" aria-label="5"></a>        │</span>
+<span id="cb6-6"><a href="" aria-label="6"></a>        ▼</span>
+<span id="cb6-7"><a href="" aria-label="7"></a>    Agent Skills</span>
+<span id="cb6-8"><a href="" aria-label="8"></a>        │</span>
+<span id="cb6-9"><a href="" aria-label="9"></a>        ▼</span>
+<span id="cb6-10"><a href="" aria-label="10"></a>  Reusable Workflow</span>
+<span id="cb6-11"><a href="" aria-label="11"></a>        │</span>
+<span id="cb6-12"><a href="" aria-label="12"></a>        ▼</span>
+<span id="cb6-13"><a href="" aria-label="13"></a>   Agentic SDLC</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section></section>
 <section>
@@ -337,18 +506,18 @@ Code / Test / Build / Git / GitHub
 <p><br>
 </p>
 <h3 id="bad-skill">❌ Bad Skill</h3>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode numberSource markdown number-lines code-with-copy"><code class="sourceCode markdown"><span id="cb2-1"><a href="" aria-label="1"></a><span class="co">---</span></span>
-<span id="cb2-2"><a href="" aria-label="2"></a><span class="an">name:</span><span class="co"> dotnet-api</span></span>
-<span id="cb2-3"><a href="" aria-label="3"></a><span class="an">description:</span><span class="co"> Create APIs.</span></span>
-<span id="cb2-4"><a href="" aria-label="4"></a><span class="co">---</span></span>
-<span id="cb2-5"><a href="" aria-label="5"></a></span>
-<span id="cb2-6"><a href="" aria-label="6"></a>Create an API.</span>
-<span id="cb2-7"><a href="" aria-label="7"></a></span>
-<span id="cb2-8"><a href="" aria-label="8"></a>Follow best practices.</span>
-<span id="cb2-9"><a href="" aria-label="9"></a></span>
-<span id="cb2-10"><a href="" aria-label="10"></a>Add tests.</span>
-<span id="cb2-11"><a href="" aria-label="11"></a></span>
-<span id="cb2-12"><a href="" aria-label="12"></a>Make sure the code is good.</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode numberSource markdown number-lines code-with-copy"><code class="sourceCode markdown"><span id="cb7-1"><a href="" aria-label="1"></a><span class="co">---</span></span>
+<span id="cb7-2"><a href="" aria-label="2"></a><span class="an">name:</span><span class="co"> dotnet-api</span></span>
+<span id="cb7-3"><a href="" aria-label="3"></a><span class="an">description:</span><span class="co"> Create APIs.</span></span>
+<span id="cb7-4"><a href="" aria-label="4"></a><span class="co">---</span></span>
+<span id="cb7-5"><a href="" aria-label="5"></a></span>
+<span id="cb7-6"><a href="" aria-label="6"></a>Create an API.</span>
+<span id="cb7-7"><a href="" aria-label="7"></a></span>
+<span id="cb7-8"><a href="" aria-label="8"></a>Follow best practices.</span>
+<span id="cb7-9"><a href="" aria-label="9"></a></span>
+<span id="cb7-10"><a href="" aria-label="10"></a>Add tests.</span>
+<span id="cb7-11"><a href="" aria-label="11"></a></span>
+<span id="cb7-12"><a href="" aria-label="12"></a>Make sure the code is good.</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p><br>
 通常人類看了覺得很『模糊』，不知道該怎麼做的，AI 也會感到困惑。</p>
 </section>
@@ -586,7 +755,7 @@ Agent Skill 被 LLM/Agent 的使用流程應該要是：</p>
 </ul>
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><a href="./pics/Copilot_Agent.png" class="lightbox" data-gallery="quarto-lightbox-gallery-2" title="圖片來源"><img data-src="./pics/Copilot_Agent.png" class="center" alt="圖片來源"></a></p>
+<p><a href="./pics/Copilot_Agent.png" class="lightbox" data-gallery="quarto-lightbox-gallery-6" title="圖片來源"><img data-src="./pics/Copilot_Agent.png" class="center" alt="圖片來源"></a></p>
 <figcaption><a href="https://code.visualstudio.com/blogs/2026/05/15/agent-harnesses-github-copilot-vscode" target="_blank">圖片來源</a></figcaption>
 </figure>
 </div>
@@ -608,23 +777,33 @@ Agent Skill 被 LLM/Agent 的使用流程應該要是：</p>
 </div>
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><a href="./pics/Copilot_Agent-loop.png" class="lightbox" data-gallery="quarto-lightbox-gallery-3" title="圖片來源"><img data-src="./pics/Copilot_Agent-loop.png" class="center" alt="圖片來源"></a></p>
+<p><a href="./pics/Copilot_Agent-loop.png" class="lightbox" data-gallery="quarto-lightbox-gallery-7" title="圖片來源"><img data-src="./pics/Copilot_Agent-loop.png" class="center" alt="圖片來源"></a></p>
 <figcaption><a href="https://code.visualstudio.com/blogs/2026/05/15/agent-harnesses-github-copilot-vscode" target="_blank">圖片來源</a></figcaption>
 </figure>
 </div>
 </section>
-<section id="如何進行-agent-skill-評估" class="slide level2">
+<section id="如何進行-agent-skill-評估" class="slide level2 scrollable">
 <h2>如何進行 Agent Skill 評估</h2>
+<p>要進行正規 Agent Skill 評估，概念上的進行步驟：</p>
+<p><a href="https://agentskills.io/skill-creation/evaluating-skills" target="_blank">https://agentskills.io/skill-creation/evaluating-skills</a></p>
+<div class="border">
 <ol type="1">
 <li>準備測試材料</li>
 <li>限定測試環境</li>
-<li>執行 Agent Skill</li>
+<li>測試環境 AI 代理執行 Agent Skill</li>
 <li>收集執行結果</li>
 <li>評估結果是否符合預期</li>
 <li>記錄評估過程與結論</li>
 </ol>
+</div>
+<p>得先蒐集資料，包含測試材料、測試環境設定以及相關的 AI 代理配置，才能進行後續的評估步驟。</p>
+<p>然後使用例如 <a href="https://learn.microsoft.com/azure/foundry/concepts/observability" target="_blank">Microsoft Foundry Evaluation Service</a> 結合一些 <a href="https://learn.microsoft.com/agent-framework/agents/evaluation?pivots=programming-language-csharp" target="_blank">自行撰寫的評估工具</a> 來進行 Agent Skill 的評估。</p>
+<ul>
+<li>NET 開發團隊的範例: <a href="https://github.com/dotnet/skills/tree/main/eng/skill-validator/src" target="_blank">https://github.com/dotnet/skills/tree/main/eng/skill-validator/src</a></li>
+<li>第三方如 <a href="https://docs.nvidia.com/skills/skillevaluator" target="_blank">Nvidia 的 SkillEvaluator</a></li>
+</ul>
 </section>
-<section id="agent-skill-recap" class="slide level2">
+<section id="agent-skill-recap" class="slide level2 scrollable">
 <h2>Agent Skill Recap</h2>
 <p>Agent Skill Review Checklist</p>
 <table class="caption-top">
