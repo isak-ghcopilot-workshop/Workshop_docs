@@ -854,14 +854,174 @@ Agent Skill 被 LLM/Agent 的使用流程應該要是：</p>
 <blockquote>
 <p>A good skill creates a repeatable engineering behavior.</p>
 </blockquote>
+<p><br>
+</p>
+<p>第三方相關工具/資源：</p>
+<ul>
+<li><a href="https://docs.nvidia.com/skills/scanning-agent-skills" target="_blank">Nvidia SkillSpector</a></li>
+<li><a href="https://copilot-academy.github.io/workshops/copilot-customization/agent_skills_developer_guide#4-walkthrough-2-using-the-skill-creator" target="_blank">Anthropic Skill Creator</a></li>
+<li><a href="https://github.com/github/awesome-copilot/blob/main/instructions/agent-skills.instructions.md" target="_blank">Agent Skills File Guidelines</a></li>
+<li><a href="https://github.com/windperson/Win-VSCode-Portable" target="_blank">自製的 Portable VSCode 隔離環境</a></li>
+<li><a href="https://hackmd.io/@HWDC/2026/%2FIgPBdg-8S5WlcpD9IaP1-A" target="_blank">skillops-studio</a></li>
+</ul>
 </section></section>
+<section>
 <section id="context-token-engineering" class="title-slide slide level1 center">
 <h1>Context &amp; Token Engineering</h1>
 
 </section>
-
+<section id="context-越多越好" class="slide level2 scrollable">
+<h2>Context ≠ 越多越好</h2>
+<p><br>
+</p>
+<pre>  Relevant Context
+         +
+  Clear Instructions
+         +
+  Required Tools
+         ↓
+  Better Agent Behavior
+</pre>
+<p>通常越大 Context 的模型越貴</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb15"><pre class="sourceCode numberSource text number-lines code-with-copy"><code class="sourceCode"><span id="cb15-1"><a href="" aria-label="1"></a>"Read the whole repository"</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="r-stack">
+<p><br>
+⬇️<br>
+<br>
+</p>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb16"><pre class="sourceCode numberSource text number-lines code-with-copy"><code class="sourceCode"><span id="cb16-1"><a href="" aria-label="1"></a>Explore the repository structure first.</span>
+<span id="cb16-2"><a href="" aria-label="2"></a></span>
+<span id="cb16-3"><a href="" aria-label="3"></a>Identify files relevant to this task.</span>
+<span id="cb16-4"><a href="" aria-label="4"></a></span>
+<span id="cb16-5"><a href="" aria-label="5"></a>Read only the files needed before creating</span>
+<span id="cb16-6"><a href="" aria-label="6"></a>an implementation plan.</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="specific-context-broad-context" class="slide level2">
+<h2>Specific Context &gt; Broad Context</h2>
+<p>在提供 context 時，應優先提供與任務直接相關的資訊，而非整個資料庫或所有檔案的內容。這樣可以讓 AI 代理更專注於當前任務，避免被過多無關資訊干擾。</p>
+<p>尤其 CLI 執行過程中的 command output、file contents、tool results 資訊都會進入 context，建議只提供與任務相關的必要資訊，避免 context 過於冗長。</p>
+<div class="columns">
+<div class="column">
+<p>❌ Broad</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb17"><pre class="sourceCode numberSource text number-lines code-with-copy"><code class="sourceCode"><span id="cb17-1"><a href="" aria-label="1"></a>Analyze this project and implement Product Search.</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div><div class="column">
+<p>✅ Targeted</p>
+<p>先找 Product Search 相關元件：</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb18"><pre class="sourceCode numberSource text number-lines code-with-copy"><code class="sourceCode"><span id="cb18-1"><a href="" aria-label="1"></a>Find the components related to Product Search.</span>
+<span id="cb18-2"><a href="" aria-label="2"></a>Do not modify anything.</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>知道相關檔案之後，再：</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb19"><pre class="sourceCode numberSource text number-lines code-with-copy"><code class="sourceCode"><span id="cb19-1"><a href="" aria-label="1"></a>Implement the feature using the existing</span>
+<span id="cb19-2"><a href="" aria-label="2"></a>ProductService pattern.</span>
+<span id="cb19-3"><a href="" aria-label="3"></a></span>
+<span id="cb19-4"><a href="" aria-label="4"></a>Only inspect additional files when required.</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div></div>
+</section>
+<section id="control-tool-output" class="slide level2">
+<h2>Control Tool Output</h2>
+<p><br>
+</p>
+<blockquote>
+<p>Tool Output is Context too.</p>
+</blockquote>
+<div class="columns">
+<div class="column">
+<p>❌ Broad</p>
+<pre>Command
+   ↓
+Huge output
+   ↓
+Context Window
+████████████████████
+</pre>
+</div><div class="column">
+<p>✅ Relevant</p>
+<pre>Focused Command
+   ↓
+Relevant Output
+   ↓
+Context
+█████
+</pre>
+</div></div>
+<p><br>
+可參考<a href="https://docs.github.com/en/copilot/concepts/prompting-and-context/context-management">Managing context for GitHub Copilot</a> 必要時自己手動管理 context。</p>
+</section>
+<section id="kv-cache-prompt-cache" class="slide level2 scrollable">
+<h2>KV Cache &amp; Prompt Cache</h2>
+<h3 id="kv-cache">KV Cache</h3>
+<p>KV Cache 是模型在處理長對話或大量 context 時，用來儲存 key-value pair 的快取機制。它可以讓模型在生成回應時快速訪問之前的 context，避免每次都重新處理整個 context，從而提升效率。</p>
+<p>LLM模型層級的快取、節省算力的機制，如果已經算過『Attention值』但文字內容沒有改變的，就不需重算，直接使用快取的結果即可。</p>
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Tip</strong></p>
+</div>
+<div class="callout-content">
+<p>儘量不要讓一個Session去按Edit把舊的歷史對話改掉重跑</p>
+</div>
+</div>
+</div>
+<p><br>
+</p>
+<h3 id="prompt-cache">Prompt Cache</h3>
+<p>Prompt Cache 則是對整個 prompt 的快取，當相同的 prompt 再次出現時，可以直接使用快取結果，而不需要重新計算模型輸出。這對於重複性高的任務特別有用。</p>
+<p>Agent Harness 框架會在多次的Session，有相同句子的Prompt token 快取起來不必一直重算來節省算力，屬於 Harness + LLM 層級的快取。</p>
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Tip</strong></p>
+</div>
+<div class="callout-content">
+<p>有使用多次Prompt時，固定內容放前面，變動內容放後面</p>
+</div>
+</div>
+</div>
+<p><a href="./pics/Prompt_Cache_saving.png" class="lightbox" data-gallery="quarto-lightbox-gallery-8"><img data-src="./pics/Prompt_Cache_saving.png" class="center"></a></p>
+</section>
+<section id="github-copilot-互動時的操作技巧" class="slide level2">
+<h2>GitHub Copilot 互動時的操作技巧</h2>
+<ul>
+<li>只提供此次任務需要的context</li>
+<li>善用 <code>@selection</code> 而不是送整個程式碼檔案為context</li>
+<li>不要太常用 <code>@workspace</code></li>
+<li>錯誤log不要全部複製貼上，如自己知道大概出錯位置，就只提供相關部分</li>
+<li>Prompt問題內容描述精準</li>
+<li>Agent任務避免太開放性目標、一次性修改太多檔案</li>
+<li>善用有 Load-on-demand 的 Agent Skill</li>
+<li>一個 Agent Session就只做一個任務</li>
+<li>開啟 <a href="https://github.blog/changelog/2026-10-28-route-and-orchestrate-models-with-github-copilot-fusion/" target="_blank">GitHub Copilot Fusion</a> 結合可用的地端模型來節省雲端模型token花費。</li>
+</ul>
+</section>
+<section id="c.l.e.a.r.-心法" class="slide level2 scrollable">
+<h2>C.L.E.A.R. 心法</h2>
+<p><br>
+</p>
+<p><a href="https://www.youtube.com/live/HcIbvwE39NE">C.L.E.A.R. 心法 影片</a> <a href="./pics/CLEAR_mindset.png" class="lightbox" data-gallery="quarto-lightbox-gallery-9"><img data-src="./pics/CLEAR_mindset.png" class="center"></a></p>
+<div class="block">
+<ul>
+<li>Constrain (限制/定義輸出)</li>
+<li>Lean (精簡無禮貌客套詞)</li>
+<li>Explicit (明確Prompt)</li>
+<li>Architected (架構化的Prompt)</li>
+<li>Re-usable (讓越前面的文字能夠重複使用)</li>
+</ul>
+</div>
+<blockquote>
+<p>用更少 Prompt Token 與 Output Token，得到同樣甚至更好的結果</p>
+</blockquote>
+</section></section>
 <section id="agentic-coding-challenge-qa" class="title-slide slide level1 center">
 <h1>Agentic Coding Challenge &amp; QA</h1>
+<p><br>
+</p>
+<p><a href="https://github.com/isak-ghcopilot-workshop/AgenticCodingChallenge/blob/main/CHALLENGE.md" target="_blank">Lab範例專案及操作步驟</a></p>
 
 </section>
     </div>
