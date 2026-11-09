@@ -764,6 +764,7 @@ Agent Harness 框架會在多次的Session，有相同句子的Prompt token 快�
 * 善用有 Load-on-demand 的 Agent Skill
 * 一個 Agent Session就只做一個任務
 * 開啟 [GitHub Copilot Fusion](https://github.blog/changelog/2026-10-28-route-and-orchestrate-models-with-github-copilot-fusion/){target="_blank"} 結合可用的地端模型來節省雲端模型token花費。
+* 不需一開VSCode就得使用的MCP Server ，設定『[Tool Search](https://docs.github.com/en/copilot/concepts/agent-capabilities/agent-powered-workflows-and-operations/tool-search){target="_blank"}』以便 Load-on-demand 。
 
 ## C.L.E.A.R. 心法 {.scrollable}
 
