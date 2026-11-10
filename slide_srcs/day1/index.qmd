@@ -44,7 +44,17 @@ GitHub Copilot Agent Mode 是一種新的互動模式，允許使用者透所謂
 
 除此之外，GitHub Copilot Agent Mode 由於底層跟 VSCode 編輯器本身抽離，因此可以在跨越不同session的情況下持續運作，保持代理的狀態和上下文，進一步提升開發效率。
 
+::: {.content-visible when-format="revealjs"}
+
 ![[https://code.visualstudio.com/blogs/2026/08/26/agent-host-architecture](https://code.visualstudio.com/blogs/2026/08/26/agent-host-architecture){target="_blank"}](./pics/agent-host-arch.svg)
+
+:::
+
+::: {.content-visible when-format="pdf"}
+
+![[https://code.visualstudio.com/blogs/2026/08/26/agent-host-architecture](https://code.visualstudio.com/blogs/2026/08/26/agent-host-architecture){target="_blank"}](./pics/agent-host-arch.png)
+
+:::
 
 圖中展示了 GitHub Copilot Agent Mode 的主機架構，說明代理如何在不同的 session 中保持狀態，並與 VSCode 編輯器分離運作。
 

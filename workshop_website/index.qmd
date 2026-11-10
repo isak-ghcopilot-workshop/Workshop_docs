@@ -28,7 +28,7 @@ GitHub Copilot Workshop 投影片以及相關資源。
     Agent Skill 介紹與實作|50
     Agentic SDLC Workflow|30
    
-   [線上投影片](./docs/day1/slides/web/#/title-slide){target="_blank"}
+   [線上投影片](./docs/day1/slides/web/#/title-slide){target="_blank"} | [PDF下載](./export_pdfs/day1.pdf){target="_blank"}
 
 * Day2
    
@@ -41,7 +41,7 @@ GitHub Copilot Workshop 投影片以及相關資源。
     Custom Agent + Skills + MCP|30
     Build Custom Agent Plugin|55
    
-   [線上投影片](./docs/day2/slides/web/#/title-slide){target="_blank"}
+   [線上投影片](./docs/day2/slides/web/#/title-slide){target="_blank"} | [PDF下載](./export_pdfs/day2.pdf){target="_blank"}
    
 * Day3
    
@@ -55,7 +55,7 @@ GitHub Copilot Workshop 投影片以及相關資源。
     Agent Skills + MCP + CLI 的 Agentic Testing Workflow|30
     Hands-on: Blazor WebAssembly E2E Testing Challenge & QA|30
    
-   [線上投影片](./docs/day3/slides/web/#/title-slide){target="_blank"}
+   [線上投影片](./docs/day3/slides/web/#/title-slide){target="_blank"} | [PDF下載](./export_pdfs/day3.pdf){target="_blank"}
 
 * Day4
    
@@ -68,7 +68,7 @@ GitHub Copilot Workshop 投影片以及相關資源。
     Context & Token Engineering|30
     Agentic Coding Challenge & QA|40
    
-   [線上投影片](./docs/day4/slides/web/#/title-slide){target="_blank"}
+   [線上投影片](./docs/day4/slides/web/#/title-slide){target="_blank"} | [PDF下載](./export_pdfs/day4.pdf){target="_blank"}
 
 ## 相關資源
 
